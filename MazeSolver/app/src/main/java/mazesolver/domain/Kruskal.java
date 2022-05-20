@@ -11,6 +11,9 @@ import mazesolver.enums.Direction;
 
 import java.util.Collections;
 
+/**
+ * Randomized version of Kruskal's algorithm. Used to generate mazes.
+ */
 public class Kruskal {
     private List<Edge> edges;
     private Tree[][] trees;
@@ -28,6 +31,13 @@ public class Kruskal {
         return this.rectangles;
     }
 
+    /**
+     * Generates all the possible edges from each node
+     *
+     * @param height the amount of nodes in the maze in y-axis
+     * @param width  the amount of nodes in the maze in x-axis
+     * @return two dimensional array of Rect objects
+     */
     public Rect[][] generateEdges(int height, int width) {
         this.trees = new Tree[width][height];
         this.rectangles = new Rect[width][height];
@@ -64,6 +74,12 @@ public class Kruskal {
         return this.rectangles;
     }
 
+    /**
+     * A Function that generates a maze from the edges
+     *
+     * @param animate if set to true JavaFX timeline delay will be added
+     * @param delay   controls the speed of the animation
+     */
     public void generateMaze(boolean animate, int delay) {
         if (animate) {
             Timeline[] timelines = new Timeline[this.edges.size()];
@@ -84,6 +100,12 @@ public class Kruskal {
         }
     }
 
+    /**
+     * Processes one edge of the ramdomized list of edges using the Kruskal's
+     * algorithm
+     *
+     * @param edge next edge from the list
+     */
     public void kruskalStep(Edge edge) {
         int x = edge.getX();
         int y = edge.getY();
@@ -130,6 +152,12 @@ public class Kruskal {
         }
     }
 
+    /**
+     * Shuffles a list of edges
+     *
+     * @param edges List of edges
+     * @return List of edges in random order
+     */
     public List<Edge> shuffleEdges(List<Edge> edges) {
         Collections.shuffle(edges);
         return edges;
