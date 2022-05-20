@@ -3,6 +3,11 @@ package mazesolver.domain;
 import java.util.ArrayList;
 import java.util.List;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.SequentialTransition;
+import javafx.animation.Timeline;
+import javafx.util.Duration;
+
 import java.util.Collections;
 
 public class Kruskal {
@@ -50,53 +55,70 @@ public class Kruskal {
         return this.rectangles;
     }
 
-    public void generateMaze() {
-        for (Edge edge : this.edges) {
-
-            int x = edge.getX();
-            int y = edge.getY();
-            Tree current = trees[x][y];
-
-            if (edge.getDirection() == Direction.West) {
-                Tree tree = trees[x - 1][y];
-                if (!current.isConnected(tree)) {
-                    current.connect(tree);
-
-                    rectangles[x][y].removeLeftWall();
-                    rectangles[x - 1][y].removeRightWall();
-                }
+    public void generateMaze(boolean animate, int delay) {
+        if (animate) {
+            Timeline[] timelines = new Timeline[this.edges.size()];
+            for (int i = 0; i < this.edges.size(); i++) {
+                final int index = i;
+                Timeline timeline = new Timeline(
+                        new KeyFrame(Duration.millis(delay), event -> {
+                            kruskalStep(edges.get(index));
+                        }));
+                timelines[i] = timeline;
             }
-
-            if (edge.getDirection() == Direction.North) {
-                Tree tree = trees[x][y - 1];
-                if (!current.isConnected(tree)) {
-                    current.connect(tree);
-
-                    rectangles[x][y].removeTopWall();
-                    rectangles[x][y - 1].removeBottomWall();
-                }
+            SequentialTransition sequence = new SequentialTransition(timelines);
+            sequence.play();
+        } else {
+            for (Edge edge : this.edges) {
+                kruskalStep(edge);
             }
+        }
+    }
 
-            if (edge.getDirection() == Direction.East) {
-                Tree tree = trees[x + 1][y];
-                if (!current.isConnected(tree)) {
-                    current.connect(tree);
+    public void kruskalStep(Edge edge) {
+        int x = edge.getX();
+        int y = edge.getY();
+        Tree current = trees[x][y];
 
-                    rectangles[x][y].removeRightWall();
-                    rectangles[x + 1][y].removeLeftWall();
-                }
-            }
+        if (edge.getDirection() == Direction.West) {
+            Tree tree = trees[x - 1][y];
+            if (!current.isConnected(tree)) {
+                current.connect(tree);
 
-            if (edge.getDirection() == Direction.South) {
-                Tree tree = trees[x][y + 1];
-                if (!current.isConnected(tree)) {
-                    current.connect(tree);
-                    rectangles[x][y].removeBottomWall();
-                    rectangles[x][y + 1].removeTopWall();
-                }
+                rectangles[x][y].removeLeftWall();
+                rectangles[x - 1][y].removeRightWall();
             }
         }
 
+        if (edge.getDirection() == Direction.North) {
+            Tree tree = trees[x][y - 1];
+            if (!current.isConnected(tree)) {
+                current.connect(tree);
+
+                rectangles[x][y].removeTopWall();
+                rectangles[x][y - 1].removeBottomWall();
+            }
+        }
+
+        if (edge.getDirection() == Direction.East) {
+            Tree tree = trees[x + 1][y];
+            if (!current.isConnected(tree)) {
+                current.connect(tree);
+
+                rectangles[x][y].removeRightWall();
+                rectangles[x + 1][y].removeLeftWall();
+            }
+        }
+
+        if (edge.getDirection() == Direction.South) {
+            Tree tree = trees[x][y + 1];
+            if (!current.isConnected(tree)) {
+                current.connect(tree);
+
+                rectangles[x][y].removeBottomWall();
+                rectangles[x][y + 1].removeTopWall();
+            }
+        }
     }
 
     public List<Edge> shuffleEdges(List<Edge> edges) {
@@ -111,32 +133,4 @@ enum Direction {
     East,
     South,
     West
-}
-
-class Edge {
-    private int x;
-    private int y;
-    private Direction direction;
-
-    public Edge(int x, int y, Direction direction) {
-        this.x = x;
-        this.y = y;
-        this.direction = direction;
-    }
-
-    public int getX() {
-        return this.x;
-    }
-
-    public int getY() {
-        return this.y;
-    }
-
-    public Direction getDirection() {
-        return this.direction;
-    }
-
-    public String toString() {
-        return x + " - " + y + " " + direction;
-    }
 }

@@ -16,7 +16,7 @@ class KruskalTest {
     public void allTreesAreConnectedToFirstTree() {
         this.kruskal = new Kruskal();
         kruskal.generateEdges(30, 30);
-        kruskal.generateMaze();
+        kruskal.generateMaze(false, 0);
         Tree[][] trees = kruskal.getTrees();
         Tree first = trees[0][0];
         for (int i = 0; i < trees[0].length; i++) {

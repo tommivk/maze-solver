@@ -13,15 +13,17 @@ public class MazeSolverUI extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         stage.setTitle("Maze Solver");
-        stage.setHeight(1200);
-        stage.setWidth(1200);
+        stage.setHeight(1000);
+        stage.setWidth(1000);
+
         GridPane pane = new GridPane();
+        pane.setAlignment(Pos.CENTER);
 
         Kruskal kruskal = new Kruskal();
         int size = 30;
         Rect[][] rects = kruskal.generateEdges(size, size);
-        kruskal.generateMaze();
-        pane.setAlignment(Pos.CENTER);
+        kruskal.generateMaze(true, 4);
+
         for (int i = 0; i < size; i++) {
             for (int k = 0; k < size; k++) {
                 pane.add(rects[i][k].getRectangle(), i, k);
