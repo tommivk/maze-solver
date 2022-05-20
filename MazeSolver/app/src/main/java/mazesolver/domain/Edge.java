@@ -1,5 +1,7 @@
 package mazesolver.domain;
 
+import mazesolver.enums.Direction;
+
 public class Edge {
 
     private int x;

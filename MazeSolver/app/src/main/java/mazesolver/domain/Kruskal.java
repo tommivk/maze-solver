@@ -7,6 +7,7 @@ import javafx.animation.KeyFrame;
 import javafx.animation.SequentialTransition;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
+import mazesolver.enums.Direction;
 
 import java.util.Collections;
 
@@ -126,11 +127,4 @@ public class Kruskal {
         return edges;
     }
 
-}
-
-enum Direction {
-    North,
-    East,
-    South,
-    West
 }
