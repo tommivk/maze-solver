@@ -7,14 +7,20 @@ import mazesolver.domain.Tree;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.jupiter.api.BeforeAll;
+import java.util.List;
+
+import org.junit.jupiter.api.BeforeEach;
 
 class KruskalTest {
     Kruskal kruskal;
 
+    @BeforeEach
+    public void setup() {
+        this.kruskal = new Kruskal();
+    }
+
     @Test
     public void allTreesAreConnectedToFirstTree() {
-        this.kruskal = new Kruskal();
         kruskal.generateEdges(30, 30);
         kruskal.generateMaze(false, 0);
         Tree[][] trees = kruskal.getTrees();
@@ -24,6 +30,13 @@ class KruskalTest {
                 assertEquals(true, trees[i][k].isConnected(first));
             }
         }
+    }
+
+    @Test
+    public void generateEdgesGeneratesCorrectAmountOfEdges() {
+        kruskal.generateEdges(3, 3);
+        List<Edge> edges = kruskal.getEdges();
+        assertEquals(24, edges.size());
     }
 
 }
