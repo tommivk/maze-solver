@@ -1,7 +1,7 @@
 package mazesolver.domain;
 
 /**
- * Tree that is used to keep track of connections between nodes in the maze
+ * Tree that is used to keep track of connections between nodes in the maze.
  */
 public class Tree {
     private Tree parent = null;
@@ -24,7 +24,7 @@ public class Tree {
     }
 
     /**
-     * Checks if two Trees are connected together
+     * Checks if two Trees are connected together.
      *
      * @param tree Tree objects
      * @return boolean
@@ -34,9 +34,9 @@ public class Tree {
     }
 
     /**
-     * Connects two trees together
+     * Connects two trees together.
      *
-     * @param tree a Tree object
+     * @param tree a Tree object.
      */
     public void connect(Tree tree) {
         tree.getRoot().setParent(this);

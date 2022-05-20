@@ -32,7 +32,7 @@ public class Kruskal {
     }
 
     /**
-     * Generates all the possible edges from each node
+     * Generates all the possible edges from each node.
      *
      * @param height the amount of nodes in the maze in y-axis
      * @param width  the amount of nodes in the maze in x-axis
@@ -75,7 +75,7 @@ public class Kruskal {
     }
 
     /**
-     * A Function that generates a maze from the edges
+     * A Function that generates a maze from the edges.
      *
      * @param animate if set to true JavaFX timeline delay will be added
      * @param delay   controls the speed of the animation
@@ -102,7 +102,7 @@ public class Kruskal {
 
     /**
      * Processes one edge of the ramdomized list of edges using the Kruskal's
-     * algorithm
+     * algorithm.
      *
      * @param edge next edge from the list
      */
@@ -153,7 +153,7 @@ public class Kruskal {
     }
 
     /**
-     * Shuffles a list of edges
+     * Shuffles a list of edges.
      *
      * @param edges List of edges
      * @return List of edges in random order

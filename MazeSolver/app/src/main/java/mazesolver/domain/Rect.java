@@ -9,9 +9,10 @@ import javafx.scene.paint.Color;
 
 /**
  * A class that is used to keep track of and to remove walls of each rectangle
- * in the maze
+ * in the maze.
  */
 public class Rect {
+    private final int rectangleSize = 30;
     private Region rect;
     private boolean topWall = true;
     private boolean rightWall = true;
@@ -20,12 +21,12 @@ public class Rect {
 
     public Rect() {
         this.rect = new Region();
-        this.rect.setPrefSize(30, 30);
+        this.rect.setPrefSize(rectangleSize, rectangleSize);
         updateBorders();
     }
 
     /**
-     * Returns the Region object that represents a single rectangle in a maze
+     * Returns the Region object that represents a single rectangle in a maze.
      *
      * @return Region object
      */
@@ -50,7 +51,7 @@ public class Rect {
     }
 
     /**
-     * Removes the top Border from the Region object
+     * Removes the top Border from the Region object.
      */
     public void removeTopWall() {
         this.topWall = false;
@@ -58,7 +59,7 @@ public class Rect {
     }
 
     /**
-     * Removes the right Border from the Region object
+     * Removes the right Border from the Region object.
      */
     public void removeRightWall() {
         this.rightWall = false;
@@ -66,7 +67,7 @@ public class Rect {
     }
 
     /**
-     * Removes the bottom Border from the Region object
+     * Removes the bottom Border from the Region object.
      */
     public void removeBottomWall() {
         this.bottomWall = false;
@@ -74,7 +75,7 @@ public class Rect {
     }
 
     /**
-     * Removes the left Border from the Region object
+     * Removes the left Border from the Region object.
      */
     public void removeLeftWall() {
         this.leftWall = false;
@@ -82,7 +83,7 @@ public class Rect {
     }
 
     /**
-     * Updates the borders of the Region object
+     * Updates the borders of the Region object.
      */
     private void updateBorders() {
         this.rect.setBorder(new Border(new BorderStroke(Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK,

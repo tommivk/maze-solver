@@ -3,7 +3,7 @@ package mazesolver.domain;
 import mazesolver.enums.Direction;
 
 /**
- * A class that represents a single edge in the maze
+ * A class that represents a single edge in the maze.
  */
 public class Edge {
 
