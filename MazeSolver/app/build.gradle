@@ -11,6 +11,7 @@ plugins {
     id 'application'
     id 'org.openjfx.javafxplugin' version '0.0.13'
     id 'jacoco'
+    id 'checkstyle'
 }
 
 repositories {
@@ -53,6 +54,11 @@ tasks.named('test') {
     // Use JUnit Platform for unit tests.
     useJUnitPlatform()
 }
+
+
+checkstyleMain
+    .exclude('**mazesolver/UI/****')
+    .exclude('**mazesolver/App.java')
 
 javafx {
     version = '12'
