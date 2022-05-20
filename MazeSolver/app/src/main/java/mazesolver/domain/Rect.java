@@ -24,6 +24,22 @@ public class Rect {
         return this.rect;
     }
 
+    public boolean getTopWall() {
+        return this.topWall;
+    }
+
+    public boolean getRightWall() {
+        return this.rightWall;
+    }
+
+    public boolean getBottomWall() {
+        return this.bottomWall;
+    }
+
+    public boolean getLeftWall() {
+        return this.leftWall;
+    }
+
     public void removeTopWall() {
         this.topWall = false;
         updateBorders();

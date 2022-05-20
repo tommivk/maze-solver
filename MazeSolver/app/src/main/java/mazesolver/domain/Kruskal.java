@@ -20,6 +20,14 @@ public class Kruskal {
         return this.trees;
     }
 
+    public List<Edge> getEdges() {
+        return this.edges;
+    }
+
+    public Rect[][] getRectangles() {
+        return this.rectangles;
+    }
+
     public Rect[][] generateEdges(int height, int width) {
         this.trees = new Tree[width][height];
         this.rectangles = new Rect[width][height];
