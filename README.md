@@ -1,4 +1,4 @@
-# maze-solver
+# Maze Solver
 
 ## Documentation
 - [Specification document](https://github.com/tommivk/maze-solver/blob/main/documentation/specification.md)
