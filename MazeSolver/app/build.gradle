@@ -39,6 +39,7 @@ jacocoTestReport {
             ])
         }))
     }
+    dependsOn test
 }
 
 check.dependsOn jacocoTestReport
