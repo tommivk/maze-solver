@@ -1,11 +1,16 @@
 package mazesolver.domain;
 
+import javafx.geometry.Insets;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderStroke;
 import javafx.scene.layout.BorderStrokeStyle;
 import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
+import mazesolver.enums.Direction;
 
 /**
  * A class that is used to keep track of and to remove walls of each rectangle
@@ -80,6 +85,18 @@ public class Rect {
     public void removeLeftWall() {
         this.leftWall = false;
         updateBorders();
+    }
+
+    public void paint() {
+        Paint paint = Paint.valueOf("red");
+        Insets insets = new Insets(4);
+        BackgroundFill fill = new BackgroundFill(paint, null, insets);
+        Background b = new Background(fill);
+        this.rect.setBackground(b);
+    }
+
+    public void removeBackground() {
+        this.rect.setBackground(null);
     }
 
     /**

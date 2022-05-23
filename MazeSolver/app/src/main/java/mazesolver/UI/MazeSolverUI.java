@@ -5,6 +5,7 @@ import javafx.geometry.Pos;
 import javafx.stage.Stage;
 import mazesolver.domain.Kruskal;
 import mazesolver.domain.Rect;
+import mazesolver.domain.WallFollower;
 import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
 
@@ -22,13 +23,15 @@ public class MazeSolverUI extends Application {
         Kruskal kruskal = new Kruskal();
         int size = 30;
         Rect[][] rects = kruskal.generateEdges(size, size);
-        kruskal.generateMaze(true, 4);
+        kruskal.generateMaze(false, 4);
 
         for (int i = 0; i < size; i++) {
             for (int k = 0; k < size; k++) {
                 pane.add(rects[i][k].getRectangle(), i, k);
             }
         }
+
+        WallFollower wf = new WallFollower(rects);
 
         Scene scene = new Scene(pane);
         stage.setScene(scene);
