@@ -46,13 +46,13 @@ public class WallFollower {
         }
     }
 
-    public void animate(int moves, int duration) {
+    public void animate(int moves, int delay) {
         Timeline[] timelines = new Timeline[moves];
         maze[0][0].paint();
         int i = 0;
         while (i < moves) {
             Timeline timeline = new Timeline(
-                    new KeyFrame(Duration.millis(duration), event -> {
+                    new KeyFrame(Duration.millis(delay), event -> {
                         calculateNextMove();
                         paintRectangle();
                     }));
