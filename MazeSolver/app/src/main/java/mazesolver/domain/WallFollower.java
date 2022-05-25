@@ -11,15 +11,29 @@ public class WallFollower {
     private int y;
     private Rect[][] maze;
     private Direction previousDirection;
+    private int moves = 0;
+
+    public int getX() {
+        return this.x;
+    }
+
+    public int getY() {
+        return this.y;
+    }
+
+    public int getMoves() {
+        return this.moves;
+    }
+
+    public Direction getPreviousDirection() {
+        return this.previousDirection;
+    }
 
     public WallFollower(Rect[][] maze) {
         this.x = 0;
         this.y = 0;
         this.maze = maze;
         this.previousDirection = Direction.South;
-        int moves = solve();
-        reset();
-        animate(moves, 30);
     }
 
     public void reset() {
@@ -49,13 +63,15 @@ public class WallFollower {
         sequence.play();
     }
 
-    public int solve() {
+    public void solve() {
         int moves = 0;
         while (x != maze.length - 1 || y != maze.length - 1) {
             calculateNextMove();
             moves++;
         }
-        return moves;
+        this.x = 0;
+        this.y = 0;
+        this.moves = moves;
     }
 
     public void paintRectangle() {

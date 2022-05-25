@@ -32,6 +32,8 @@ public class MazeSolverUI extends Application {
         }
 
         WallFollower wf = new WallFollower(rects);
+        wf.solve();
+        wf.animate(wf.getMoves(), 30);
 
         Scene scene = new Scene(pane);
         stage.setScene(scene);
