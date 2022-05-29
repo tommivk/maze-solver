@@ -2,6 +2,7 @@ package mazesolver;
 
 import org.junit.jupiter.api.Test;
 
+import javafx.scene.layout.Region;
 import mazesolver.domain.*;
 import mazesolver.enums.Direction;
 
@@ -103,6 +104,52 @@ public class WallFollowerTest {
         assertEquals(3, wf.getX());
         assertEquals(3, wf.getY());
         assertEquals(Direction.South, wf.getPreviousDirection());
+    }
 
+    @Test
+    public void paintRectangleAddsBackgroundToRectangle() {
+        Rect[][] maze = wf.getMaze();
+        Rect rect = maze[0][0];
+        Region region = rect.getRectangle();
+        assertEquals(null, region.getBackground());
+        assertEquals(0, wf.getX());
+        assertEquals(0, wf.getY());
+        wf.paintRectangle();
+        assertNotNull(region.getBackground());
+    }
+
+    @Test
+    public void solvingMazeStopsAtEndCoordinates() {
+        Kruskal k = new Kruskal();
+        Rect[][] maze = k.generateEdges(30, 30);
+        k.generateMaze(false, 0);
+        WallFollower wallFollower = new WallFollower(maze);
+        wallFollower.solve();
+        assertEquals(29, wallFollower.getX());
+        assertEquals(29, wallFollower.getY());
+    }
+
+    @Test
+    public void resetMethodWorks() {
+        for (int i = 0; i < this.maze.length; i++) {
+            for (int j = 0; j < this.maze.length; j++) {
+                maze[i][j].paint();
+                assertNotNull(maze[i][j].getRectangle().getBackground());
+            }
+        }
+
+        wf.setX(3);
+        wf.setY(2);
+        assertEquals(3, wf.getX());
+        assertEquals(2, wf.getY());
+
+        wf.reset();
+        assertEquals(0, wf.getX());
+        assertEquals(0, wf.getY());
+        for (int i = 0; i < this.maze.length; i++) {
+            for (int j = 0; j < this.maze.length; j++) {
+                assertEquals(null, maze[i][j].getRectangle().getBackground());
+            }
+        }
     }
 }
