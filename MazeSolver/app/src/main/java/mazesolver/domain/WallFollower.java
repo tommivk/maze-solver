@@ -36,6 +36,15 @@ public class WallFollower {
     }
 
     /**
+     * Returns the maze array
+     *
+     * @return Two dimensional array of Rect objects
+     */
+    public Rect[][] getMaze() {
+        return this.maze;
+    }
+
+    /**
      * Returns the amount of moves it took to solve the maze.
      *
      * @return An integer number representing the amount of moves
