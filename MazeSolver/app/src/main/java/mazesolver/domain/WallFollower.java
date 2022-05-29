@@ -36,6 +36,24 @@ public class WallFollower {
     }
 
     /**
+     * Sets the current X Coordinate
+     *
+     * @param x Integer value
+     */
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    /**
+     * Sets the current Y Coordinate
+     *
+     * @param y Integer value
+     */
+    public void setY(int y) {
+        this.y = y;
+    }
+
+    /**
      * Returns the maze array
      *
      * @return Two dimensional array of Rect objects
@@ -93,6 +111,8 @@ public class WallFollower {
      * current coordinate on the maze after each move.
      */
     public void animate(int moves, int delay) {
+        this.x = 0;
+        this.y = 0;
         Timeline[] timelines = new Timeline[moves];
         maze[0][0].paint();
         int i = 0;
@@ -118,8 +138,6 @@ public class WallFollower {
             calculateNextMove();
             moves++;
         }
-        this.x = 0;
-        this.y = 0;
         this.moves = moves;
     }
 
