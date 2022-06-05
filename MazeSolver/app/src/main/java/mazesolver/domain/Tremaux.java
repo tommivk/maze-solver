@@ -154,196 +154,28 @@ public class Tremaux {
     }
 
     public boolean tryMoveToTimesVisited(int timesVisited) {
+        Rect current = maze[this.x][this.y];
         Direction direction = this.previousDirection;
 
-        switch (direction) {
-            case North:
-                return tryMoveFromNorth(timesVisited);
-            case East:
-                return tryMoveFromEast(timesVisited);
-            case South:
-                return tryMoveFromSouth(timesVisited);
-            case West:
-                return tryMoveFromWest(timesVisited);
-            default:
-                return false;
-
-        }
-    }
-
-    public boolean tryMoveFromNorth(int v) {
-        Rect current = maze[this.x][this.y];
-
         Boolean hasTopWall = current.getTopWall();
         Boolean hasRightWall = current.getRightWall();
         Boolean hasLeftWall = current.getLeftWall();
-
-        if (!hasTopWall && visited[this.x][this.y - 1] == v) {
-            moveUp();
-            return true;
-        }
-        if (!hasRightWall && visited[this.x + 1][this.y] == v) {
-            moveRight();
-            return true;
-        }
-        if (!hasLeftWall && visited[this.x - 1][this.y] == v) {
-            moveLeft();
-            return true;
-        }
-        return false;
-    }
-
-    public boolean tryMoveFromEast(int v) {
-        Rect current = maze[this.x][this.y];
-
-        Boolean hasTopWall = current.getTopWall();
         Boolean hasBottomWall = current.getBottomWall();
-        Boolean hasRightWall = current.getRightWall();
 
-        if (!hasBottomWall && visited[this.x][this.y + 1] == v) {
+        if (direction != Direction.North && !hasBottomWall && visited[this.x][this.y + 1] == timesVisited) {
             moveDown();
             return true;
         }
-        if (!hasTopWall && visited[this.x][this.y - 1] == v) {
+        if (direction != Direction.South && !hasTopWall && visited[this.x][this.y - 1] == timesVisited) {
             moveUp();
             return true;
         }
-        if (!hasRightWall && visited[this.x + 1][this.y] == v) {
+        if (direction != Direction.West && !hasRightWall && visited[this.x + 1][this.y] == timesVisited) {
             moveRight();
             return true;
         }
-        return false;
-    }
-
-    public boolean tryMoveFromSouth(int v) {
-        Rect current = maze[this.x][this.y];
-
-        Boolean hasRightWall = current.getRightWall();
-        Boolean hasBottomWall = current.getBottomWall();
-        Boolean hasLeftWall = current.getLeftWall();
-
-        if (!hasRightWall && visited[this.x + 1][this.y] == v) {
-            moveRight();
-            return true;
-        }
-        if (!hasLeftWall && visited[this.x - 1][this.y] == v) {
+        if (direction != Direction.East && !hasLeftWall && visited[this.x - 1][this.y] == timesVisited) {
             moveLeft();
-            return true;
-        }
-        if (!hasBottomWall && visited[this.x][this.y + 1] == v) {
-            moveDown();
-            return true;
-        }
-        return false;
-    }
-
-    public boolean tryMoveFromWest(int v) {
-        Rect current = maze[this.x][this.y];
-
-        Boolean hasTopWall = current.getTopWall();
-        Boolean hasBottomWall = current.getBottomWall();
-        Boolean hasLeftWall = current.getLeftWall();
-
-        if (!hasTopWall && visited[this.x][this.y - 1] == v) {
-            moveUp();
-            return true;
-        }
-
-        if (!hasLeftWall && visited[this.x - 1][this.y] == v) {
-            moveLeft();
-            return true;
-        }
-        if (!hasBottomWall && visited[this.x][this.y + 1] == v) {
-            moveDown();
-            return true;
-        }
-        return false;
-    }
-
-    public boolean tryMoveToJunctionFromNorth() {
-        Rect current = maze[this.x][this.y];
-
-        Boolean hasTopWall = current.getTopWall();
-        Boolean hasRightWall = current.getRightWall();
-        Boolean hasLeftWall = current.getLeftWall();
-
-        if (!hasTopWall && isJunction(this.x, this.y - 1)) {
-            moveUp();
-            return true;
-        }
-        if (!hasRightWall && isJunction(this.x + 1, this.y)) {
-            moveRight();
-            return true;
-        }
-        if (!hasLeftWall && isJunction(this.x - 1, this.y)) {
-            moveLeft();
-            return true;
-        }
-        return false;
-    }
-
-    public boolean tryMoveToJunctionFromEast() {
-        Rect current = maze[this.x][this.y];
-
-        Boolean hasTopWall = current.getTopWall();
-        Boolean hasBottomWall = current.getBottomWall();
-        Boolean hasRightWall = current.getRightWall();
-
-        if (!hasBottomWall && isJunction(this.x, this.y + 1)) {
-            moveDown();
-            return true;
-        }
-        if (!hasTopWall && isJunction(this.x, this.y - 1)) {
-            moveUp();
-            return true;
-        }
-        if (!hasRightWall && isJunction(this.x + 1, this.y)) {
-            moveRight();
-            return true;
-        }
-        return false;
-    }
-
-    public boolean tryMoveToJunctionFromSouth() {
-        Rect current = maze[this.x][this.y];
-
-        Boolean hasRightWall = current.getRightWall();
-        Boolean hasBottomWall = current.getBottomWall();
-        Boolean hasLeftWall = current.getLeftWall();
-
-        if (!hasRightWall && isJunction(this.x + 1, this.y)) {
-            moveRight();
-            return true;
-        }
-        if (!hasLeftWall && isJunction(this.x - 1, this.y)) {
-            moveLeft();
-            return true;
-        }
-        if (!hasBottomWall && isJunction(this.x, this.y + 1)) {
-            moveDown();
-            return true;
-        }
-        return false;
-    }
-
-    public boolean tryMoveToJunctionFromWest() {
-        Rect current = maze[this.x][this.y];
-
-        Boolean hasTopWall = current.getTopWall();
-        Boolean hasBottomWall = current.getBottomWall();
-        Boolean hasLeftWall = current.getLeftWall();
-
-        if (!hasTopWall && isJunction(this.x, this.y - 1)) {
-            moveUp();
-            return true;
-        }
-
-        if (!hasLeftWall && isJunction(this.x - 1, this.y)) {
-            moveLeft();
-            return true;
-        }
-        if (!hasBottomWall && isJunction(this.x, this.y + 1)) {
-            moveDown();
             return true;
         }
         return false;
@@ -351,19 +183,31 @@ public class Tremaux {
 
     public boolean tryMoveToContiguousJunction() {
         Direction direction = this.previousDirection;
-        switch (direction) {
-            case North:
-                return tryMoveToJunctionFromNorth();
-            case East:
-                return tryMoveToJunctionFromEast();
-            case South:
-                return tryMoveToJunctionFromSouth();
-            case West:
-                return tryMoveToJunctionFromWest();
-            default:
-                return false;
-        }
 
+        Rect current = maze[this.x][this.y];
+
+        Boolean hasTopWall = current.getTopWall();
+        Boolean hasRightWall = current.getRightWall();
+        Boolean hasLeftWall = current.getLeftWall();
+        Boolean hasBottomWall = current.getBottomWall();
+
+        if (direction != Direction.South && !hasTopWall && isJunction(this.x, this.y - 1)) {
+            moveUp();
+            return true;
+        }
+        if (direction != Direction.West && !hasRightWall && isJunction(this.x + 1, this.y)) {
+            moveRight();
+            return true;
+        }
+        if (direction != Direction.East && !hasLeftWall && isJunction(this.x - 1, this.y)) {
+            moveLeft();
+            return true;
+        }
+        if (direction != Direction.North && !hasBottomWall && isJunction(this.x, this.y + 1)) {
+            moveDown();
+            return true;
+        }
+        return false;
     }
 
     public void calculateNextMove() {
