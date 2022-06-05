@@ -10,7 +10,6 @@ import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
-import mazesolver.enums.Direction;
 
 /**
  * A class that is used to keep track of and to remove walls of each rectangle
@@ -23,6 +22,7 @@ public class Rect {
     private boolean rightWall = true;
     private boolean bottomWall = true;
     private boolean leftWall = true;
+    private int timesPainted = 0;
 
     public Rect() {
         this.rect = new Region();
@@ -87,12 +87,30 @@ public class Rect {
         updateBorders();
     }
 
+    public void paintGreen() {
+        Paint paint = Paint.valueOf("green");
+        Insets insets = new Insets(4);
+
+        BackgroundFill fill = new BackgroundFill(paint, null, insets);
+        Background b = new Background(fill);
+        this.rect.setBackground(b);
+    }
+
     public void paint() {
-        Paint paint = Paint.valueOf("red");
+        Paint paint;
+        if (timesPainted == 0) {
+            paint = Paint.valueOf("red");
+        } else if (timesPainted == 1) {
+            paint = Paint.valueOf("darkred");
+        } else {
+            paint = Paint.valueOf("black");
+        }
+
         Insets insets = new Insets(4);
         BackgroundFill fill = new BackgroundFill(paint, null, insets);
         Background b = new Background(fill);
         this.rect.setBackground(b);
+        this.timesPainted++;
     }
 
     public void removeBackground() {
