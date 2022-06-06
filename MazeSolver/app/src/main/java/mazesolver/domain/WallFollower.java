@@ -15,7 +15,6 @@ public class WallFollower {
     private int y;
     private Rect[][] maze;
     private Direction previousDirection;
-    private int moves = 0;
 
     /**
      * Returns the current X coordinate.
@@ -63,15 +62,6 @@ public class WallFollower {
     }
 
     /**
-     * Returns the amount of moves it took to solve the maze.
-     *
-     * @return An integer number representing the amount of moves
-     */
-    public int getMoves() {
-        return this.moves;
-    }
-
-    /**
      * Returns the direction of the previous move.
      *
      * @return A direction enum representing the direction of the previous move
@@ -107,38 +97,15 @@ public class WallFollower {
     }
 
     /**
-     * Solves the maze with JavaFx timeline delay between the moves. Paints the
-     * current coordinate on the maze after each move.
-     */
-    public void animate(int moves, int delay) {
-        this.x = 0;
-        this.y = 0;
-        Timeline[] timelines = new Timeline[moves];
-        maze[0][0].paint();
-        int i = 0;
-        while (i < moves) {
-            Timeline timeline = new Timeline(
-                    new KeyFrame(Duration.millis(delay), event -> {
-                        calculateNextMove();
-                        paintRectangle();
-                    }));
-            timelines[i] = timeline;
-            i++;
-        }
-        SequentialTransition sequence = new SequentialTransition(timelines);
-        sequence.play();
-    }
-
-    /**
      * A Method that solves the maze.
      */
-    public void solve() {
+    public int solve() {
         int moves = 0;
         while (x != maze.length - 1 || y != maze.length - 1) {
             calculateNextMove();
             moves++;
         }
-        this.moves = moves;
+        return moves;
     }
 
     /**
@@ -146,6 +113,10 @@ public class WallFollower {
      */
     public void paintRectangle() {
         maze[this.x][this.y].paint();
+    }
+
+    public void paintGreen() {
+        maze[this.x][this.y].paintGreen();
     }
 
     /**

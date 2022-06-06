@@ -122,7 +122,7 @@ public class WallFollowerTest {
     public void solvingMazeStopsAtEndCoordinates() {
         Kruskal k = new Kruskal();
         Rect[][] maze = k.generateEdges(30, 30);
-        k.generateMaze(false, 0);
+        k.generateMaze();
         WallFollower wallFollower = new WallFollower(maze);
         wallFollower.solve();
         assertEquals(29, wallFollower.getX());

@@ -1,9 +1,5 @@
 package mazesolver.domain;
 
-import javafx.animation.KeyFrame;
-import javafx.animation.SequentialTransition;
-import javafx.animation.Timeline;
-import javafx.util.Duration;
 import mazesolver.enums.Direction;
 
 /**
@@ -51,6 +47,14 @@ public class Tremaux {
 
     public void setPreviousDirection(Direction direction) {
         this.previousDirection = direction;
+    }
+
+    public void paintRectangle() {
+        maze[this.x][this.y].paint();
+    }
+
+    public void paintGreen() {
+        maze[this.x][this.y].paintGreen();
     }
 
     /**
@@ -421,11 +425,6 @@ public class Tremaux {
      */
     public void calculateNextMove() {
         markVisited();
-        this.maze[this.x][this.y].paint();
-
-        if (isJunction(this.x, this.y)) {
-            this.maze[this.x][this.y].paintGreen();
-        }
 
         if (isDeadEnd()) {
             turnAround();
@@ -464,24 +463,15 @@ public class Tremaux {
 
     }
 
-    public void solve() {
-        int moves = 3000;
-
-        Timeline[] timelines = new Timeline[moves];
-        int i = 0;
-        while (i < moves) {
-            Timeline timeline = new Timeline(
-                    new KeyFrame(Duration.millis(1), event -> {
-                        if (x < maze.length - 1 || y < maze.length - 1) {
-                            calculateNextMove();
-                        }
-                    }));
-
-            timelines[i] = timeline;
-
-            i++;
+    public int solve() {
+        int moves = 0;
+        while (this.x != maze.length - 1 || this.y != maze.length - 1) {
+            calculateNextMove();
+            moves++;
         }
-        SequentialTransition sequence = new SequentialTransition(timelines);
-        sequence.play();
+        this.x = 0;
+        this.y = 0;
+        this.visited = new int[maze.length][maze.length];
+        return moves;
     }
 }

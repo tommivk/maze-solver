@@ -80,24 +80,11 @@ public class Kruskal {
      * @param animate if set to true JavaFX timeline delay will be added
      * @param delay   controls the speed of the animation
      */
-    public void generateMaze(boolean animate, int delay) {
-        if (animate) {
-            Timeline[] timelines = new Timeline[this.edges.size()];
-            for (int i = 0; i < this.edges.size(); i++) {
-                final int index = i;
-                Timeline timeline = new Timeline(
-                        new KeyFrame(Duration.millis(delay), event -> {
-                            kruskalStep(edges.get(index));
-                        }));
-                timelines[i] = timeline;
-            }
-            SequentialTransition sequence = new SequentialTransition(timelines);
-            sequence.play();
-        } else {
-            for (Edge edge : this.edges) {
-                kruskalStep(edge);
-            }
+    public void generateMaze() {
+        for (Edge edge : this.edges) {
+            kruskalStep(edge);
         }
+
     }
 
     /**
