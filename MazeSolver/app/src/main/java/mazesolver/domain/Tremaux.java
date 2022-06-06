@@ -20,7 +20,6 @@ public class Tremaux {
         this.maze = maze;
         int size = maze.length;
         this.visited = new int[size][size];
-        this.visited[0][0] = 1;
         this.previousDirection = Direction.East;
         this.x = 0;
         this.y = 0;
@@ -55,7 +54,7 @@ public class Tremaux {
     }
 
     /**
-     * Turns around 180 degrees
+     * Turns around 180 degrees.
      */
     public void turnAround() {
         switch (this.previousDirection) {
@@ -70,6 +69,28 @@ public class Tremaux {
                 break;
             case West:
                 this.previousDirection = Direction.East;
+                break;
+            default:
+                break;
+        }
+    }
+
+    /**
+     * Turns around 90 degrees.
+     */
+    public void turnSideWays() {
+        switch (this.previousDirection) {
+            case North:
+                this.previousDirection = Direction.West;
+                break;
+            case East:
+                this.previousDirection = Direction.North;
+                break;
+            case South:
+                this.previousDirection = Direction.East;
+                break;
+            case West:
+                this.previousDirection = Direction.South;
                 break;
             default:
                 break;
@@ -225,7 +246,7 @@ public class Tremaux {
     }
 
     /**
-     * Trys to move forward to contiguous square that has been visited N many times.
+     * Trys to move forward to contiguous square that has been visited N times.
      * 
      * @param timesVisited amount of visits.
      * 
@@ -260,11 +281,13 @@ public class Tremaux {
     }
 
     /**
-     * Trys to move to junction that is congiguous with current square.
+     * Trys to move to junction that is congiguous with current square and that has
+     * been visited N times.
      * 
+     * @param timesVisited amount of visits
      * @return returns true if move was successfull.
      */
-    public boolean tryMoveToContiguousJunction() {
+    public boolean tryMoveToContiguousJunction(int timesVisited) {
         Direction direction = this.previousDirection;
 
         Rect current = maze[this.x][this.y];
@@ -274,20 +297,120 @@ public class Tremaux {
         Boolean hasLeftWall = current.getLeftWall();
         Boolean hasBottomWall = current.getBottomWall();
 
-        if (direction != Direction.South && !hasTopWall && isJunction(this.x, this.y - 1)) {
+        if (direction != Direction.South && !hasTopWall && isJunction(this.x, this.y - 1)
+                && visited[this.x][this.y - 1] == timesVisited) {
             moveUp();
             return true;
         }
-        if (direction != Direction.West && !hasRightWall && isJunction(this.x + 1, this.y)) {
+        if (direction != Direction.West && !hasRightWall && isJunction(this.x + 1, this.y)
+                && visited[this.x + 1][this.y] == timesVisited) {
             moveRight();
             return true;
         }
-        if (direction != Direction.East && !hasLeftWall && isJunction(this.x - 1, this.y)) {
+        if (direction != Direction.East && !hasLeftWall && isJunction(this.x - 1, this.y)
+                && visited[this.x - 1][this.y] == timesVisited) {
             moveLeft();
             return true;
         }
-        if (direction != Direction.North && !hasBottomWall && isJunction(this.x, this.y + 1)) {
+        if (direction != Direction.North && !hasBottomWall && isJunction(this.x, this.y + 1)
+                && visited[this.x][this.y + 1] == timesVisited) {
             moveDown();
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Returns the amount of visits of the least visited contiguous junctions.
+     * 
+     * @return amount if visits.
+     */
+    public int getLeastVisitedJunction() {
+        Direction direction = this.previousDirection;
+
+        Rect current = maze[this.x][this.y];
+
+        Boolean hasTopWall = current.getTopWall();
+        Boolean hasRightWall = current.getRightWall();
+        Boolean hasLeftWall = current.getLeftWall();
+        Boolean hasBottomWall = current.getBottomWall();
+        int smallest = 9000;
+
+        if (direction != Direction.South && !hasTopWall && isJunction(this.x, this.y - 1)) {
+            if (visited[this.x][this.y - 1] < smallest) {
+                smallest = visited[this.x][this.y - 1];
+            }
+        }
+        if (direction != Direction.West && !hasRightWall && isJunction(this.x + 1, this.y)) {
+            if (visited[this.x + 1][this.y] < smallest) {
+                smallest = visited[this.x + 1][this.y];
+            }
+        }
+        if (direction != Direction.East && !hasLeftWall && isJunction(this.x - 1, this.y)) {
+            if (visited[this.x - 1][this.y] < smallest) {
+                smallest = visited[this.x - 1][this.y];
+            }
+        }
+        if (direction != Direction.North && !hasBottomWall && isJunction(this.x, this.y + 1)) {
+            if (visited[this.x][this.y + 1] < smallest) {
+                smallest = visited[this.x][this.y + 1];
+            }
+        }
+        return smallest;
+    }
+
+    /**
+     * Checks if there is a contiguous square that has been visited less
+     * than 2 times.
+     * 
+     * @return returns true if there is.
+     */
+    public boolean hasValidPath(int x, int y, Direction direction) {
+        Rect current = maze[x][y];
+
+        Boolean hasTopWall = current.getTopWall();
+        Boolean hasRightWall = current.getRightWall();
+        Boolean hasLeftWall = current.getLeftWall();
+        Boolean hasBottomWall = current.getBottomWall();
+
+        if (direction != Direction.North && !hasBottomWall && visited[x][y + 1] < 2) {
+            return true;
+        }
+        if (direction != Direction.South && !hasTopWall && visited[x][y - 1] < 2) {
+            return true;
+        }
+        if (direction != Direction.West && !hasRightWall && visited[x + 1][y] < 2) {
+            return true;
+        }
+        if (direction != Direction.East && !hasLeftWall && visited[x - 1][y] < 2) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Checks if the square has a contiguos junction.
+     * 
+     * @return true if it has.
+     */
+    public boolean hasContiguousJunction(int x, int y, Direction direction) {
+        Rect current = maze[x][y];
+
+        Boolean hasTopWall = current.getTopWall();
+        Boolean hasRightWall = current.getRightWall();
+        Boolean hasLeftWall = current.getLeftWall();
+        Boolean hasBottomWall = current.getBottomWall();
+
+        if (direction != Direction.North && !hasBottomWall && isJunction(x, y + 1)) {
+            return true;
+        }
+        if (direction != Direction.South && !hasTopWall && isJunction(x, y - 1)) {
+            return true;
+        }
+        if (direction != Direction.West && !hasRightWall && isJunction(x + 1, y)) {
+            return true;
+        }
+        if (direction != Direction.East && !hasLeftWall && isJunction(x - 1, y)) {
             return true;
         }
         return false;
@@ -326,15 +449,18 @@ public class Tremaux {
         if (tryMoveToTimesVisited(1)) {
             return;
         }
-        if (tryMoveToContiguousJunction()) {
-            return;
+
+        if (!hasValidPath(this.x, this.y, this.previousDirection)
+                && !hasContiguousJunction(this.x, this.y, this.previousDirection)) {
+            turnAround();
+        }
+        if (!hasValidPath(this.x, this.y, this.previousDirection)
+                && !hasContiguousJunction(this.x, this.y, this.previousDirection)) {
+            turnSideWays();
         }
 
-        turnAround();
-
-        if (tryMoveToContiguousJunction()) {
-            return;
-        }
+        int v = getLeastVisitedJunction();
+        tryMoveToContiguousJunction(v);
 
     }
 
@@ -342,7 +468,6 @@ public class Tremaux {
         int moves = 3000;
 
         Timeline[] timelines = new Timeline[moves];
-        maze[0][0].paint();
         int i = 0;
         while (i < moves) {
             Timeline timeline = new Timeline(
