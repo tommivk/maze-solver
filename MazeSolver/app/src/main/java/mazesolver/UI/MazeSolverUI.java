@@ -14,14 +14,24 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 public class MazeSolverUI extends Application {
+    private Kruskal kruskal;
+    private Rect[][] maze;
+    private WallFollower wallFollower;
+    private Tremaux tremaux;
 
     @Override
     public void start(Stage stage) throws Exception {
-        Kruskal kruskal = new Kruskal();
+        Scene scene = getScene(stage);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    public Scene getScene(Stage stage) {
+        kruskal = new Kruskal();
         int size = 30;
-        Rect[][] maze = kruskal.generateEdges(size, size);
-        WallFollower wf = new WallFollower(maze);
-        Tremaux tremaux = new Tremaux(maze);
+        maze = kruskal.generateEdges(size, size);
+        wallFollower = new WallFollower(maze);
+        tremaux = new Tremaux(maze);
 
         stage.setTitle("Maze Solver");
         stage.setHeight(1200);
@@ -29,13 +39,13 @@ public class MazeSolverUI extends Application {
 
         Button newMazeButton = new Button("generate maze");
         newMazeButton.setOnMouseClicked(event -> {
-            kruskal.generateMaze(true, 4);
+            kruskal.generateMaze(false, 0);
         });
 
         Button wfSolveButton = new Button("Wall follower");
         wfSolveButton.setOnMouseClicked(event -> {
-            wf.solve();
-            wf.animate(wf.getMoves(), 30);
+            wallFollower.solve();
+            wallFollower.animate(wallFollower.getMoves(), 30);
         });
 
         Button startTremaux = new Button("Tremaux's");
@@ -43,10 +53,18 @@ public class MazeSolverUI extends Application {
             tremaux.solve();
         });
 
+        Button clearButton = new Button("Clear");
+        clearButton.setOnMouseClicked(event -> {
+            Scene scene = getScene(stage);
+            stage.setScene(scene);
+            stage.show();
+        });
+
         VBox navigation = new VBox();
         navigation.getChildren().add(newMazeButton);
         navigation.getChildren().add(wfSolveButton);
         navigation.getChildren().add(startTremaux);
+        navigation.getChildren().add(clearButton);
         navigation.setPrefWidth(200);
 
         GridPane pane = new GridPane();
@@ -61,9 +79,7 @@ public class MazeSolverUI extends Application {
             }
         }
 
-        Scene scene = new Scene(mainContainer);
-        stage.setScene(scene);
-        stage.show();
+        return new Scene(mainContainer);
     }
 
     public static void main(String[] args) {
