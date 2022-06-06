@@ -12,7 +12,7 @@ import mazesolver.enums.Direction;
 import java.util.Collections;
 
 /**
- * Randomized version of Kruskal's algorithm. Used to generate mazes.
+ * Randomized version of Kruskal's algorithm. Used for generating mazes.
  */
 public class Kruskal {
     private List<Edge> edges;

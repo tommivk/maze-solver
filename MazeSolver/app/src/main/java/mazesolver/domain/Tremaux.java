@@ -6,6 +6,9 @@ import javafx.animation.Timeline;
 import javafx.util.Duration;
 import mazesolver.enums.Direction;
 
+/**
+ * Tremaux's algorithm. Used for solving mazes
+ */
 public class Tremaux {
     private Rect[][] maze;
     private int[][] visited;
@@ -51,6 +54,9 @@ public class Tremaux {
         this.previousDirection = direction;
     }
 
+    /**
+     * Turns around 180 degrees
+     */
     public void turnAround() {
         switch (this.previousDirection) {
             case North:
@@ -70,6 +76,14 @@ public class Tremaux {
         }
     }
 
+    /**
+     * Checks if rectangle is a Junction or not.
+     *
+     * @param x X coordinate of the rectangle
+     * @param y Y coordinate of the rectangle
+     *
+     * @return true if it is a Junction
+     */
     public boolean isJunction(int x, int y) {
         Rect current = maze[x][y];
         int paths = 0;
@@ -90,6 +104,11 @@ public class Tremaux {
         return paths > 2 ? true : false;
     }
 
+    /**
+     * Checks if there are valid paths forward to the current direction.
+     *
+     * @return true if there are no possible paths.
+     */
     public boolean isDeadEnd() {
         Direction direction = this.previousDirection;
         Rect current = maze[this.x][this.y];
@@ -122,6 +141,10 @@ public class Tremaux {
         return false;
     }
 
+    /**
+     * Advances one step forward. This method is only used when the square is not a
+     * junction.
+     */
     public void advance() {
         Direction direction = this.previousDirection;
         Rect current = maze[this.x][this.y];
@@ -142,30 +165,50 @@ public class Tremaux {
         }
     }
 
+    /*
+     * Increases the visited value of the coordinate by one.
+     */
     public void markVisited() {
         visited[this.x][this.y]++;
     }
 
+    /**
+     * Moves one step left and updates previous direction.
+     */
     public void moveLeft() {
         this.x = this.x - 1;
         this.previousDirection = Direction.West;
     }
 
+    /**
+     * Moves one step tright and updates previous direction.
+     */
     public void moveRight() {
         this.x = this.x + 1;
         this.previousDirection = Direction.East;
     }
 
+    /**
+     * Moves one step up and updates previous direction.
+     */
     public void moveUp() {
         this.y = this.y - 1;
         this.previousDirection = Direction.North;
     }
 
+    /**
+     * Moves one step down and updates previous direction.
+     */
     public void moveDown() {
         this.y = this.y + 1;
         this.previousDirection = Direction.South;
     }
 
+    /**
+     * Checks if previous square has been visited 2 times or more.
+     * 
+     * @return returns true if square has been visited twice or more.
+     */
     public boolean isPreviousVisitedTwice() {
         switch (this.previousDirection) {
             case North:
@@ -181,6 +224,13 @@ public class Tremaux {
         }
     }
 
+    /**
+     * Trys to move forward to contiguous square that has been visited N many times.
+     * 
+     * @param timesVisited amount of visits.
+     * 
+     * @return true if move was successfull
+     */
     public boolean tryMoveToTimesVisited(int timesVisited) {
         Rect current = maze[this.x][this.y];
         Direction direction = this.previousDirection;
@@ -209,6 +259,11 @@ public class Tremaux {
         return false;
     }
 
+    /**
+     * Trys to move to junction that is congiguous with current square.
+     * 
+     * @return returns true if move was successfull.
+     */
     public boolean tryMoveToContiguousJunction() {
         Direction direction = this.previousDirection;
 
@@ -238,6 +293,9 @@ public class Tremaux {
         return false;
     }
 
+    /**
+     * Moves one step forward.
+     */
     public void calculateNextMove() {
         markVisited();
         this.maze[this.x][this.y].paint();
