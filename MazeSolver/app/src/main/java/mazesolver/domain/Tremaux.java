@@ -23,6 +23,34 @@ public class Tremaux {
         this.y = 0;
     }
 
+    public int getX() {
+        return this.x;
+    }
+
+    public int getY() {
+        return this.y;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
+
+    public void setVisited(int[][] visited) {
+        this.visited = visited;
+    }
+
+    public Direction getPreviousDirection() {
+        return this.previousDirection;
+    }
+
+    public void setPreviousDirection(Direction direction) {
+        this.previousDirection = direction;
+    }
+
     public void turnAround() {
         switch (this.previousDirection) {
             case North:
