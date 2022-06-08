@@ -57,6 +57,18 @@ public class Tremaux {
         maze[this.x][this.y].paintGreen();
     }
 
+    public void reset() {
+        this.x = 0;
+        this.y = 0;
+        this.previousDirection = Direction.East;
+        this.visited = new int[maze.length][maze.length];
+        for (int i = 0; i < maze.length; i++) {
+            for (int j = 0; j < maze.length; j++) {
+                maze[i][j].removeBackground();
+            }
+        }
+    }
+
     /**
      * Turns around 180 degrees.
      */
@@ -469,9 +481,6 @@ public class Tremaux {
             calculateNextMove();
             moves++;
         }
-        this.x = 0;
-        this.y = 0;
-        this.visited = new int[maze.length][maze.length];
         return moves;
     }
 }
