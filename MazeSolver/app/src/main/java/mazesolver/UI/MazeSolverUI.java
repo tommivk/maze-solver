@@ -1,6 +1,7 @@
 package mazesolver.UI;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.SequentialTransition;
@@ -16,6 +17,8 @@ import mazesolver.domain.Tremaux;
 import mazesolver.domain.WallFollower;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -25,6 +28,9 @@ public class MazeSolverUI extends Application {
     private Rect[][] maze;
     private WallFollower wallFollower;
     private Tremaux tremaux;
+    private int delay = 5;
+    private SequentialTransition tremauxSequence = new SequentialTransition();
+    private SequentialTransition wallFollowerSequence = new SequentialTransition();
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -42,18 +48,20 @@ public class MazeSolverUI extends Application {
 
         stage.setTitle("Maze Solver");
         stage.setHeight(1200);
-        stage.setWidth(1400);
+        stage.setWidth(1800);
 
         Button wfSolveButton = new Button("Wall follower");
         wfSolveButton.setOnMouseClicked(event -> {
+            tremauxSequence.stop();
             int moves = wallFollower.solve();
             wallFollower.reset();
             Timeline[] timelines = new Timeline[moves];
             maze[0][0].paint();
+
             int i = 0;
             while (i < moves) {
                 Timeline timeline = new Timeline(
-                        new KeyFrame(Duration.millis(30), e -> {
+                        new KeyFrame(Duration.millis(this.delay), e -> {
                             wallFollower.paintRectangle();
                             wallFollower.calculateNextMove();
                             wallFollower.paintGreen();
@@ -61,20 +69,32 @@ public class MazeSolverUI extends Application {
                 timelines[i] = timeline;
                 i++;
             }
-            SequentialTransition sequence = new SequentialTransition(timelines);
-            sequence.play();
+            this.wallFollowerSequence = new SequentialTransition(timelines);
+            wallFollowerSequence.play();
 
         });
 
         Button startTremaux = new Button("Tremaux's");
         startTremaux.setOnMouseClicked(event -> {
-            int moves = tremaux.solve();
+            wallFollowerSequence.stop();
+
+            int moves = 0;
+            for (int i = 0; i < 20; i++) {
+                long startTime = System.nanoTime();
+                moves = tremaux.solve();
+                long endTime = System.nanoTime();
+                long time = endTime - startTime;
+                long result = TimeUnit.NANOSECONDS.toMillis(time);
+                System.out.println(time);
+                System.out.println(result);
+                tremaux.reset();
+            }
 
             Timeline[] timelines = new Timeline[moves];
             int i = 0;
             while (i < moves) {
                 Timeline timeline = new Timeline(
-                        new KeyFrame(Duration.millis(70), e -> {
+                        new KeyFrame(Duration.millis(this.delay), e -> {
                             tremaux.paintRectangle();
                             tremaux.calculateNextMove();
                             tremaux.paintGreen();
@@ -84,16 +104,35 @@ public class MazeSolverUI extends Application {
 
                 i++;
             }
-            SequentialTransition sequence = new SequentialTransition(timelines);
-            sequence.play();
+            this.tremauxSequence = new SequentialTransition(timelines);
+            tremauxSequence.play();
         });
 
-        Button clearButton = new Button("Clear");
-        clearButton.setOnMouseClicked(event -> {
+        Button restartButton = new Button("New maze");
+        restartButton.setOnMouseClicked(event -> {
+            tremauxSequence.stop();
+            wallFollowerSequence.stop();
             Scene scene = getScene(stage);
             stage.setScene(scene);
             stage.show();
         });
+
+        Button clearButton = new Button("Clear maze");
+        clearButton.setOnMouseClicked(event -> {
+            tremaux.reset();
+            wallFollower.reset();
+            tremauxSequence.stop();
+            wallFollowerSequence.stop();
+        });
+
+        VBox delayBox = new VBox();
+        Label delayText = new Label("Delay in ms: ");
+        TextField delayAmount = new TextField(Integer.toString(delay));
+        delayBox.setMaxWidth(200);
+        delayAmount.textProperty().addListener((_observable, _oldValue, newValue) -> {
+            this.delay = Integer.parseInt(newValue);
+        });
+        delayBox.getChildren().addAll(delayText, delayAmount);
 
         VBox navigation = new VBox();
 
@@ -104,7 +143,7 @@ public class MazeSolverUI extends Application {
             for (int i = 0; i < edges.size(); i++) {
                 final int index = i;
                 Timeline timeline = new Timeline(
-                        new KeyFrame(Duration.millis(2), e -> {
+                        new KeyFrame(Duration.millis(this.delay), e -> {
                             kruskal.kruskalStep(edges.get(index));
                         }));
                 timelines[i] = timeline;
@@ -114,12 +153,14 @@ public class MazeSolverUI extends Application {
             sequence.setOnFinished(e -> {
                 navigation.getChildren().add(wfSolveButton);
                 navigation.getChildren().add(startTremaux);
+                navigation.getChildren().add(restartButton);
                 navigation.getChildren().add(clearButton);
             });
         });
 
         navigation.getChildren().add(newMazeButton);
-        navigation.setPrefWidth(200);
+        navigation.getChildren().add(delayBox);
+        navigation.setPrefWidth(300);
 
         GridPane pane = new GridPane();
         pane.setAlignment(Pos.CENTER_RIGHT);
