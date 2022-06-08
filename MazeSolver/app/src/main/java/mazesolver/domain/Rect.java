@@ -115,6 +115,7 @@ public class Rect {
 
     public void removeBackground() {
         this.rect.setBackground(null);
+        this.timesPainted = 0;
     }
 
     /**
