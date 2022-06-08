@@ -3,10 +3,6 @@ package mazesolver.domain;
 import java.util.ArrayList;
 import java.util.List;
 
-import javafx.animation.KeyFrame;
-import javafx.animation.SequentialTransition;
-import javafx.animation.Timeline;
-import javafx.util.Duration;
 import mazesolver.enums.Direction;
 
 import java.util.Collections;
@@ -75,10 +71,8 @@ public class Kruskal {
     }
 
     /**
-     * A Function that generates a maze from the edges.
+     * A method that generates a maze from the edges.
      *
-     * @param animate if set to true JavaFX timeline delay will be added
-     * @param delay   controls the speed of the animation
      */
     public void generateMaze() {
         for (Edge edge : this.edges) {

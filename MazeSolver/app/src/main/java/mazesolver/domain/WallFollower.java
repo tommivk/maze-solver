@@ -1,9 +1,5 @@
 package mazesolver.domain;
 
-import javafx.animation.KeyFrame;
-import javafx.animation.SequentialTransition;
-import javafx.animation.Timeline;
-import javafx.util.Duration;
 import mazesolver.enums.Direction;
 
 /**
