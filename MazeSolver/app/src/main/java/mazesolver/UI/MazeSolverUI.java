@@ -52,6 +52,13 @@ public class MazeSolverUI extends Application {
 
     }
 
+    public void stopSequences() {
+        tremauxSequence.stop();
+        wallFollowerSequence.stop();
+        aStarSequence.stop();
+        aStarResultSequence.stop();
+    }
+
     public Scene getScene(Stage stage, int size) {
         kruskal = new Kruskal();
         maze = kruskal.generateEdges(size, size);
@@ -74,13 +81,17 @@ public class MazeSolverUI extends Application {
         Label wallFollowerTime = new Label(null);
         wallFollowerStats.getChildren().addAll(wallFollowerLabel, wallFollowerTime);
 
-        statistics.getChildren().addAll(title, tremauxStats, wallFollowerStats);
+        HBox aStarStats = new HBox();
+        Label aStarLabel = new Label("A*: ");
+        Label aStarTime = new Label("");
+        aStarStats.getChildren().addAll(aStarLabel, aStarTime);
+
+        statistics.getChildren().addAll(title, tremauxStats, wallFollowerStats, aStarStats);
 
         Button wfSolveButton = new Button("Wall follower");
         wfSolveButton.setOnMouseClicked(event -> {
+            stopSequences();
             wallFollower.reset();
-            tremauxSequence.stop();
-            wallFollowerSequence.stop();
 
             long start = System.nanoTime();
             int moves = wallFollower.solve();
@@ -113,7 +124,16 @@ public class MazeSolverUI extends Application {
 
         Button startAStar = new Button("A*");
         startAStar.setOnMouseClicked(event -> {
-            List<Rect> visited = aStar.solve();
+            stopSequences();
+            aStar.reset();
+            long start = System.nanoTime();
+            aStar.solve();
+            long end = System.nanoTime();
+
+            double timeTaken = (end - start) / 1000000.0;
+            aStarTime.setText(Double.toString(timeTaken));
+
+            List<Rect> visited = aStar.getSequence();
 
             Timeline[] timelines = new Timeline[visited.size()];
             int i = 0;
@@ -164,8 +184,7 @@ public class MazeSolverUI extends Application {
 
         Button startTremaux = new Button("Tremaux's");
         startTremaux.setOnMouseClicked(event -> {
-            wallFollowerSequence.stop();
-            tremauxSequence.stop();
+            stopSequences();
             tremaux.reset();
 
             long start = System.nanoTime();
@@ -208,15 +227,11 @@ public class MazeSolverUI extends Application {
 
         Button clearButton = new Button("Clear maze");
         clearButton.setOnMouseClicked(event -> {
+            stopSequences();
+
             tremaux.reset();
-            tremauxSequence.stop();
-
             wallFollower.reset();
-            wallFollowerSequence.stop();
-
             aStar.reset();
-            aStarSequence.stop();
-            aStarResultSequence.stop();
         });
 
         VBox delayBox = new VBox();
