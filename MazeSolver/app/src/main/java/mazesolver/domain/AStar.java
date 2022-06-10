@@ -12,6 +12,7 @@ public class AStar {
     private HashMap<Rect, Rect> parents = new HashMap<Rect, Rect>();
     private HashSet<Rect> visited = new HashSet<Rect>();
     private HashMap<Rect, Integer> distances = new HashMap<Rect, Integer>();
+    private List<Rect> sequence = new ArrayList<Rect>();
     private Rect[][] maze;
 
     public AStar(Rect[][] maze) {
@@ -23,11 +24,16 @@ public class AStar {
         return this.parents;
     }
 
+    public List<Rect> getSequence() {
+        return this.sequence;
+    }
+
     public void reset() {
         this.distancesToStart = new HashMap<Rect, Integer>();
         this.parents = new HashMap<Rect, Rect>();
         this.visited = new HashSet<Rect>();
         this.distances = new HashMap<Rect, Integer>();
+        this.sequence = new ArrayList<Rect>();
         initializeDistances();
 
         for (int i = 0; i < maze.length; i++) {
@@ -94,8 +100,7 @@ public class AStar {
         return distanceX + distanceY;
     }
 
-    public List<Rect> solve() {
-        List<Rect> sequence = new ArrayList<Rect>();
+    public void solve() {
         Rect start = maze[0][0];
         Rect finish = maze[maze.length - 1][maze.length - 1];
 
@@ -112,7 +117,7 @@ public class AStar {
             sequence.add(current);
 
             if (current == finish) {
-                return sequence;
+                return;
             }
             if (visited.contains(current)) {
                 continue;
@@ -140,7 +145,6 @@ public class AStar {
             }
 
         }
-        return sequence;
     }
 
 }
