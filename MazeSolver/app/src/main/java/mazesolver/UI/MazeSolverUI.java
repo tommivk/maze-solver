@@ -1,5 +1,8 @@
 package mazesolver.UI;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 import javafx.animation.KeyFrame;
@@ -33,13 +36,15 @@ public class MazeSolverUI extends Application {
     private int delay = 5;
     private SequentialTransition tremauxSequence = new SequentialTransition();
     private SequentialTransition wallFollowerSequence = new SequentialTransition();
+    private SequentialTransition aStarSequence = new SequentialTransition();
+    private SequentialTransition aStarResultSequence = new SequentialTransition();
 
     @Override
     public void start(Stage stage) throws Exception {
         stage.setTitle("Maze Solver");
         stage.setHeight(1000);
         stage.setWidth(1500);
-        int mazeSize = 45;
+        int mazeSize = 30;
 
         Scene scene = getScene(stage, mazeSize);
         stage.setScene(scene);
@@ -108,7 +113,53 @@ public class MazeSolverUI extends Application {
 
         Button startAStar = new Button("A*");
         startAStar.setOnMouseClicked(event -> {
-            aStar.solve();
+            List<Rect> visited = aStar.solve();
+
+            Timeline[] timelines = new Timeline[visited.size()];
+            int i = 0;
+            for (Rect rect : visited) {
+                Timeline timeline = new Timeline(
+                        new KeyFrame(Duration.millis(this.delay), e -> {
+                            rect.paint();
+                        }));
+
+                timelines[i] = timeline;
+                i++;
+            }
+            this.aStarSequence = new SequentialTransition(timelines);
+            this.aStarSequence.play();
+
+            aStarSequence.setOnFinished(e -> {
+                HashMap<Rect, Rect> parents = aStar.getParents();
+                List<Rect> rects = new ArrayList<Rect>();
+                Rect current = maze[maze.length - 1][maze.length - 1];
+                rects.add(current);
+                while (true) {
+                    Rect rect = parents.get(current);
+                    if (rect == null) {
+                        break;
+                    }
+                    rects.add(rect);
+                    current = rect;
+                }
+
+                Collections.reverse(rects);
+
+                Timeline[] lines = new Timeline[rects.size()];
+                int index = 0;
+                for (Rect r : rects) {
+                    Timeline timeline = new Timeline(
+                            new KeyFrame(Duration.millis(50), ev -> {
+                                r.removeBackground();
+                                r.paintGreen();
+                            }));
+                    lines[index] = timeline;
+                    index++;
+                }
+
+                this.aStarResultSequence = new SequentialTransition(lines);
+                this.aStarResultSequence.play();
+            });
         });
 
         Button startTremaux = new Button("Tremaux's");
@@ -158,9 +209,14 @@ public class MazeSolverUI extends Application {
         Button clearButton = new Button("Clear maze");
         clearButton.setOnMouseClicked(event -> {
             tremaux.reset();
-            wallFollower.reset();
             tremauxSequence.stop();
+
+            wallFollower.reset();
             wallFollowerSequence.stop();
+
+            aStar.reset();
+            aStarSequence.stop();
+            aStarResultSequence.stop();
         });
 
         VBox delayBox = new VBox();

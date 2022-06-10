@@ -19,6 +19,18 @@ public class AStar {
         initializeDistances();
     }
 
+    public HashMap<Rect, Rect> getParents() {
+        return this.parents;
+    }
+
+    public void reset() {
+        this.distancesToStart = new HashMap<Rect, Integer>();
+        this.parents = new HashMap<Rect, Rect>();
+        this.visited = new HashSet<Rect>();
+        this.distances = new HashMap<Rect, Integer>();
+        initializeDistances();
+    }
+
     private PriorityQueue<Rect> initializePriorityQueue() {
         return new PriorityQueue<>(30, new Comparator<Rect>() {
             public int compare(Rect a, Rect b) {
@@ -76,7 +88,8 @@ public class AStar {
         return distanceX + distanceY;
     }
 
-    public void solve() {
+    public List<Rect> solve() {
+        List<Rect> sequence = new ArrayList<Rect>();
         Rect start = maze[0][0];
         Rect finish = maze[maze.length - 1][maze.length - 1];
 
@@ -90,10 +103,10 @@ public class AStar {
 
         while (!priorityQueue.isEmpty()) {
             current = priorityQueue.remove();
+            sequence.add(current);
 
             if (current == finish) {
-                System.out.println("Finish");
-                return;
+                return sequence;
             }
             if (visited.contains(current)) {
                 continue;
@@ -121,15 +134,7 @@ public class AStar {
             }
 
         }
-
-        Rect node = finish;
-        while (true) {
-            Rect r = parents.get(node);
-            if (r == null || r == start)
-                return;
-            r.paint();
-            node = r;
-        }
+        return sequence;
     }
 
 }
