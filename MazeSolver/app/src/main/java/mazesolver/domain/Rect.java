@@ -23,11 +23,23 @@ public class Rect {
     private boolean bottomWall = true;
     private boolean leftWall = true;
     private int timesPainted = 0;
+    private int x;
+    private int y;
 
-    public Rect() {
+    public Rect(int x, int y) {
+        this.x = x;
+        this.y = y;
         this.rect = new Region();
         this.rect.setPrefSize(rectangleSize, rectangleSize);
         updateBorders();
+    }
+
+    public int getX() {
+        return this.x;
+    }
+
+    public int getY() {
+        return this.y;
     }
 
     /**

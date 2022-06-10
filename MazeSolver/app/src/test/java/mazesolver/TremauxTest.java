@@ -20,8 +20,8 @@ public class TremauxTest {
 
         for (int i = 0; i < 5; i++) {
             for (int k = 0; k < 5; k++) {
-                maze[i][k] = new Rect();
-                rects[i][k] = new Rect();
+                maze[i][k] = new Rect(i, k);
+                rects[i][k] = new Rect(i, k);
 
             }
         }

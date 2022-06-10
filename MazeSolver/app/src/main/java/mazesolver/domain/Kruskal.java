@@ -62,7 +62,7 @@ public class Kruskal {
                 }
 
                 trees[x][y] = new Tree();
-                rectangles[x][y] = new Rect();
+                rectangles[x][y] = new Rect(x, y);
             }
         }
 

@@ -13,7 +13,7 @@ public class RectTest {
 
     @Test
     public void getRectangleWorksAndRectSizeIsCorrect() {
-        Rect rect = new Rect();
+        Rect rect = new Rect(0, 0);
         Region rectangle = rect.getRectangle();
         assertEquals(30, rectangle.getPrefHeight());
         assertEquals(30, rectangle.getPrefWidth());
@@ -21,7 +21,7 @@ public class RectTest {
 
     @Test
     public void intialWallsAresetToTrue() {
-        Rect rect = new Rect();
+        Rect rect = new Rect(0, 0);
         assertEquals(true, rect.getTopWall());
         assertEquals(true, rect.getRightWall());
         assertEquals(true, rect.getBottomWall());
@@ -30,7 +30,7 @@ public class RectTest {
 
     @Test
     public void removingWallsWorks() {
-        Rect rect = new Rect();
+        Rect rect = new Rect(0, 0);
         rect.removeTopWall();
         rect.removeRightWall();
         rect.removeBottomWall();
@@ -44,7 +44,7 @@ public class RectTest {
 
     @Test
     public void initialBordersAreCorrect() {
-        Rect rect = new Rect();
+        Rect rect = new Rect(0, 0);
         Region rectangle = rect.getRectangle();
         BorderStroke border = rectangle.getBorder().getStrokes().get(0);
 
@@ -56,7 +56,7 @@ public class RectTest {
 
     @Test
     public void removingBordersSetsBorderStrokeStyleToNone() {
-        Rect rect = new Rect();
+        Rect rect = new Rect(0, 0);
         Region rectangle = rect.getRectangle();
 
         rect.removeTopWall();

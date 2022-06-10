@@ -19,7 +19,7 @@ public class WallFollowerTest {
         this.maze = new Rect[4][4];
         for (int i = 0; i < 4; i++) {
             for (int k = 0; k < 4; k++) {
-                maze[i][k] = new Rect();
+                maze[i][k] = new Rect(i, k);
             }
         }
         this.wf = new WallFollower(maze);
