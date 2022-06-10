@@ -15,44 +15,18 @@ public class TremauxTest {
 
     @BeforeEach
     public void setup() {
-        Rect[][] maze = new Rect[5][5];
+        TestMaze tm = new TestMaze();
         Rect[][] rects = new Rect[5][5];
 
         for (int i = 0; i < 5; i++) {
             for (int k = 0; k < 5; k++) {
-                maze[i][k] = new Rect(i, k);
                 rects[i][k] = new Rect(i, k);
 
             }
         }
         this.rects = rects;
-        /**
-         * > v - - -
-         * - v - - -
-         * v < - - -
-         * > > > > v
-         * - - - - v
-         */
-        maze[0][0].removeRightWall();
-        maze[1][0].removeLeftWall();
-        maze[1][0].removeBottomWall();
-        maze[1][1].removeTopWall();
-        maze[1][1].removeBottomWall();
-        maze[1][2].removeTopWall();
-        maze[1][2].removeLeftWall();
-        maze[0][2].removeRightWall();
-        maze[0][2].removeBottomWall();
-        maze[0][3].removeTopWall();
-        maze[0][3].removeRightWall();
-        maze[1][3].removeLeftWall();
-        maze[1][3].removeRightWall();
-        maze[2][3].removeLeftWall();
-        maze[2][3].removeRightWall();
-        maze[3][3].removeLeftWall();
-        maze[3][3].removeRightWall();
-        maze[4][3].removeLeftWall();
-        maze[4][3].removeBottomWall();
-        maze[4][4].removeTopWall();
+
+        Rect[][] maze = tm.getMazeWithoutJunctions();
 
         this.tremaux = new Tremaux(maze);
     }
@@ -90,6 +64,12 @@ public class TremauxTest {
         assertEquals(3, tremaux.getX());
         assertEquals(3, tremaux.getY());
         tremaux.advance();
+        assertEquals(3, tremaux.getX());
+        assertEquals(2, tremaux.getY());
+        tremaux.advance();
+        assertEquals(4, tremaux.getX());
+        assertEquals(2, tremaux.getY());
+        tremaux.advance();
         assertEquals(4, tremaux.getX());
         assertEquals(3, tremaux.getY());
         tremaux.advance();
@@ -99,7 +79,7 @@ public class TremauxTest {
 
     @Test
     public void calculateNextMoveWorks() {
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 12; i++) {
             tremaux.calculateNextMove();
         }
         assertEquals(4, tremaux.getX());
