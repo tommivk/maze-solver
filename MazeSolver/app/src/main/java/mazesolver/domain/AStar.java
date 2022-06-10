@@ -29,6 +29,12 @@ public class AStar {
         this.visited = new HashSet<Rect>();
         this.distances = new HashMap<Rect, Integer>();
         initializeDistances();
+
+        for (int i = 0; i < maze.length; i++) {
+            for (int k = 0; k < maze.length; k++) {
+                maze[i][k].removeBackground();
+            }
+        }
     }
 
     private PriorityQueue<Rect> initializePriorityQueue() {
