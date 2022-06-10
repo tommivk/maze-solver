@@ -94,6 +94,8 @@ public class WallFollower {
 
     /**
      * A Method that solves the maze.
+     * 
+     * @return The amount of moves it took to solve the maze.
      */
     public int solve() {
         int moves = 0;

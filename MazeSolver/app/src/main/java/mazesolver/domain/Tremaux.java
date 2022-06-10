@@ -379,6 +379,10 @@ public class Tremaux {
      * Checks if there is a contiguous square that has been visited less
      * than 2 times.
      * 
+     * @param x         X coordinate of the square.
+     * @param y         Y coordinate of the square.
+     * @param direction Previous direction.
+     * 
      * @return returns true if there is.
      */
     public boolean hasValidPath(int x, int y, Direction direction) {
@@ -406,6 +410,10 @@ public class Tremaux {
 
     /**
      * Checks if the square has a contiguos junction.
+     * 
+     * @param x         X coordinate of the square.
+     * @param y         Y coordinate of the square.
+     * @param direction Previous direction.
      * 
      * @return true if it has.
      */
