@@ -99,6 +99,8 @@ public class AStar {
                 continue;
             }
 
+            visited.add(current);
+
             List<Rect> neighbours = getNeighbours(current);
             for (Rect node : neighbours) {
                 if (visited.contains(node)) {
