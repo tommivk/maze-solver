@@ -10,6 +10,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import mazesolver.domain.AStar;
 import mazesolver.domain.Edge;
 import mazesolver.domain.Kruskal;
 import mazesolver.domain.Rect;
@@ -27,6 +28,7 @@ public class MazeSolverUI extends Application {
     private Kruskal kruskal;
     private Rect[][] maze;
     private WallFollower wallFollower;
+    private AStar aStar;
     private Tremaux tremaux;
     private int delay = 5;
     private SequentialTransition tremauxSequence = new SequentialTransition();
@@ -34,25 +36,27 @@ public class MazeSolverUI extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        Scene scene = getScene(stage);
-        stage.setScene(scene);
-        stage.show();
-    }
-
-    public Scene getScene(Stage stage) {
-        kruskal = new Kruskal();
-        int size = 30;
-        maze = kruskal.generateEdges(size, size);
-        wallFollower = new WallFollower(maze);
-        tremaux = new Tremaux(maze);
-
         stage.setTitle("Maze Solver");
         stage.setHeight(1000);
         stage.setWidth(1500);
+        int mazeSize = 45;
+
+        Scene scene = getScene(stage, mazeSize);
+        stage.setScene(scene);
+        stage.show();
+
+    }
+
+    public Scene getScene(Stage stage, int size) {
+        kruskal = new Kruskal();
+        maze = kruskal.generateEdges(size, size);
+        wallFollower = new WallFollower(maze);
+        tremaux = new Tremaux(maze);
+        aStar = new AStar(maze);
 
         VBox statistics = new VBox();
 
-        Label title = new Label("Algorithm | Time taken in ns");
+        Label title = new Label("Algorithm | Time taken in ms");
         title.setStyle("-fx-font-size: 14; -fx-font-weight: bold;");
 
         HBox tremauxStats = new HBox();
@@ -62,7 +66,7 @@ public class MazeSolverUI extends Application {
 
         HBox wallFollowerStats = new HBox();
         Label wallFollowerLabel = new Label("Wall Follower: ");
-        Label wallFollowerTime = new Label("");
+        Label wallFollowerTime = new Label(null);
         wallFollowerStats.getChildren().addAll(wallFollowerLabel, wallFollowerTime);
 
         statistics.getChildren().addAll(title, tremauxStats, wallFollowerStats);
@@ -71,11 +75,12 @@ public class MazeSolverUI extends Application {
         wfSolveButton.setOnMouseClicked(event -> {
             wallFollower.reset();
             tremauxSequence.stop();
+            wallFollowerSequence.stop();
 
             long start = System.nanoTime();
             int moves = wallFollower.solve();
             long end = System.nanoTime();
-            long timeTaken = end - start;
+            double timeTaken = (end - start) / 1000000.0;
             wallFollower.reset();
 
             Timeline[] timelines = new Timeline[moves];
@@ -94,22 +99,28 @@ public class MazeSolverUI extends Application {
             this.wallFollowerSequence = new SequentialTransition(timelines);
 
             wallFollowerSequence.setOnFinished(e -> {
-                wallFollowerTime.setText(Long.toString(timeTaken));
+                wallFollowerTime.setText(Double.toString(timeTaken));
             });
 
             wallFollowerSequence.play();
 
         });
 
+        Button startAStar = new Button("A*");
+        startAStar.setOnMouseClicked(event -> {
+            aStar.solve();
+        });
+
         Button startTremaux = new Button("Tremaux's");
         startTremaux.setOnMouseClicked(event -> {
             wallFollowerSequence.stop();
+            tremauxSequence.stop();
             tremaux.reset();
 
             long start = System.nanoTime();
             int moves = tremaux.solve();
             long end = System.nanoTime();
-            long timeTaken = end - start;
+            double timeTaken = (end - start) / 1000000.0;
             tremaux.reset();
 
             Timeline[] timelines = new Timeline[moves];
@@ -129,7 +140,7 @@ public class MazeSolverUI extends Application {
             this.tremauxSequence = new SequentialTransition(timelines);
 
             tremauxSequence.setOnFinished(e -> {
-                tremauxTime.setText(Long.toString(timeTaken));
+                tremauxTime.setText(Double.toString(timeTaken));
             });
 
             tremauxSequence.play();
@@ -139,7 +150,7 @@ public class MazeSolverUI extends Application {
         restartButton.setOnMouseClicked(event -> {
             tremauxSequence.stop();
             wallFollowerSequence.stop();
-            Scene scene = getScene(stage);
+            Scene scene = getScene(stage, size);
             stage.setScene(scene);
             stage.show();
         });
@@ -180,6 +191,7 @@ public class MazeSolverUI extends Application {
             sequence.setOnFinished(e -> {
                 navigation.getChildren().add(wfSolveButton);
                 navigation.getChildren().add(startTremaux);
+                navigation.getChildren().add(startAStar);
                 navigation.getChildren().add(restartButton);
                 navigation.getChildren().add(clearButton);
                 navigation.getChildren().remove(newMazeButton);
