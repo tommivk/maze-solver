@@ -10,6 +10,7 @@
 - [Week 2](https://github.com/tommivk/maze-solver/blob/main/documentation/weekly_report_2.md)
 - [Week 3](https://github.com/tommivk/maze-solver/blob/main/documentation/weekly_report_3.md)
 - [Week 4](https://github.com/tommivk/maze-solver/blob/main/documentation/weekly_report_4.md)
+- [Week 5](https://github.com/tommivk/maze-solver/blob/main/documentation/weekly_report_5.md)
 
 ## CLI Commands
 All of the following commands should be run inside the `MazeSolver` directory.
