@@ -137,7 +137,7 @@ public class Rect {
      * Clears the background color of the rectangle.
      */
     public void removeBackground() {
-        this.rect.setStyle("-fx-background-color: rgba(0,0,0,0)");
+        this.rect.setStyle("");
         this.timesPainted = 0;
     }
 
