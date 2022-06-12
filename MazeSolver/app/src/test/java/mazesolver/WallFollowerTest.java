@@ -111,11 +111,11 @@ public class WallFollowerTest {
         Rect[][] maze = wf.getMaze();
         Rect rect = maze[0][0];
         Region region = rect.getRectangle();
-        assertEquals(null, region.getBackground());
+        assertEquals("", region.getStyle());
         assertEquals(0, wf.getX());
         assertEquals(0, wf.getY());
         wf.paintRectangle();
-        assertNotNull(region.getBackground());
+        assertEquals("-fx-background-color: rgb(255,0,0); -fx-background-insets: 4px", region.getStyle());
     }
 
     @Test
@@ -134,7 +134,8 @@ public class WallFollowerTest {
         for (int i = 0; i < this.maze.length; i++) {
             for (int j = 0; j < this.maze.length; j++) {
                 maze[i][j].paint();
-                assertNotNull(maze[i][j].getRectangle().getBackground());
+                assertEquals("-fx-background-color: rgb(255,0,0); -fx-background-insets: 4px",
+                        maze[i][j].getRectangle().getStyle());
             }
         }
 
@@ -148,7 +149,7 @@ public class WallFollowerTest {
         assertEquals(0, wf.getY());
         for (int i = 0; i < this.maze.length; i++) {
             for (int j = 0; j < this.maze.length; j++) {
-                assertEquals(null, maze[i][j].getRectangle().getBackground());
+                assertEquals("-fx-background-color: rgba(0,0,0,0)", maze[i][j].getRectangle().getStyle());
             }
         }
     }
