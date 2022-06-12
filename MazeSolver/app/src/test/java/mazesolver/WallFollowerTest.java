@@ -149,7 +149,7 @@ public class WallFollowerTest {
         assertEquals(0, wf.getY());
         for (int i = 0; i < this.maze.length; i++) {
             for (int j = 0; j < this.maze.length; j++) {
-                assertEquals("-fx-background-color: rgba(0,0,0,0)", maze[i][j].getRectangle().getStyle());
+                assertEquals("", maze[i][j].getRectangle().getStyle());
             }
         }
     }

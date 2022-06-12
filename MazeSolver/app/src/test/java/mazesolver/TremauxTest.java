@@ -12,6 +12,7 @@ import org.junit.jupiter.api.BeforeEach;
 public class TremauxTest {
     Tremaux tremaux;
     Rect[][] rects;
+    Rect[][] maze;
 
     @BeforeEach
     public void setup() {
@@ -26,7 +27,7 @@ public class TremauxTest {
         }
         this.rects = rects;
 
-        Rect[][] maze = tm.getMazeWithoutJunctions();
+        this.maze = tm.getMazeWithoutJunctions();
 
         this.tremaux = new Tremaux(maze);
     }
@@ -250,5 +251,79 @@ public class TremauxTest {
         assertEquals(2, t.getX());
         assertEquals(3, t.getY());
 
+    }
+
+    @Test
+    public void paintRectangleShouldPaintCurrentRectangle() {
+        assertEquals(0, tremaux.getX());
+        assertEquals(0, tremaux.getY());
+        assertEquals("", maze[0][0].getRectangle().getStyle());
+        tremaux.paintRectangle();
+        assertEquals("-fx-background-color: rgb(255,0,0); -fx-background-insets: 4px",
+                maze[0][0].getRectangle().getStyle());
+    }
+
+    @Test
+    public void paintGreenShouldPaintCurrentRectangleGreen() {
+        assertEquals(0, tremaux.getX());
+        assertEquals(0, tremaux.getY());
+        assertEquals("", maze[0][0].getRectangle().getStyle());
+        tremaux.paintGreen();
+        assertEquals("-fx-background-color: rgb(0,255,0); -fx-background-insets: 4px",
+                maze[0][0].getRectangle().getStyle());
+    }
+
+    @Test
+    public void resetShouldWorkCorrectly() {
+        tremaux.solve();
+        assertEquals(maze.length - 1, tremaux.getX());
+        assertEquals(maze.length - 1, tremaux.getY());
+
+        maze[0][2].paint();
+        assertEquals("-fx-background-color: rgb(255,0,0); -fx-background-insets: 4px",
+                maze[0][2].getRectangle().getStyle());
+
+        maze[2][2].paintGreen();
+        assertEquals("-fx-background-color: rgb(0,255,0); -fx-background-insets: 4px",
+                maze[2][2].getRectangle().getStyle());
+
+        tremaux.reset();
+
+        assertEquals(0, tremaux.getX());
+        assertEquals(0, tremaux.getY());
+        assertEquals("",
+                maze[0][2].getRectangle().getStyle());
+        assertEquals("",
+                maze[2][2].getRectangle().getStyle());
+    }
+
+    @Test
+    public void turnSideWaysShouldWorkCorrectly() {
+        tremaux.setPreviousDirection(Direction.South);
+        tremaux.turnSideWays();
+        assertEquals(Direction.East, tremaux.getPreviousDirection());
+        tremaux.turnSideWays();
+        assertEquals(Direction.North, tremaux.getPreviousDirection());
+        tremaux.turnSideWays();
+        assertEquals(Direction.West, tremaux.getPreviousDirection());
+        tremaux.turnSideWays();
+        assertEquals(Direction.South, tremaux.getPreviousDirection());
+    }
+
+    @Test
+    public void tremauxShouldBeAbleToSolveMazesGeneratedByKruskal() {
+        for (int i = 4; i < 70; i++) {
+            Kruskal k = new Kruskal();
+            Rect[][] maze = k.generateEdges(i, i);
+            k.generateMaze();
+            Tremaux t = new Tremaux(maze);
+            assertEquals(0, t.getX());
+            assertEquals(0, t.getY());
+
+            t.solve();
+
+            assertEquals(i - 1, t.getX());
+            assertEquals(i - 1, t.getY());
+        }
     }
 }
