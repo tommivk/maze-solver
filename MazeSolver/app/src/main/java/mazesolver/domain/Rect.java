@@ -1,15 +1,11 @@
 package mazesolver.domain;
 
-import javafx.geometry.Insets;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderStroke;
 import javafx.scene.layout.BorderStrokeStyle;
 import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 
 /**
  * A class that is used to keep track of and to remove walls of each rectangle
@@ -99,34 +95,49 @@ public class Rect {
         updateBorders();
     }
 
+    /**
+     * Paints the rectangle green.
+     */
     public void paintGreen() {
-        Paint paint = Paint.valueOf("green");
-        Insets insets = new Insets(4);
-
-        BackgroundFill fill = new BackgroundFill(paint, null, insets);
-        Background b = new Background(fill);
-        this.rect.setBackground(b);
+        this.rect.setStyle("-fx-background-color: rgb(0,255,0); -fx-background-insets: 4px");
     }
 
+    /**
+     * Paints the rectangle red. The darkness of the color depends on how many time
+     * the square has been visited.
+     */
     public void paint() {
-        Paint paint;
-        if (timesPainted == 0) {
-            paint = Paint.valueOf("red");
-        } else if (timesPainted == 1) {
-            paint = Paint.valueOf("darkred");
-        } else {
-            paint = Paint.valueOf("black");
+        switch (timesPainted) {
+            case 0:
+                this.rect.setStyle("-fx-background-color: rgb(255,0,0); -fx-background-insets: 4px");
+                break;
+            case 1:
+                this.rect.setStyle("-fx-background-color: rgb(210,0,0); -fx-background-insets: 4px");
+                break;
+            case 2:
+                this.rect.setStyle("-fx-background-color: rgb(180,0,0); -fx-background-insets: 4px");
+                break;
+            case 3:
+                this.rect.setStyle("-fx-background-color: rgb(140,0,0); -fx-background-insets: 4px");
+                break;
+            case 4:
+                this.rect.setStyle("-fx-background-color: rgb(100,0,0); -fx-background-insets: 4px");
+                break;
+            case 5:
+                this.rect.setStyle("-fx-background-color: rgb(90,0,0); -fx-background-insets: 4px");
+                break;
+            default:
+                this.rect.setStyle("-fx-background-color: rgb(40,0,0); -fx-background-insets: 4px");
         }
 
-        Insets insets = new Insets(4);
-        BackgroundFill fill = new BackgroundFill(paint, null, insets);
-        Background b = new Background(fill);
-        this.rect.setBackground(b);
         this.timesPainted++;
     }
 
+    /**
+     * Clears the background color of the rectangle.
+     */
     public void removeBackground() {
-        this.rect.setBackground(null);
+        this.rect.setStyle("-fx-background-color: rgba(0,0,0,0)");
         this.timesPainted = 0;
     }
 
