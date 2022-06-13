@@ -72,10 +72,10 @@ public class AStar {
     private PriorityQueue<Rect> initializePriorityQueue() {
         return new PriorityQueue<>(30, new Comparator<Rect>() {
             public int compare(Rect a, Rect b) {
-                if (distancesToStart.get(a) < distancesToStart.get(b)) {
+                if (distances.get(a) < distances.get(b)) {
                     return -1;
                 }
-                if (distancesToStart.get(a) > distancesToStart.get(b)) {
+                if (distances.get(a) > distances.get(b)) {
                     return 1;
                 }
                 return 0;
@@ -130,8 +130,8 @@ public class AStar {
      * @return Integer
      */
     public int calculateDistanceToFinish(Rect rect) {
-        int distanceX = this.maze.length - rect.getX();
-        int distanceY = this.maze.length - rect.getY();
+        int distanceX = (this.maze.length - 1) - rect.getX();
+        int distanceY = (this.maze.length - 1) - rect.getY();
 
         return distanceX + distanceY;
     }
@@ -191,7 +191,7 @@ public class AStar {
 
                 if (totalDistance < distances.get(node)) {
                     distances.put(node, totalDistance);
-                    distancesToStart.put(node, totalDistance);
+                    distancesToStart.put(node, distancesToStart.get(current) + distanceToCurrent);
                     parents.put(node, current);
 
                     priorityQueue.add(node);
