@@ -13,6 +13,7 @@ public class TremauxTest {
     Tremaux tremaux;
     Rect[][] rects;
     Rect[][] maze;
+    Rect[][] mazeWithJunctions;
 
     @BeforeEach
     public void setup() {
@@ -28,6 +29,7 @@ public class TremauxTest {
         this.rects = rects;
 
         this.maze = tm.getMazeWithoutJunctions();
+        this.mazeWithJunctions = tm.getMazeWithJunctions();
 
         this.tremaux = new Tremaux(maze);
     }
@@ -85,6 +87,190 @@ public class TremauxTest {
         }
         assertEquals(4, tremaux.getX());
         assertEquals(4, tremaux.getY());
+    }
+
+    @Test
+    public void calculateNextMoveWorksCorrectlyWithMazeWithJunctions() {
+        Tremaux t = new Tremaux(mazeWithJunctions);
+
+        t.calculateNextMove();
+        assertEquals(1, t.getX());
+        assertEquals(0, t.getY());
+
+        t.calculateNextMove();
+        assertEquals(1, t.getX());
+        assertEquals(1, t.getY());
+
+        t.calculateNextMove();
+        assertEquals(1, t.getX());
+        assertEquals(2, t.getY());
+
+        t.calculateNextMove();
+        assertEquals(0, t.getX());
+        assertEquals(2, t.getY());
+
+        t.calculateNextMove();
+        assertEquals(0, t.getX());
+        assertEquals(3, t.getY());
+
+        t.calculateNextMove();
+        assertEquals(0, t.getX());
+        assertEquals(4, t.getY());
+
+        t.calculateNextMove();
+        assertEquals(0, t.getX());
+        assertEquals(4, t.getY());
+
+        t.calculateNextMove();
+        assertEquals(0, t.getX());
+        assertEquals(3, t.getY());
+
+        t.calculateNextMove();
+        assertEquals(1, t.getX());
+        assertEquals(3, t.getY());
+
+        t.calculateNextMove();
+        assertEquals(2, t.getX());
+        assertEquals(3, t.getY());
+
+        t.calculateNextMove();
+        assertEquals(3, t.getX());
+        assertEquals(3, t.getY());
+
+        t.calculateNextMove();
+        assertEquals(3, t.getX());
+        assertEquals(2, t.getY());
+
+        t.calculateNextMove();
+        assertEquals(4, t.getX());
+        assertEquals(2, t.getY());
+
+        t.calculateNextMove();
+        assertEquals(4, t.getX());
+        assertEquals(3, t.getY());
+
+        t.calculateNextMove();
+        assertEquals(4, t.getX());
+        assertEquals(4, t.getY());
+    }
+
+    @Test
+    public void calculateNextMoveTurnsAround() {
+        Tremaux t = new Tremaux(rects);
+        t.setPreviousDirection(Direction.East);
+        t.setX(2);
+        t.setY(2);
+
+        rects[2][2].removeRightWall();
+        rects[2][2].removeLeftWall();
+        rects[2][2].removeTopWall();
+        rects[2][2].removeBottomWall();
+
+        rects[1][2].removeRightWall();
+
+        rects[3][2].removeLeftWall();
+
+        int[][] visited = new int[5][5];
+        visited[1][2] = 1;
+        visited[2][1] = 1;
+        visited[2][3] = 1;
+        visited[3][2] = 1;
+
+        t.setVisited(visited);
+
+        t.calculateNextMove();
+
+        assertEquals(Direction.West, t.getPreviousDirection());
+    }
+
+    @Test
+    public void calculateNextMoveMovesToOnceVisitedWhenPreviousIsVisitedTwice() {
+        Tremaux t = new Tremaux(rects);
+        t.setPreviousDirection(Direction.East);
+        t.setX(2);
+        t.setY(2);
+
+        rects[2][2].removeRightWall();
+        rects[2][2].removeLeftWall();
+        rects[2][2].removeTopWall();
+        rects[2][2].removeBottomWall();
+
+        rects[1][2].removeRightWall();
+
+        rects[3][2].removeLeftWall();
+
+        int[][] visited = new int[5][5];
+        visited[1][2] = 2;
+        visited[2][1] = 2;
+        visited[2][2] = 2;
+        visited[2][3] = 1;
+        visited[3][2] = 2;
+
+        t.setVisited(visited);
+
+        t.calculateNextMove();
+        assertEquals(2, t.getX());
+        assertEquals(3, t.getY());
+    }
+
+    @Test
+    public void calculateNextMoveChoosesLeastVisitedJunction() {
+        Tremaux t = new Tremaux(rects);
+        t.setPreviousDirection(Direction.East);
+        t.setX(2);
+        t.setY(2);
+
+        rects[2][2].removeRightWall();
+        rects[2][2].removeLeftWall();
+        rects[2][2].removeTopWall();
+        rects[2][2].removeBottomWall();
+
+        rects[1][2].removeRightWall();
+
+        rects[3][2].removeLeftWall();
+        rects[3][2].removeRightWall();
+        rects[3][2].removeTopWall();
+
+        int[][] visited = new int[5][5];
+        visited[1][2] = 3;
+        visited[2][1] = 2;
+        visited[2][2] = 4;
+        visited[2][3] = 4;
+        visited[3][2] = 4;
+
+        t.setVisited(visited);
+
+        t.calculateNextMove();
+        assertEquals(3, t.getX());
+        assertEquals(2, t.getY());
+
+    }
+
+    @Test
+    public void calculateNextMoveTurnsSideWaysIfNoValidPathOrContiguosJunction() {
+        Tremaux t = new Tremaux(rects);
+        t.setPreviousDirection(Direction.East);
+        t.setX(2);
+        t.setY(2);
+
+        rects[2][2].removeRightWall();
+        rects[2][2].removeLeftWall();
+        rects[2][2].removeTopWall();
+        rects[2][2].removeBottomWall();
+        rects[1][2].removeRightWall();
+        rects[3][2].removeLeftWall();
+
+        int[][] visited = new int[5][5];
+        visited[1][2] = 3;
+        visited[2][1] = 2;
+        visited[2][2] = 4;
+        visited[2][3] = 4;
+        visited[3][2] = 4;
+
+        t.setVisited(visited);
+
+        t.calculateNextMove();
+        assertEquals(Direction.South, t.getPreviousDirection());
     }
 
     @Test
