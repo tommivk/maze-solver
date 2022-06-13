@@ -72,4 +72,32 @@ public class RectTest {
         assertEquals(BorderStrokeStyle.NONE, border.getLeftStyle());
     }
 
+    @Test
+    public void paintGreenShouldWorkCorrectly() {
+        Rect rect = new Rect(0, 0);
+        assertEquals("", rect.getRectangle().getStyle());
+        rect.paintGreen();
+        assertEquals("-fx-background-color: rgb(0,255,0); -fx-background-insets: 4px", rect.getRectangle().getStyle());
+    }
+
+    @Test
+    public void paintingRectangleShouldWorkCorrectly() {
+        Rect rect = new Rect(0, 0);
+        assertEquals("", rect.getRectangle().getStyle());
+        rect.paint();
+        assertEquals("-fx-background-color: rgb(255,0,0); -fx-background-insets: 4px", rect.getRectangle().getStyle());
+        rect.paint();
+        assertEquals("-fx-background-color: rgb(210,0,0); -fx-background-insets: 4px", rect.getRectangle().getStyle());
+        rect.paint();
+        assertEquals("-fx-background-color: rgb(180,0,0); -fx-background-insets: 4px", rect.getRectangle().getStyle());
+        rect.paint();
+        assertEquals("-fx-background-color: rgb(140,0,0); -fx-background-insets: 4px", rect.getRectangle().getStyle());
+        rect.paint();
+        assertEquals("-fx-background-color: rgb(100,0,0); -fx-background-insets: 4px", rect.getRectangle().getStyle());
+        rect.paint();
+        assertEquals("-fx-background-color: rgb(90,0,0); -fx-background-insets: 4px", rect.getRectangle().getStyle());
+        rect.paint();
+        assertEquals("-fx-background-color: rgb(40,0,0); -fx-background-insets: 4px", rect.getRectangle().getStyle());
+    }
+
 }
