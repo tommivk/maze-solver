@@ -79,7 +79,7 @@ public class AStarTest {
         assertEquals(0, sequence.size());
         aStar.solve();
         sequence = aStar.getSequence();
-        assertEquals(17, sequence.size());
+        assertEquals(15, sequence.size());
     }
 
     @Test

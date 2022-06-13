@@ -14,7 +14,7 @@ public class AStar {
     private HashMap<Rect, Integer> distancesToStart = new HashMap<Rect, Integer>();
     private HashMap<Rect, Rect> parents = new HashMap<Rect, Rect>();
     private HashSet<Rect> visited = new HashSet<Rect>();
-    private HashMap<Rect, Integer> distances = new HashMap<Rect, Integer>();
+    private HashMap<Rect, Integer> predictedDistances = new HashMap<Rect, Integer>();
     private List<Rect> sequence = new ArrayList<Rect>();
     private Rect[][] maze;
 
@@ -53,7 +53,7 @@ public class AStar {
         this.distancesToStart = new HashMap<Rect, Integer>();
         this.parents = new HashMap<Rect, Rect>();
         this.visited = new HashSet<Rect>();
-        this.distances = new HashMap<Rect, Integer>();
+        this.predictedDistances = new HashMap<Rect, Integer>();
         this.sequence = new ArrayList<Rect>();
         initializeDistances();
 
@@ -72,10 +72,10 @@ public class AStar {
     private PriorityQueue<Rect> initializePriorityQueue() {
         return new PriorityQueue<>(30, new Comparator<Rect>() {
             public int compare(Rect a, Rect b) {
-                if (distances.get(a) < distances.get(b)) {
+                if (predictedDistances.get(a) < predictedDistances.get(b)) {
                     return -1;
                 }
-                if (distances.get(a) > distances.get(b)) {
+                if (predictedDistances.get(a) > predictedDistances.get(b)) {
                     return 1;
                 }
                 return 0;
@@ -89,7 +89,7 @@ public class AStar {
     private void initializeDistances() {
         for (int i = 0; i < maze.length; i++) {
             for (int j = 0; j < maze.length; j++) {
-                distances.put(maze[i][j], Integer.MAX_VALUE);
+                predictedDistances.put(maze[i][j], Integer.MAX_VALUE);
             }
         }
     }
@@ -159,7 +159,7 @@ public class AStar {
         Rect finish = maze[maze.length - 1][maze.length - 1];
 
         distancesToStart.put(start, 0);
-        distances.put(start, 0);
+        predictedDistances.put(start, 0);
 
         PriorityQueue<Rect> priorityQueue = initializePriorityQueue();
         priorityQueue.add(start);
@@ -180,21 +180,21 @@ public class AStar {
             visited.add(current);
 
             List<Rect> neighbours = getNeighbours(current);
-            for (Rect node : neighbours) {
-                if (visited.contains(node)) {
+            for (Rect neighbour : neighbours) {
+                if (visited.contains(neighbour)) {
                     continue;
                 }
 
-                int distanceToFinish = calculateDistanceToFinish(node);
-                int distanceToCurrent = calculateDistanceBetweenNodes(node, current);
-                int totalDistance = distancesToStart.get(current) + distanceToFinish + distanceToCurrent;
+                int distanceToFinish = calculateDistanceToFinish(neighbour);
+                int distanceToCurrent = calculateDistanceBetweenNodes(neighbour, current);
+                int predictedDistance = distancesToStart.get(current) + distanceToCurrent + distanceToFinish;
 
-                if (totalDistance < distances.get(node)) {
-                    distances.put(node, totalDistance);
-                    distancesToStart.put(node, distancesToStart.get(current) + distanceToCurrent);
-                    parents.put(node, current);
+                if (predictedDistance < predictedDistances.get(neighbour)) {
+                    predictedDistances.put(neighbour, predictedDistance);
+                    distancesToStart.put(neighbour, distancesToStart.get(current) + distanceToCurrent);
+                    parents.put(neighbour, current);
 
-                    priorityQueue.add(node);
+                    priorityQueue.add(neighbour);
                 }
             }
 
