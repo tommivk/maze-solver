@@ -11,6 +11,9 @@ import java.util.Collections;
  * Randomized version of Kruskal's algorithm. Used for generating mazes.
  */
 public class Kruskal {
+    /**
+     * List that contains all the possible edges in the maze.
+     */
     private List<Edge> edges;
     private Tree[][] trees;
     private Rect[][] rectangles;

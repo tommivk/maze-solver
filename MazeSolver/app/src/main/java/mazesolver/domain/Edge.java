@@ -6,9 +6,17 @@ import mazesolver.enums.Direction;
  * A class that represents a single edge in the maze.
  */
 public class Edge {
-
+    /**
+     * The X coordinate of the Edge.
+     */
     private int x;
+    /**
+     * The Y coordinate of the Edge.
+     */
     private int y;
+    /**
+     * Direction that the edge is connected to.
+     */
     private Direction direction;
 
     /**

@@ -4,12 +4,25 @@ package mazesolver.domain;
  * Tree that is used to keep track of connections between nodes in the maze.
  */
 public class Tree {
+    /**
+     * The parent Tree of the tree.
+     */
     private Tree parent = null;
 
+    /**
+     * Sets the parent of the tree.
+     * 
+     * @param tree Tree object.
+     */
     public void setParent(Tree tree) {
         this.parent = tree;
     }
 
+    /**
+     * Returns the parent tree of the tree object.
+     * 
+     * @return Tree object.
+     */
     public Tree getParent() {
         return this.parent;
     }

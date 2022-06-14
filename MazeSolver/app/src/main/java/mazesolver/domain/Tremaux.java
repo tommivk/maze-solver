@@ -6,10 +6,26 @@ import mazesolver.enums.Direction;
  * Tremaux's algorithm. Used for solving mazes
  */
 public class Tremaux {
+    /**
+     * Two dimensional array of Rect objects that represents the maze.
+     */
     private Rect[][] maze;
+    /**
+     * Two dimensional Integer array which values represents the amount of times
+     * that the algorithm has visited the same index in the maze.
+     */
     private int[][] visited;
+    /**
+     * The direction of the previous move.
+     */
     private Direction previousDirection;
+    /**
+     * Current x coordinate in the maze.
+     */
     private int x;
+    /**
+     * Current y coordinate in the maze.
+     */
     private int y;
 
     public Tremaux(Rect[][] maze) {

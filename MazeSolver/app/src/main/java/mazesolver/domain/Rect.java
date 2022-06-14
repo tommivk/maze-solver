@@ -12,14 +12,29 @@ import javafx.scene.paint.Color;
  * in the maze.
  */
 public class Rect {
+    /**
+     * The size of the rectangle.
+     */
     private final int rectangleSize = 30;
+    /**
+     * Region object that represents a single square in the maze.
+     */
     private Region rect;
     private boolean topWall = true;
     private boolean rightWall = true;
     private boolean bottomWall = true;
     private boolean leftWall = true;
+    /**
+     * Keeps count of times that the rectangle has been painted.
+     */
     private int timesPainted = 0;
+    /**
+     * The X coordinate of the rectangle in the maze.
+     */
     private int x;
+    /**
+     * The Y coordinate of the rectangle in the maze.
+     */
     private int y;
 
     public Rect(int x, int y) {

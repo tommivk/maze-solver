@@ -7,9 +7,21 @@ import mazesolver.enums.Direction;
  * found.
  */
 public class WallFollower {
+    /**
+     * Current x coordinate in the maze.
+     */
     private int x;
+    /**
+     * Current y coordinate in the maze.
+     */
     private int y;
+    /**
+     * Two dimensional array of Rect objects that represents the maze.
+     */
     private Rect[][] maze;
+    /**
+     * The direction of the previous move.
+     */
     private Direction previousDirection;
 
     /**
