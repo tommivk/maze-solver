@@ -106,7 +106,9 @@ public class Rect {
      * Paints the rectangle red. The darkness of the color depends on how many time
      * the square has been visited.
      */
+    @SuppressWarnings("checkstyle:magicNumber")
     public void paint() {
+
         switch (timesPainted) {
             case 0:
                 this.rect.setStyle(
