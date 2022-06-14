@@ -31,7 +31,7 @@ public class WallFollower {
     }
 
     /**
-     * Sets the current X Coordinate
+     * Sets the current X Coordinate.
      *
      * @param x Integer value
      */
@@ -40,7 +40,7 @@ public class WallFollower {
     }
 
     /**
-     * Sets the current Y Coordinate
+     * Sets the current Y Coordinate.
      *
      * @param y Integer value
      */
@@ -49,7 +49,7 @@ public class WallFollower {
     }
 
     /**
-     * Returns the maze array
+     * Returns the maze array.
      *
      * @return Two dimensional array of Rect objects
      */

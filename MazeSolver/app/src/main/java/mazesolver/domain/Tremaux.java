@@ -277,19 +277,27 @@ public class Tremaux {
         Boolean hasLeftWall = current.getLeftWall();
         Boolean hasBottomWall = current.getBottomWall();
 
-        if (direction != Direction.North && !hasBottomWall && visited[this.x][this.y + 1] == timesVisited) {
+        if (direction != Direction.North
+                && !hasBottomWall
+                && visited[this.x][this.y + 1] == timesVisited) {
             moveDown();
             return true;
         }
-        if (direction != Direction.South && !hasTopWall && visited[this.x][this.y - 1] == timesVisited) {
+        if (direction != Direction.South
+                && !hasTopWall
+                && visited[this.x][this.y - 1] == timesVisited) {
             moveUp();
             return true;
         }
-        if (direction != Direction.West && !hasRightWall && visited[this.x + 1][this.y] == timesVisited) {
+        if (direction != Direction.West
+                && !hasRightWall
+                && visited[this.x + 1][this.y] == timesVisited) {
             moveRight();
             return true;
         }
-        if (direction != Direction.East && !hasLeftWall && visited[this.x - 1][this.y] == timesVisited) {
+        if (direction != Direction.East
+                && !hasLeftWall
+                && visited[this.x - 1][this.y] == timesVisited) {
             moveLeft();
             return true;
         }
@@ -350,7 +358,7 @@ public class Tremaux {
         Boolean hasRightWall = current.getRightWall();
         Boolean hasLeftWall = current.getLeftWall();
         Boolean hasBottomWall = current.getBottomWall();
-        int smallest = 9000;
+        int smallest = Integer.MAX_VALUE;
 
         if (direction != Direction.South && !hasTopWall && isJunction(this.x, this.y - 1)) {
             if (visited[this.x][this.y - 1] < smallest) {

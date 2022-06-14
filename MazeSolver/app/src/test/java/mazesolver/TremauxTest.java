@@ -592,22 +592,22 @@ public class TremauxTest {
         t.setY(2);
 
         t.setPreviousDirection(Direction.North);
-        assertEquals(9000, t.getLeastVisitedJunction());
+        assertEquals(Integer.MAX_VALUE, t.getLeastVisitedJunction());
         t.setPreviousDirection(Direction.South);
-        assertEquals(9000, t.getLeastVisitedJunction());
+        assertEquals(Integer.MAX_VALUE, t.getLeastVisitedJunction());
         rects[2][2].removeTopWall();
         rects[2][2].removeRightWall();
         rects[2][2].removeBottomWall();
         rects[2][2].removeLeftWall();
 
         t.setPreviousDirection(Direction.North);
-        assertEquals(9000, t.getLeastVisitedJunction());
+        assertEquals(Integer.MAX_VALUE, t.getLeastVisitedJunction());
         t.setPreviousDirection(Direction.East);
-        assertEquals(9000, t.getLeastVisitedJunction());
+        assertEquals(Integer.MAX_VALUE, t.getLeastVisitedJunction());
         t.setPreviousDirection(Direction.South);
-        assertEquals(9000, t.getLeastVisitedJunction());
+        assertEquals(Integer.MAX_VALUE, t.getLeastVisitedJunction());
         t.setPreviousDirection(Direction.West);
-        assertEquals(9000, t.getLeastVisitedJunction());
+        assertEquals(Integer.MAX_VALUE, t.getLeastVisitedJunction());
 
         for (int i = 0; i < rects.length; i++) {
             for (int j = 0; j < rects.length; j++) {

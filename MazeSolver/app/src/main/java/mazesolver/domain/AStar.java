@@ -187,11 +187,14 @@ public class AStar {
 
                 int distanceToFinish = calculateDistanceToFinish(neighbour);
                 int distanceToCurrent = calculateDistanceBetweenNodes(neighbour, current);
-                int predictedDistance = distancesToStart.get(current) + distanceToCurrent + distanceToFinish;
+                int predictedDistance = distancesToStart.get(current)
+                        + distanceToCurrent
+                        + distanceToFinish;
 
                 if (predictedDistance < predictedDistances.get(neighbour)) {
                     predictedDistances.put(neighbour, predictedDistance);
-                    distancesToStart.put(neighbour, distancesToStart.get(current) + distanceToCurrent);
+                    distancesToStart.put(neighbour,
+                            distancesToStart.get(current) + distanceToCurrent);
                     parents.put(neighbour, current);
 
                     priorityQueue.add(neighbour);

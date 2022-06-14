@@ -109,25 +109,32 @@ public class Rect {
     public void paint() {
         switch (timesPainted) {
             case 0:
-                this.rect.setStyle("-fx-background-color: rgb(255,0,0); -fx-background-insets: 4px");
+                this.rect.setStyle(
+                        "-fx-background-color: rgb(255,0,0); -fx-background-insets: 4px");
                 break;
             case 1:
-                this.rect.setStyle("-fx-background-color: rgb(210,0,0); -fx-background-insets: 4px");
+                this.rect.setStyle(
+                        "-fx-background-color: rgb(210,0,0); -fx-background-insets: 4px");
                 break;
             case 2:
-                this.rect.setStyle("-fx-background-color: rgb(180,0,0); -fx-background-insets: 4px");
+                this.rect.setStyle(
+                        "-fx-background-color: rgb(180,0,0); -fx-background-insets: 4px");
                 break;
             case 3:
-                this.rect.setStyle("-fx-background-color: rgb(140,0,0); -fx-background-insets: 4px");
+                this.rect.setStyle(
+                        "-fx-background-color: rgb(140,0,0); -fx-background-insets: 4px");
                 break;
             case 4:
-                this.rect.setStyle("-fx-background-color: rgb(100,0,0); -fx-background-insets: 4px");
+                this.rect.setStyle(
+                        "-fx-background-color: rgb(100,0,0); -fx-background-insets: 4px");
                 break;
             case 5:
-                this.rect.setStyle("-fx-background-color: rgb(90,0,0); -fx-background-insets: 4px");
+                this.rect.setStyle(
+                        "-fx-background-color: rgb(90,0,0); -fx-background-insets: 4px");
                 break;
             default:
-                this.rect.setStyle("-fx-background-color: rgb(40,0,0); -fx-background-insets: 4px");
+                this.rect.setStyle(
+                        "-fx-background-color: rgb(40,0,0); -fx-background-insets: 4px");
         }
 
         this.timesPainted++;
@@ -145,11 +152,13 @@ public class Rect {
      * Updates the borders of the Region object.
      */
     private void updateBorders() {
-        this.rect.setBorder(new Border(new BorderStroke(Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK,
-                topWall ? BorderStrokeStyle.SOLID : BorderStrokeStyle.NONE,
-                rightWall ? BorderStrokeStyle.SOLID : BorderStrokeStyle.NONE,
-                bottomWall ? BorderStrokeStyle.SOLID : BorderStrokeStyle.NONE,
-                leftWall ? BorderStrokeStyle.SOLID : BorderStrokeStyle.NONE,
-                null, new BorderWidths(1), null)));
+        this.rect.setBorder(
+                new Border(
+                        new BorderStroke(Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK,
+                                topWall ? BorderStrokeStyle.SOLID : BorderStrokeStyle.NONE,
+                                rightWall ? BorderStrokeStyle.SOLID : BorderStrokeStyle.NONE,
+                                bottomWall ? BorderStrokeStyle.SOLID : BorderStrokeStyle.NONE,
+                                leftWall ? BorderStrokeStyle.SOLID : BorderStrokeStyle.NONE,
+                                null, new BorderWidths(1), null)));
     }
 }
