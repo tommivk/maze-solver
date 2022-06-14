@@ -70,7 +70,8 @@ public class AStar {
      * @return PriorityQueue
      */
     private PriorityQueue<Rect> initializePriorityQueue() {
-        return new PriorityQueue<>(30, new Comparator<Rect>() {
+        final int capacity = 30;
+        return new PriorityQueue<>(capacity, new Comparator<Rect>() {
             public int compare(Rect a, Rect b) {
                 if (predictedDistances.get(a) < predictedDistances.get(b)) {
                     return -1;
