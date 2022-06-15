@@ -42,40 +42,40 @@ public class TremauxTest {
 
     @Test
     public void advancingOnMazeWithoutJunctionsWorksCorrectly() {
-        tremaux.advance();
+        tremaux.tryMoveToTimesVisited(0);
         assertEquals(1, tremaux.getX());
         assertEquals(0, tremaux.getY());
-        tremaux.advance();
+        tremaux.tryMoveToTimesVisited(0);
         assertEquals(1, tremaux.getX());
         assertEquals(1, tremaux.getY());
-        tremaux.advance();
+        tremaux.tryMoveToTimesVisited(0);
         assertEquals(1, tremaux.getX());
         assertEquals(2, tremaux.getY());
-        tremaux.advance();
+        tremaux.tryMoveToTimesVisited(0);
         assertEquals(0, tremaux.getX());
         assertEquals(2, tremaux.getY());
-        tremaux.advance();
+        tremaux.tryMoveToTimesVisited(0);
         assertEquals(0, tremaux.getX());
         assertEquals(3, tremaux.getY());
-        tremaux.advance();
+        tremaux.tryMoveToTimesVisited(0);
         assertEquals(1, tremaux.getX());
         assertEquals(3, tremaux.getY());
-        tremaux.advance();
+        tremaux.tryMoveToTimesVisited(0);
         assertEquals(2, tremaux.getX());
         assertEquals(3, tremaux.getY());
-        tremaux.advance();
+        tremaux.tryMoveToTimesVisited(0);
         assertEquals(3, tremaux.getX());
         assertEquals(3, tremaux.getY());
-        tremaux.advance();
+        tremaux.tryMoveToTimesVisited(0);
         assertEquals(3, tremaux.getX());
         assertEquals(2, tremaux.getY());
-        tremaux.advance();
+        tremaux.tryMoveToTimesVisited(0);
         assertEquals(4, tremaux.getX());
         assertEquals(2, tremaux.getY());
-        tremaux.advance();
+        tremaux.tryMoveToTimesVisited(0);
         assertEquals(4, tremaux.getX());
         assertEquals(3, tremaux.getY());
-        tremaux.advance();
+        tremaux.tryMoveToTimesVisited(0);
         assertEquals(4, tremaux.getX());
         assertEquals(4, tremaux.getY());
     }
@@ -119,10 +119,6 @@ public class TremauxTest {
 
         t.calculateNextMove();
         assertEquals(0, t.getX());
-        assertEquals(4, t.getY());
-
-        t.calculateNextMove();
-        assertEquals(0, t.getX());
         assertEquals(3, t.getY());
 
         t.calculateNextMove();
@@ -155,7 +151,7 @@ public class TremauxTest {
     }
 
     @Test
-    public void calculateNextMoveTurnsAround() {
+    public void calculateNextMoveTurnsAroundWhenNoValidPathAndPreviousIsNotVisitedTwice() {
         Tremaux t = new Tremaux(rects);
         t.setPreviousDirection(Direction.East);
         t.setX(2);
@@ -177,6 +173,7 @@ public class TremauxTest {
         visited[3][2] = 1;
 
         t.setVisited(visited);
+        assertEquals(false, t.isPreviousVisitedTwice());
 
         t.calculateNextMove();
 
@@ -247,33 +244,6 @@ public class TremauxTest {
     }
 
     @Test
-    public void calculateNextMoveTurnsSideWaysIfNoValidPathOrContiguosJunction() {
-        Tremaux t = new Tremaux(rects);
-        t.setPreviousDirection(Direction.East);
-        t.setX(2);
-        t.setY(2);
-
-        rects[2][2].removeRightWall();
-        rects[2][2].removeLeftWall();
-        rects[2][2].removeTopWall();
-        rects[2][2].removeBottomWall();
-        rects[1][2].removeRightWall();
-        rects[3][2].removeLeftWall();
-
-        int[][] visited = new int[5][5];
-        visited[1][2] = 3;
-        visited[2][1] = 2;
-        visited[2][2] = 4;
-        visited[2][3] = 4;
-        visited[3][2] = 4;
-
-        t.setVisited(visited);
-
-        t.calculateNextMove();
-        assertEquals(Direction.South, t.getPreviousDirection());
-    }
-
-    @Test
     public void isDeadEndWorks() {
         Tremaux t = new Tremaux(rects);
         rects[2][1].removeBottomWall();
@@ -333,38 +303,50 @@ public class TremauxTest {
 
     @Test
     public void isPreviousVisitedTwiceShouldWorkCorrectly() {
-        int[][] visited = new int[6][6];
-        tremaux.setX(3);
-        tremaux.setY(3);
+        Tremaux t = new Tremaux(rects);
+        int[][] visited = new int[5][5];
+
+        rects[3][3].removeTopWall();
+        rects[3][3].removeRightWall();
+        rects[3][3].removeBottomWall();
+        rects[3][3].removeLeftWall();
+
+        rects[2][3].removeRightWall();
+        rects[4][3].removeLeftWall();
+        rects[3][2].removeBottomWall();
+        rects[3][4].removeTopWall();
+
+        t.setX(3);
+        t.setY(3);
         visited[3][2] = 2;
         visited[3][4] = 2;
         visited[2][3] = 2;
         visited[4][3] = 2;
-        tremaux.setVisited(visited);
+        t.setVisited(visited);
 
-        tremaux.setPreviousDirection(Direction.North);
-        assertEquals(true, tremaux.isPreviousVisitedTwice());
-        tremaux.setPreviousDirection(Direction.East);
-        assertEquals(true, tremaux.isPreviousVisitedTwice());
-        tremaux.setPreviousDirection(Direction.South);
-        assertEquals(true, tremaux.isPreviousVisitedTwice());
-        tremaux.setPreviousDirection(Direction.West);
-        assertEquals(true, tremaux.isPreviousVisitedTwice());
+        t.setPreviousDirection(Direction.North);
+        assertEquals(true, t.isPreviousVisitedTwice());
+        t.setPreviousDirection(Direction.East);
+        assertEquals(true, t.isPreviousVisitedTwice());
+        t.setPreviousDirection(Direction.South);
+        assertEquals(true, t.isPreviousVisitedTwice());
+        t.setPreviousDirection(Direction.West);
+        assertEquals(true, t.isPreviousVisitedTwice());
 
         visited[3][2] = 1;
         visited[3][4] = 1;
         visited[2][3] = 1;
         visited[4][3] = 1;
-        tremaux.setVisited(visited);
+        t.setVisited(visited);
 
-        tremaux.setPreviousDirection(Direction.North);
-        assertEquals(false, tremaux.isPreviousVisitedTwice());
-        tremaux.setPreviousDirection(Direction.East);
-        assertEquals(false, tremaux.isPreviousVisitedTwice());
-        tremaux.setPreviousDirection(Direction.South);
-        assertEquals(false, tremaux.isPreviousVisitedTwice());
-        tremaux.setPreviousDirection(Direction.West);
-        assertEquals(false, tremaux.isPreviousVisitedTwice());
+        t.setPreviousDirection(Direction.North);
+        assertEquals(false, t.isPreviousVisitedTwice());
+        t.setPreviousDirection(Direction.East);
+        assertEquals(false, t.isPreviousVisitedTwice());
+        t.setPreviousDirection(Direction.South);
+        assertEquals(false, t.isPreviousVisitedTwice());
+        t.setPreviousDirection(Direction.West);
+        assertEquals(false, t.isPreviousVisitedTwice());
     }
 
     @Test
@@ -481,102 +463,6 @@ public class TremauxTest {
                 maze[0][2].getRectangle().getStyle());
         assertEquals("",
                 maze[2][2].getRectangle().getStyle());
-    }
-
-    @Test
-    public void turnSideWaysShouldWorkCorrectly() {
-        tremaux.setPreviousDirection(Direction.South);
-        tremaux.turnSideWays();
-        assertEquals(Direction.East, tremaux.getPreviousDirection());
-        tremaux.turnSideWays();
-        assertEquals(Direction.North, tremaux.getPreviousDirection());
-        tremaux.turnSideWays();
-        assertEquals(Direction.West, tremaux.getPreviousDirection());
-        tremaux.turnSideWays();
-        assertEquals(Direction.South, tremaux.getPreviousDirection());
-    }
-
-    @Test
-    public void hasContiguousJunctionShouldWorkCorrectly() {
-        Tremaux t = new Tremaux(rects);
-
-        rects[2][2].removeBottomWall();
-        rects[2][2].removeRightWall();
-        rects[2][2].removeLeftWall();
-        rects[2][2].removeTopWall();
-
-        rects[2][3].removeTopWall();
-        rects[2][3].removeBottomWall();
-        rects[2][1].removeBottomWall();
-
-        rects[1][2].removeRightWall();
-        rects[3][2].removeLeftWall();
-
-        assertEquals(true, t.hasContiguousJunction(2, 3, Direction.North));
-        assertEquals(false, t.hasContiguousJunction(2, 2, Direction.North));
-
-        assertEquals(true, t.hasContiguousJunction(2, 1, Direction.South));
-        assertEquals(false, t.hasContiguousJunction(2, 3, Direction.South));
-
-        assertEquals(true, t.hasContiguousJunction(1, 2, Direction.East));
-        assertEquals(false, t.hasContiguousJunction(2, 2, Direction.East));
-
-        assertEquals(false, t.hasContiguousJunction(1, 2, Direction.West));
-        assertEquals(true, t.hasContiguousJunction(3, 2, Direction.West));
-    }
-
-    @Test
-    public void hasValidPathShouldWorkCorrectly() {
-        Tremaux t = new Tremaux(rects);
-        int[][] visited = new int[5][5];
-        t.setVisited(visited);
-        visited[2][1] = 3;
-        visited[2][3] = 3;
-        visited[1][2] = 3;
-        visited[3][2] = 3;
-
-        assertEquals(false, t.hasValidPath(2, 2, Direction.North));
-        assertEquals(false, t.hasValidPath(2, 2, Direction.East));
-        assertEquals(false, t.hasValidPath(2, 2, Direction.South));
-        assertEquals(false, t.hasValidPath(2, 2, Direction.West));
-
-        rects[2][2].removeTopWall();
-        rects[2][2].removeRightWall();
-        rects[2][2].removeBottomWall();
-        rects[2][2].removeLeftWall();
-
-        assertEquals(false, t.hasValidPath(2, 2, Direction.North));
-        assertEquals(false, t.hasValidPath(2, 2, Direction.East));
-        assertEquals(false, t.hasValidPath(2, 2, Direction.South));
-        assertEquals(false, t.hasValidPath(2, 2, Direction.West));
-
-        visited[2][3] = 1;
-        assertEquals(false, t.hasValidPath(2, 2, Direction.North));
-        assertEquals(true, t.hasValidPath(2, 2, Direction.East));
-        assertEquals(true, t.hasValidPath(2, 2, Direction.South));
-        assertEquals(true, t.hasValidPath(2, 2, Direction.West));
-        visited[2][3] = 3;
-
-        visited[2][1] = 1;
-        assertEquals(true, t.hasValidPath(2, 2, Direction.North));
-        assertEquals(true, t.hasValidPath(2, 2, Direction.East));
-        assertEquals(false, t.hasValidPath(2, 2, Direction.South));
-        assertEquals(true, t.hasValidPath(2, 2, Direction.West));
-        visited[2][1] = 3;
-
-        visited[1][2] = 1;
-        assertEquals(true, t.hasValidPath(2, 2, Direction.North));
-        assertEquals(false, t.hasValidPath(2, 2, Direction.East));
-        assertEquals(true, t.hasValidPath(2, 2, Direction.South));
-        assertEquals(true, t.hasValidPath(2, 2, Direction.West));
-        visited[1][2] = 3;
-
-        visited[3][2] = 1;
-        assertEquals(true, t.hasValidPath(2, 2, Direction.North));
-        assertEquals(true, t.hasValidPath(2, 2, Direction.East));
-        assertEquals(true, t.hasValidPath(2, 2, Direction.South));
-        assertEquals(false, t.hasValidPath(2, 2, Direction.West));
-
     }
 
     @Test

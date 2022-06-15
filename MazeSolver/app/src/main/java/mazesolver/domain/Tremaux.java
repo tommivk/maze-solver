@@ -108,28 +108,6 @@ public class Tremaux {
     }
 
     /**
-     * Turns around 90 degrees.
-     */
-    public void turnSideWays() {
-        switch (this.previousDirection) {
-            case North:
-                this.previousDirection = Direction.West;
-                break;
-            case East:
-                this.previousDirection = Direction.North;
-                break;
-            case South:
-                this.previousDirection = Direction.East;
-                break;
-            case West:
-                this.previousDirection = Direction.South;
-                break;
-            default:
-                break;
-        }
-    }
-
-    /**
      * Checks if rectangle is a Junction or not.
      *
      * @param x X coordinate of the rectangle
@@ -195,8 +173,7 @@ public class Tremaux {
     }
 
     /**
-     * Advances one step forward. This method is only used when the square is not a
-     * junction.
+     * Advances one step forward straight towards the current direction.
      */
     public void advance() {
         Direction direction = this.previousDirection;
@@ -234,7 +211,7 @@ public class Tremaux {
     }
 
     /**
-     * Moves one step tright and updates previous direction.
+     * Moves one step right and updates previous direction.
      */
     public void moveRight() {
         this.x = this.x + 1;
@@ -407,71 +384,6 @@ public class Tremaux {
     }
 
     /**
-     * Checks if there is a contiguous square that has been visited less
-     * than 2 times.
-     * 
-     * @param x         X coordinate of the square.
-     * @param y         Y coordinate of the square.
-     * @param direction Previous direction.
-     * 
-     * @return returns true if there is.
-     */
-    public boolean hasValidPath(int x, int y, Direction direction) {
-        Rect current = maze[x][y];
-
-        Boolean hasTopWall = current.getTopWall();
-        Boolean hasRightWall = current.getRightWall();
-        Boolean hasLeftWall = current.getLeftWall();
-        Boolean hasBottomWall = current.getBottomWall();
-
-        if (direction != Direction.North && !hasBottomWall && visited[x][y + 1] < 2) {
-            return true;
-        }
-        if (direction != Direction.South && !hasTopWall && visited[x][y - 1] < 2) {
-            return true;
-        }
-        if (direction != Direction.West && !hasRightWall && visited[x + 1][y] < 2) {
-            return true;
-        }
-        if (direction != Direction.East && !hasLeftWall && visited[x - 1][y] < 2) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Checks if the square has a contiguos junction.
-     * 
-     * @param x         X coordinate of the square.
-     * @param y         Y coordinate of the square.
-     * @param direction Previous direction.
-     * 
-     * @return true if it has.
-     */
-    public boolean hasContiguousJunction(int x, int y, Direction direction) {
-        Rect current = maze[x][y];
-
-        Boolean hasTopWall = current.getTopWall();
-        Boolean hasRightWall = current.getRightWall();
-        Boolean hasLeftWall = current.getLeftWall();
-        Boolean hasBottomWall = current.getBottomWall();
-
-        if (direction != Direction.North && !hasBottomWall && isJunction(x, y + 1)) {
-            return true;
-        }
-        if (direction != Direction.South && !hasTopWall && isJunction(x, y - 1)) {
-            return true;
-        }
-        if (direction != Direction.West && !hasRightWall && isJunction(x + 1, y)) {
-            return true;
-        }
-        if (direction != Direction.East && !hasLeftWall && isJunction(x - 1, y)) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
      * Moves one step forward.
      */
     public void calculateNextMove() {
@@ -479,12 +391,7 @@ public class Tremaux {
 
         if (isDeadEnd()) {
             turnAround();
-            return;
-        }
-
-        if (!isJunction(this.x, this.y)) {
-            advance();
-            return;
+            markVisited();
         }
 
         if (tryMoveToTimesVisited(0)) {
@@ -493,6 +400,7 @@ public class Tremaux {
 
         if (!isPreviousVisitedTwice()) {
             turnAround();
+            advance();
             return;
         }
 
@@ -500,17 +408,15 @@ public class Tremaux {
             return;
         }
 
-        if (!hasValidPath(this.x, this.y, this.previousDirection)
-                && !hasContiguousJunction(this.x, this.y, this.previousDirection)) {
-            turnAround();
-        }
-        if (!hasValidPath(this.x, this.y, this.previousDirection)
-                && !hasContiguousJunction(this.x, this.y, this.previousDirection)) {
-            turnSideWays();
+        if (tryMoveToContiguousJunction(getLeastVisitedJunction())) {
+            return;
         }
 
-        int v = getLeastVisitedJunction();
-        tryMoveToContiguousJunction(v);
+        turnAround();
+
+        if (tryMoveToContiguousJunction(getLeastVisitedJunction())) {
+            return;
+        }
 
     }
 
@@ -520,6 +426,7 @@ public class Tremaux {
             calculateNextMove();
             moves++;
         }
+
         return moves;
     }
 }
