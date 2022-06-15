@@ -643,4 +643,20 @@ public class TremauxTest {
             assertEquals(i - 1, t.getY());
         }
     }
+
+    @Test
+    public void tremauxShouldBeAbleToSolveMazesGeneratedByGrowingTree() {
+        int i = 30;
+        for (int x = 5; x < 70; x++) {
+            GrowingTree ir = new GrowingTree(i);
+            Rect[][] maze = ir.generate();
+            Tremaux t = new Tremaux(maze);
+
+            t.solve();
+
+            assertEquals(i - 1, t.getX());
+            assertEquals(i - 1, t.getY());
+
+        }
+    }
 }
