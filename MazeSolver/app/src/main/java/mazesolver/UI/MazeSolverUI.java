@@ -16,6 +16,7 @@ import javafx.util.Duration;
 import mazesolver.domain.AStar;
 import mazesolver.domain.Edge;
 import mazesolver.domain.Kruskal;
+import mazesolver.domain.GrowingTree;
 import mazesolver.domain.Rect;
 import mazesolver.domain.Tremaux;
 import mazesolver.domain.WallFollower;
@@ -29,27 +30,32 @@ import javafx.scene.layout.VBox;
 
 public class MazeSolverUI extends Application {
     private Kruskal kruskal;
+    private GrowingTree growingTree;
     private Rect[][] maze;
     private WallFollower wallFollower;
     private AStar aStar;
     private Tremaux tremaux;
-    private int delay = 5;
+    private int delay = 30;
+    private int mazeGenerationDelay = 3;
+    private int mazeSize = 30;
     private SequentialTransition tremauxSequence = new SequentialTransition();
     private SequentialTransition wallFollowerSequence = new SequentialTransition();
     private SequentialTransition aStarSequence = new SequentialTransition();
     private SequentialTransition aStarResultSequence = new SequentialTransition();
+    private Stage stage;
+    private Label aStarTime = new Label(null);
+    private Label tremauxTime = new Label(null);
+    private Label wallFollowerTime = new Label(null);
 
     @Override
     public void start(Stage stage) throws Exception {
         stage.setTitle("Maze Solver");
         stage.setHeight(1000);
         stage.setWidth(1500);
-        int mazeSize = 30;
-
-        Scene scene = getScene(stage, mazeSize);
+        this.stage = stage;
+        Scene scene = mazeGeneratorChoiceScene();
         stage.setScene(scene);
         stage.show();
-
     }
 
     public void stopSequences() {
@@ -59,34 +65,122 @@ public class MazeSolverUI extends Application {
         aStarResultSequence.stop();
     }
 
-    public Scene getScene(Stage stage, int size) {
-        kruskal = new Kruskal();
-        maze = kruskal.generateEdges(size, size);
-        wallFollower = new WallFollower(maze);
-        tremaux = new Tremaux(maze);
-        aStar = new AStar(maze);
+    public Scene mazeGeneratorChoiceScene() {
+        VBox container = new VBox();
+        HBox delayBox = new HBox();
+        HBox mazeSelection = new HBox();
+        Label delayLabel = new Label("Animation delay in ms: ");
+        TextField delayField = new TextField(Integer.toString(this.mazeGenerationDelay));
+        delayField.setMaxWidth(150);
+        delayField.textProperty().addListener((observable, oldValue, newValue) -> {
+            try {
+                this.mazeGenerationDelay = Integer.parseInt(newValue);
+            } catch (NumberFormatException e) {
+            }
+        });
+        delayBox.getChildren().addAll(delayLabel, delayField);
+        Button chooseKruskal = new Button("Kruskal's");
+        chooseKruskal.setOnMouseClicked(event -> {
+            Scene scene = getKruskalScene();
+            stage.setScene(scene);
+            stage.show();
 
-        VBox statistics = new VBox();
+        });
 
-        Label title = new Label("Algorithm | Time taken in ms");
-        title.setStyle("-fx-font-size: 14; -fx-font-weight: bold;");
+        Button chooseGrowingTree = new Button("Growing tree");
+        chooseGrowingTree.setOnMouseClicked(event -> {
+            Scene scene = getGrowingTreeScene();
+            stage.setScene(scene);
+            stage.show();
+        });
 
-        HBox tremauxStats = new HBox();
-        Label tremauxLabel = new Label("Tremaux's: ");
-        Label tremauxTime = new Label("");
-        tremauxStats.getChildren().addAll(tremauxLabel, tremauxTime);
+        mazeSelection.setAlignment(Pos.CENTER);
+        delayBox.setAlignment(Pos.CENTER);
+        container.setAlignment(Pos.CENTER);
+        mazeSelection.getChildren().addAll(chooseKruskal, chooseGrowingTree);
+        HBox.setMargin(chooseKruskal, new Insets(0, 10, 0, 0));
+        VBox.setMargin(delayBox, new Insets(30, 0, 0, 0));
+        container.getChildren().addAll(mazeSelection, delayBox);
+        return new Scene(container);
+    }
 
-        HBox wallFollowerStats = new HBox();
-        Label wallFollowerLabel = new Label("Wall Follower: ");
-        Label wallFollowerTime = new Label(null);
-        wallFollowerStats.getChildren().addAll(wallFollowerLabel, wallFollowerTime);
+    public Scene getGrowingTreeScene() {
+        this.growingTree = new GrowingTree(mazeSize);
+        this.maze = growingTree.generate();
 
-        HBox aStarStats = new HBox();
-        Label aStarLabel = new Label("A*: ");
-        Label aStarTime = new Label("");
-        aStarStats.getChildren().addAll(aStarLabel, aStarTime);
+        this.wallFollower = new WallFollower(maze);
+        this.tremaux = new Tremaux(maze);
+        this.aStar = new AStar(maze);
 
-        statistics.getChildren().addAll(title, tremauxStats, wallFollowerStats, aStarStats);
+        GridPane pane = new GridPane();
+        pane.setAlignment(Pos.CENTER);
+
+        for (int i = 0; i < mazeSize; i++) {
+            for (int k = 0; k < mazeSize; k++) {
+                pane.add(maze[i][k].getRectangle(), i, k);
+            }
+        }
+        HBox container = new HBox();
+        container.setAlignment(Pos.CENTER);
+        VBox controls = getControlButtons();
+        VBox statistics = getStatistics();
+        container.getChildren().addAll(controls, pane, statistics);
+        HBox.setMargin(statistics, new Insets(40, 20, 20, 20));
+        HBox.setMargin(controls, new Insets(40, 20, 20, 20));
+        return new Scene(container);
+    }
+
+    public Scene getKruskalScene() {
+        this.kruskal = new Kruskal();
+        this.maze = kruskal.generateEdges(mazeSize, mazeSize);
+        this.wallFollower = new WallFollower(maze);
+        this.tremaux = new Tremaux(maze);
+        this.aStar = new AStar(maze);
+        List<Edge> edges = kruskal.getEdges();
+        Timeline[] timelines = new Timeline[edges.size()];
+        for (int i = 0; i < edges.size(); i++) {
+            final int index = i;
+            Timeline timeline = new Timeline(
+                    new KeyFrame(Duration.millis(this.mazeGenerationDelay), e -> {
+                        kruskal.kruskalStep(edges.get(index));
+                    }));
+            timelines[i] = timeline;
+        }
+        SequentialTransition sequence = new SequentialTransition(timelines);
+        sequence.play();
+        sequence.setOnFinished(e -> {
+            Scene scene = getMainScene();
+            stage.setScene(scene);
+            stage.show();
+        });
+
+        GridPane pane = new GridPane();
+        pane.setAlignment(Pos.CENTER);
+
+        for (int i = 0; i < mazeSize; i++) {
+            for (int k = 0; k < mazeSize; k++) {
+                pane.add(maze[i][k].getRectangle(), i, k);
+            }
+        }
+
+        return new Scene(pane);
+
+    }
+
+    public VBox getControlButtons() {
+        VBox navigation = new VBox();
+
+        HBox delayBox = new HBox();
+        Label delayLabel = new Label("Delay in ms: ");
+        TextField delayField = new TextField(Integer.toString(this.delay));
+        delayField.setMaxWidth(150);
+        delayField.textProperty().addListener((observable, oldValue, newValue) -> {
+            try {
+                this.delay = Integer.parseInt(newValue);
+            } catch (NumberFormatException e) {
+            }
+        });
+        delayBox.getChildren().addAll(delayLabel, delayField);
 
         Button wfSolveButton = new Button("Wall follower");
         wfSolveButton.setOnMouseClicked(event -> {
@@ -97,6 +191,7 @@ public class MazeSolverUI extends Application {
             int moves = wallFollower.solve();
             long end = System.nanoTime();
             double timeTaken = (end - start) / 1000000.0;
+            this.wallFollowerTime.setText(Double.toString(timeTaken));
             wallFollower.reset();
 
             Timeline[] timelines = new Timeline[moves];
@@ -114,10 +209,6 @@ public class MazeSolverUI extends Application {
             }
             this.wallFollowerSequence = new SequentialTransition(timelines);
 
-            wallFollowerSequence.setOnFinished(e -> {
-                wallFollowerTime.setText(Double.toString(timeTaken));
-            });
-
             wallFollowerSequence.play();
 
         });
@@ -131,7 +222,7 @@ public class MazeSolverUI extends Application {
             long end = System.nanoTime();
 
             double timeTaken = (end - start) / 1000000.0;
-            aStarTime.setText(Double.toString(timeTaken));
+            this.aStarTime.setText(Double.toString(timeTaken));
 
             List<Rect> visited = aStar.getSequence();
 
@@ -191,6 +282,8 @@ public class MazeSolverUI extends Application {
             int moves = tremaux.solve();
             long end = System.nanoTime();
             double timeTaken = (end - start) / 1000000.0;
+            this.tremauxTime.setText(Double.toString(timeTaken));
+
             tremaux.reset();
 
             Timeline[] timelines = new Timeline[moves];
@@ -209,10 +302,6 @@ public class MazeSolverUI extends Application {
             }
             this.tremauxSequence = new SequentialTransition(timelines);
 
-            tremauxSequence.setOnFinished(e -> {
-                tremauxTime.setText(Double.toString(timeTaken));
-            });
-
             tremauxSequence.play();
         });
 
@@ -220,7 +309,10 @@ public class MazeSolverUI extends Application {
         restartButton.setOnMouseClicked(event -> {
             tremauxSequence.stop();
             wallFollowerSequence.stop();
-            Scene scene = getScene(stage, size);
+            this.aStarTime.setText(null);
+            this.tremauxTime.setText(null);
+            this.wallFollowerTime.setText(null);
+            Scene scene = mazeGeneratorChoiceScene();
             stage.setScene(scene);
             stage.show();
         });
@@ -233,61 +325,59 @@ public class MazeSolverUI extends Application {
             wallFollower.reset();
             aStar.reset();
         });
-
-        VBox delayBox = new VBox();
-        Label delayText = new Label("Delay in ms: ");
-        TextField delayAmount = new TextField(Integer.toString(delay));
-        delayBox.setMaxWidth(200);
-        delayAmount.textProperty().addListener((_observable, _oldValue, newValue) -> {
-            this.delay = Integer.parseInt(newValue);
-        });
-        delayBox.getChildren().addAll(delayText, delayAmount);
-
-        VBox navigation = new VBox();
-
-        Button newMazeButton = new Button("generate maze");
-        newMazeButton.setOnMouseClicked(event -> {
-            List<Edge> edges = kruskal.getEdges();
-            Timeline[] timelines = new Timeline[edges.size()];
-            for (int i = 0; i < edges.size(); i++) {
-                final int index = i;
-                Timeline timeline = new Timeline(
-                        new KeyFrame(Duration.millis(this.delay), e -> {
-                            kruskal.kruskalStep(edges.get(index));
-                        }));
-                timelines[i] = timeline;
-            }
-            SequentialTransition sequence = new SequentialTransition(timelines);
-            sequence.play();
-            sequence.setOnFinished(e -> {
-                navigation.getChildren().add(wfSolveButton);
-                navigation.getChildren().add(startTremaux);
-                navigation.getChildren().add(startAStar);
-                navigation.getChildren().add(restartButton);
-                navigation.getChildren().add(clearButton);
-                navigation.getChildren().remove(newMazeButton);
-            });
-        });
-
-        navigation.getChildren().add(newMazeButton);
         navigation.getChildren().add(delayBox);
-        navigation.setPrefWidth(300);
+        navigation.getChildren().add(wfSolveButton);
+        navigation.getChildren().add(startTremaux);
+        navigation.getChildren().add(startAStar);
+        navigation.getChildren().add(restartButton);
+        navigation.getChildren().add(clearButton);
+        return navigation;
 
+    }
+
+    public Scene getMainScene() {
+        VBox statistics = getStatistics();
+        VBox navigation = getControlButtons();
         GridPane pane = new GridPane();
-        pane.setAlignment(Pos.CENTER_RIGHT);
+        pane.setAlignment(Pos.CENTER);
 
-        HBox mainContainer = new HBox();
-        mainContainer.getChildren().addAll(navigation, pane, statistics);
-        HBox.setMargin(statistics, new Insets(40, 20, 20, 20));
-        HBox.setMargin(navigation, new Insets(40, 20, 20, 20));
-
-        for (int i = 0; i < size; i++) {
-            for (int k = 0; k < size; k++) {
+        for (int i = 0; i < mazeSize; i++) {
+            for (int k = 0; k < mazeSize; k++) {
                 pane.add(maze[i][k].getRectangle(), i, k);
             }
         }
 
-        return new Scene(mainContainer);
+        HBox container = new HBox();
+        HBox.setMargin(statistics, new Insets(40, 20, 20, 20));
+        HBox.setMargin(navigation, new Insets(40, 20, 20, 20));
+        container.setAlignment(Pos.CENTER);
+        container.getChildren().addAll(navigation, pane, statistics);
+        return new Scene(container);
+    }
+
+    public VBox getStatistics() {
+
+        VBox statistics = new VBox();
+
+        Label title = new Label("Algorithm | Time taken in ms");
+        title.setStyle("-fx-font-size: 14; -fx-font-weight: bold;");
+
+        HBox tremauxStats = new HBox();
+        Label tremauxLabel = new Label("Tremaux's: ");
+        tremauxStats.getChildren().addAll(tremauxLabel, tremauxTime);
+
+        HBox wallFollowerStats = new HBox();
+        Label wallFollowerLabel = new Label("Wall Follower: ");
+
+        wallFollowerStats.getChildren().addAll(wallFollowerLabel, wallFollowerTime);
+
+        HBox aStarStats = new HBox();
+        Label aStarLabel = new Label("A*: ");
+        aStarStats.getChildren().addAll(aStarLabel, aStarTime);
+
+        statistics.getChildren().addAll(title, tremauxStats, wallFollowerStats, aStarStats);
+
+        return statistics;
     }
 
     public static void main(String[] args) {
