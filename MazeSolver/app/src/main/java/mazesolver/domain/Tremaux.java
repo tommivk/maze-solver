@@ -263,17 +263,24 @@ public class Tremaux {
      * @return returns true if square has been visited twice or more.
      */
     public boolean isPreviousVisitedTwice() {
+        Rect current = maze[this.x][this.y];
+
+        boolean hasTopWall = current.getTopWall();
+        boolean hasRightWall = current.getRightWall();
+        boolean hasBottomWall = current.getBottomWall();
+        boolean hasLeftWall = current.getLeftWall();
+
         switch (this.previousDirection) {
             case North:
-                return visited[this.x][this.y + 1] >= 2;
+                return !hasBottomWall ? visited[this.x][this.y + 1] >= 2 : true;
             case East:
-                return visited[this.x - 1][this.y] >= 2;
+                return !hasLeftWall ? visited[this.x - 1][this.y] >= 2 : true;
             case South:
-                return visited[this.x][this.y - 1] >= 2;
+                return !hasTopWall ? visited[this.x][this.y - 1] >= 2 : true;
             case West:
-                return visited[this.x + 1][this.y] >= 2;
+                return !hasRightWall ? visited[this.x + 1][this.y] >= 2 : true;
             default:
-                return false;
+                return true;
         }
     }
 
