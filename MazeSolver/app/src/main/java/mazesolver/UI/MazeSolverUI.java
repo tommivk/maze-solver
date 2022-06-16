@@ -2,6 +2,7 @@ package mazesolver.UI;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.List;
 
@@ -106,11 +107,38 @@ public class MazeSolverUI extends Application {
 
     public Scene getGrowingTreeScene() {
         this.growingTree = new GrowingTree(mazeSize);
-        this.maze = growingTree.generate();
-
+        this.maze = growingTree.getMaze();
         this.wallFollower = new WallFollower(maze);
         this.tremaux = new Tremaux(maze);
         this.aStar = new AStar(maze);
+
+        int steps = 2000;
+
+        Timeline[] timelines = new Timeline[steps];
+        for (int i = 0; i < steps; i++) {
+
+            Deque<Rect> stack = growingTree.getStack();
+            Timeline timeline = new Timeline(
+                    new KeyFrame(Duration.millis(this.mazeGenerationDelay), e -> {
+                        if (!stack.isEmpty()) {
+                            growingTree.growingTreeStep();
+                            clearMazeBackground();
+                            this.maze[growingTree.getX()][growingTree.getY()].paintGreen();
+
+                        }
+
+                    }));
+            timelines[i] = timeline;
+        }
+        SequentialTransition sequence = new SequentialTransition(timelines);
+
+        sequence.setOnFinished(e -> {
+            clearMazeBackground();
+            Scene scene = getMainScene();
+            stage.setScene(scene);
+            stage.show();
+        });
+        sequence.play();
 
         GridPane pane = new GridPane();
         pane.setAlignment(Pos.CENTER);
@@ -120,14 +148,16 @@ public class MazeSolverUI extends Application {
                 pane.add(maze[i][k].getRectangle(), i, k);
             }
         }
-        HBox container = new HBox();
-        container.setAlignment(Pos.CENTER);
-        VBox controls = getControlButtons();
-        VBox statistics = getStatistics();
-        container.getChildren().addAll(controls, pane, statistics);
-        HBox.setMargin(statistics, new Insets(40, 20, 20, 20));
-        HBox.setMargin(controls, new Insets(40, 20, 20, 20));
-        return new Scene(container);
+
+        return new Scene(pane);
+    }
+
+    public void clearMazeBackground() {
+        for (int i = 0; i < maze.length; i++) {
+            for (int j = 0; j < maze.length; j++) {
+                maze[i][j].removeBackground();
+            }
+        }
     }
 
     public Scene getKruskalScene() {
@@ -184,6 +214,7 @@ public class MazeSolverUI extends Application {
 
         Button wfSolveButton = new Button("Wall follower");
         wfSolveButton.setOnMouseClicked(event -> {
+            this.wallFollower = new WallFollower(maze);
             stopSequences();
             wallFollower.reset();
 

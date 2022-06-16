@@ -648,8 +648,8 @@ public class TremauxTest {
     public void tremauxShouldBeAbleToSolveMazesGeneratedByGrowingTree() {
         int i = 30;
         for (int x = 5; x < 70; x++) {
-            GrowingTree ir = new GrowingTree(i);
-            Rect[][] maze = ir.generate();
+            GrowingTree growingTree = new GrowingTree(i);
+            Rect[][] maze = growingTree.generateMaze();
             Tremaux t = new Tremaux(maze);
 
             t.solve();
