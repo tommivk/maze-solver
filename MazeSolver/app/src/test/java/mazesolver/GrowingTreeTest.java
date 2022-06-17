@@ -6,6 +6,8 @@ import mazesolver.domain.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.Deque;
+
 public class GrowingTreeTest {
 
     @Test
@@ -66,6 +68,17 @@ public class GrowingTreeTest {
                     || !rect.getLeftWall();
             assertEquals(true, isWallRemoved);
         }
+    }
+
+    @Test
+    public void initialStackSizeAndContentIsCorrect() {
+        int mazeSize = 10;
+        GrowingTree growingTree = new GrowingTree(mazeSize);
+        Deque<Rect> stack = growingTree.getStack();
+        assertEquals(1, stack.size());
+        Rect rect = stack.pop();
+        assertEquals(0, rect.getX());
+        assertEquals(0, rect.getY());
     }
 
 }
