@@ -7,13 +7,38 @@ import java.util.List;
 import java.util.Random;
 
 public class GrowingTree {
+    /**
+     * A two dimensional array of Rect objects that represents a maze.
+     */
     private Rect[][] maze;
+    /**
+     * A Two dimensional boolean array. The value is true if the square has been
+     * processed by the algorithm.
+     */
     private boolean[][] visited;
+    /**
+     * A Stack of rect objects.
+     */
     private Deque<Rect> stack;
+    /**
+     * Used for generating random numbers.
+     */
     private Random random;
+    /**
+     * The X coordinate of the last node that has been processed.
+     */
     private int x = 0;
+    /**
+     * The Y coordinate of the last node that has been processed.
+     */
     private int y = 0;
 
+    /**
+     * A Growing tree algorithm that is used for generating mazes. It's basically a
+     * iterative version of a Recursive backtracking algorithm.
+     * 
+     * @param mazeSize The size of the maze.
+     */
     public GrowingTree(int mazeSize) {
         this.maze = new Rect[mazeSize][mazeSize];
         this.visited = new boolean[mazeSize][mazeSize];
@@ -80,6 +105,11 @@ public class GrowingTree {
         return neighbours;
     }
 
+    /**
+     * Generates a maze using the Growing Tree algorithm.
+     * 
+     * @return Two dimensional array of Rect objects that represents the maze.
+     */
     public Rect[][] generateMaze() {
         while (!stack.isEmpty()) {
             growingTreeStep();
@@ -87,6 +117,15 @@ public class GrowingTree {
         return this.maze;
     }
 
+    /**
+     * Processes one iteration of the algorithm.
+     * 
+     * - Gets the first node of the stack and sets it as current.
+     * - Chooses a random unvisited neigbour of the current node and removes the
+     * wall between it and the current node.
+     * - If the current node has no unvisited neighbours, the current node
+     * is removed from the stack.
+     */
     public void growingTreeStep() {
         Rect current = stack.peek();
 

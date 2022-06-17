@@ -20,9 +20,21 @@ public class Rect {
      * Region object that represents a single square in the maze.
      */
     private Region rect;
+    /**
+     * True if the rectangle has top border.
+     */
     private boolean topWall = true;
+    /**
+     * True if the rectangle has a right border.
+     */
     private boolean rightWall = true;
+    /**
+     * True if the rectangle has a bottom border.
+     */
     private boolean bottomWall = true;
+    /**
+     * True if the rectangle has a left border.
+     */
     private boolean leftWall = true;
     /**
      * Keeps count of times that the rectangle has been painted.
