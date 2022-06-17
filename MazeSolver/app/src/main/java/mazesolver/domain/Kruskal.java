@@ -22,7 +22,7 @@ public class Kruskal {
     /**
      * A two dimensional array of Rect objects that represents the maze.
      */
-    private Rect[][] rectangles;
+    private Rect[][] maze;
 
     public Tree[][] getTrees() {
         return this.trees;
@@ -32,8 +32,8 @@ public class Kruskal {
         return this.edges;
     }
 
-    public Rect[][] getRectangles() {
-        return this.rectangles;
+    public Rect[][] getMaze() {
+        return this.maze;
     }
 
     /**
@@ -45,7 +45,7 @@ public class Kruskal {
      */
     public Rect[][] generateEdges(int height, int width) {
         this.trees = new Tree[width][height];
-        this.rectangles = new Rect[width][height];
+        this.maze = new Rect[width][height];
 
         ArrayList<Edge> edges = new ArrayList<Edge>();
 
@@ -71,12 +71,12 @@ public class Kruskal {
                 }
 
                 trees[x][y] = new Tree();
-                rectangles[x][y] = new Rect(x, y);
+                maze[x][y] = new Rect(x, y);
             }
         }
 
         this.edges = shuffleEdges(edges);
-        return this.rectangles;
+        return this.maze;
     }
 
     /**
@@ -106,8 +106,8 @@ public class Kruskal {
             if (!current.isConnected(tree)) {
                 current.connect(tree);
 
-                rectangles[x][y].removeLeftWall();
-                rectangles[x - 1][y].removeRightWall();
+                maze[x][y].removeLeftWall();
+                maze[x - 1][y].removeRightWall();
             }
         }
 
@@ -116,8 +116,8 @@ public class Kruskal {
             if (!current.isConnected(tree)) {
                 current.connect(tree);
 
-                rectangles[x][y].removeTopWall();
-                rectangles[x][y - 1].removeBottomWall();
+                maze[x][y].removeTopWall();
+                maze[x][y - 1].removeBottomWall();
             }
         }
 
@@ -126,8 +126,8 @@ public class Kruskal {
             if (!current.isConnected(tree)) {
                 current.connect(tree);
 
-                rectangles[x][y].removeRightWall();
-                rectangles[x + 1][y].removeLeftWall();
+                maze[x][y].removeRightWall();
+                maze[x + 1][y].removeLeftWall();
             }
         }
 
@@ -136,8 +136,8 @@ public class Kruskal {
             if (!current.isConnected(tree)) {
                 current.connect(tree);
 
-                rectangles[x][y].removeBottomWall();
-                rectangles[x][y + 1].removeTopWall();
+                maze[x][y].removeBottomWall();
+                maze[x][y + 1].removeTopWall();
             }
         }
     }
