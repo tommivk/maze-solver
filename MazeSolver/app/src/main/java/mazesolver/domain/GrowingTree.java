@@ -46,6 +46,10 @@ public class GrowingTree {
         return this.y;
     }
 
+    public void setVisited(boolean[][] visited) {
+        this.visited = visited;
+    }
+
     public void reset() {
         this.maze = new Rect[mazeSize][mazeSize];
 
