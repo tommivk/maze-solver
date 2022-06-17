@@ -119,6 +119,26 @@ public class WallFollowerTest {
     }
 
     @Test
+    public void paintGreenWorksCorrectly() {
+        Rect[][] maze = wf.getMaze();
+        Rect rect = maze[0][0];
+        Region region = rect.getRectangle();
+        assertEquals("", region.getStyle());
+        wf.paintGreen();
+        assertEquals("-fx-background-color: rgb(0,255,0); -fx-background-insets: 4px", region.getStyle());
+    }
+
+    @Test
+    public void solveStopsWhenEndIsReached() {
+        Rect[][] maze = wf.getMaze();
+        int size = maze.length;
+        wf.setX(size - 1);
+        wf.setY(size - 1);
+        int moves = wf.solve();
+        assertEquals(0, moves);
+    }
+
+    @Test
     public void solvingMazeStopsAtEndCoordinates() {
         Kruskal k = new Kruskal();
         Rect[][] maze = k.generateEdges(30, 30);
