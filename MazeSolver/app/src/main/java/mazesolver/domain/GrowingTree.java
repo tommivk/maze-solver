@@ -50,21 +50,6 @@ public class GrowingTree {
         this.visited = visited;
     }
 
-    public void reset() {
-        this.maze = new Rect[mazeSize][mazeSize];
-
-        for (int i = 0; i < mazeSize; i++) {
-            for (int j = 0; j < mazeSize; j++) {
-                this.maze[i][j] = new Rect(i, j);
-            }
-        }
-
-        this.visited = new boolean[mazeSize][mazeSize];
-        this.random = new Random();
-        this.stack = new ArrayDeque<Rect>();
-        this.stack.push(maze[0][0]);
-    }
-
     public List<Rect> getUnvisitedNeighbours(Rect current) {
         List<Rect> neighbours = new ArrayList<Rect>();
         this.x = current.getX();
