@@ -11,14 +11,12 @@ public class GrowingTree {
     private boolean[][] visited;
     private Deque<Rect> stack;
     private Random random;
-    private int mazeSize;
     private int x = 0;
     private int y = 0;
 
     public GrowingTree(int mazeSize) {
         this.maze = new Rect[mazeSize][mazeSize];
         this.visited = new boolean[mazeSize][mazeSize];
-        this.mazeSize = mazeSize;
 
         for (int i = 0; i < mazeSize; i++) {
             for (int j = 0; j < mazeSize; j++) {
