@@ -11,11 +11,29 @@ import java.util.PriorityQueue;
  * A* algorithm. Used for solving mazes.
  */
 public class AStar {
+    /**
+     * A Map of manhattan distances from a node to the starting node.
+     */
     private HashMap<Rect, Integer> distancesToStart = new HashMap<Rect, Integer>();
+    /**
+     * A node parent map.
+     */
     private HashMap<Rect, Rect> parents = new HashMap<Rect, Rect>();
+    /**
+     * A Set of Rect objects that have been processed by the algorithm.
+     */
     private HashSet<Rect> visited = new HashSet<Rect>();
+    /**
+     * A Map of manhattan distances.
+     */
     private HashMap<Rect, Integer> predictedDistances = new HashMap<Rect, Integer>();
+    /**
+     * An ordered list of processed Rect objects.
+     */
     private List<Rect> sequence = new ArrayList<Rect>();
+    /**
+     * Two dimensional array of Rect objects that represents a maze.
+     */
     private Rect[][] maze;
 
     /**

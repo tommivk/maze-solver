@@ -15,7 +15,13 @@ public class Kruskal {
      * List that contains all the possible edges in the maze.
      */
     private List<Edge> edges;
+    /**
+     * A two dimensional array of trees.
+     */
     private Tree[][] trees;
+    /**
+     * A two dimensional array of Rect objects that represents the maze.
+     */
     private Rect[][] rectangles;
 
     public Tree[][] getTrees() {
