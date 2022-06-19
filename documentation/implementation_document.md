@@ -7,8 +7,7 @@
 
 # Comparative performance analysis
 
-## Performance
-
+## Performance - Maze generation algorithms
  ### Kruskal 
  #### Time taken to generate a maze before the tree merging optimization
  
@@ -89,6 +88,89 @@ Generating mazes with the first version of Kruskal's seemed to be reasonably eff
 |        1200x1200   |        8938  |
 
 The Growing Tree algorithm seems to be  a lot faster than Kruskal's when it comes down to generating mazes. However when the maze size was bigger than 1200x1200 the java heap space limit was reached. 
+
+## Performance -  Maze solving algorithms
+
+### Tremaux's
+#### Time taken to solve a maze generated with Kruskal's
+ 
+| Size of the maze | Average time in milliseconds |  
+| :---:            | :---:        |
+|    10x10        |       0.029          |
+|      20x20      |        0.045     |
+|      30x30      |        0.115         | 
+|      40x40      |         0.184       |
+|      50x50      |        0.246         |
+|      60x60      |         0.44       |
+|      70x70      |        0.6 |
+|       80x80     |       0.87     |
+|       90x90     |      1.06     |
+|        100x100    |     1.59    |
+|       110x110    |      1.76    |
+|       120x120    |     2.25    |
+|        150x150   |      3.62   |
+|        200x200   |      5.7   |
+|        300x300   |     13.33     |
+|        400x400   |     21.8   |
+|        500x500   |    33.63     |
+|        700x700   |    84.7    |
+|        900x900   |      170.6    |
+|        1000x1000   |     205    |
+|        1200x1200   |    245    |
+
+### Wall Follower
+#### Time taken to solve a maze generated with Kruskal's
+ 
+| Size of the maze | Average time in milliseconds |  
+| :---:            | :---:        |
+|    10x10        |       0.007          |
+|      20x20      |         0.016    |
+|      30x30      |         0.04        | 
+|      40x40      |          0.066      |
+|      50x50      |        0.132         |
+|      60x60      |        0.18        |
+|      70x70      |      0.27   |
+|       80x80     |       0.43     |
+|       90x90     |        0.49   |
+|        100x100    |     0.78 |
+|       110x110    |      0.96    |
+|       120x120    |      1   |
+|        150x150   |      1.87 |
+|        200x200   |       3.13  |
+|        300x300   |      6.6     |
+|        400x400   |      15.49  |
+|        500x500   |      18.86   |
+|        700x700   |     56.11    |
+|        900x900   |     93.7     |
+|        1000x1000   |    105     |
+|        1200x1200   |     128   |
+
+### A*
+#### Time taken to solve a maze generated with Kruskal's
+ 
+| Size of the maze | Average time in milliseconds |  
+| :---:            | :---:        |
+|    10x10        |     0.13            |
+|      20x20      |      0.25       |
+|      30x30      |        0.66         | 
+|      40x40      |      1.13          |
+|      50x50      |       2          |
+|      60x60      |       2.99         |
+|      70x70      |      4.48   |
+|       80x80     |      6.46      |
+|       90x90     |      9.5     |
+|        100x100    |   13.4   |
+|       110x110    |     17.54     |
+|       120x120    |     21.3    |
+|        150x150   |     35    |
+|        200x200   |    71.4     |
+|        300x300   |    163     |
+|        400x400   |    393.4    |
+|        500x500   |    624.8     |
+|        700x700   |    1971.5    |
+|        900x900   |      5449.2    |
+|        1000x1000   |     7745    |
+|        1200x1200   |     15975   |
 
 
 ## Possible flaws and improvements
