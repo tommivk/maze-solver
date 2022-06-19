@@ -8,6 +8,10 @@ public class Tree {
      * The parent Tree of the tree.
      */
     private Tree parent = null;
+    /**
+     * Rank of the tree.
+     */
+    private int rank = 0;
 
     /**
      * Sets the parent of the tree.
@@ -16,6 +20,22 @@ public class Tree {
      */
     public void setParent(Tree tree) {
         this.parent = tree;
+    }
+
+    /**
+     * Increases trees rank by one.
+     */
+    public void increaseRank() {
+        this.rank++;
+    }
+
+    /**
+     * Returns the rank of the tree.
+     * 
+     * @return Integer
+     */
+    public int getRank() {
+        return this.rank;
     }
 
     /**
@@ -47,12 +67,22 @@ public class Tree {
     }
 
     /**
-     * Connects two trees together.
+     * Connects two trees together using union by rank.
      *
      * @param tree a Tree object.
      */
     public void connect(Tree tree) {
-        tree.getRoot().setParent(this);
+        Tree xRoot = this.getRoot();
+        Tree yRoot = tree.getRoot();
+
+        if (xRoot.getRank() < yRoot.getRank()) {
+            xRoot.setParent(yRoot);
+        } else if (yRoot.getRank() < xRoot.getRank()) {
+            yRoot.setParent(xRoot);
+        } else {
+            xRoot.setParent(yRoot);
+            yRoot.increaseRank();
+        }
     }
 
 }
