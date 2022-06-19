@@ -89,15 +89,13 @@ public class RectTest {
         rect.paint();
         assertEquals("-fx-background-color: rgb(210,0,0); -fx-background-insets: 4px", rect.getRectangle().getStyle());
         rect.paint();
-        assertEquals("-fx-background-color: rgb(180,0,0); -fx-background-insets: 4px", rect.getRectangle().getStyle());
+        assertEquals("-fx-background-color: rgb(165,0,0); -fx-background-insets: 4px", rect.getRectangle().getStyle());
         rect.paint();
-        assertEquals("-fx-background-color: rgb(140,0,0); -fx-background-insets: 4px", rect.getRectangle().getStyle());
+        assertEquals("-fx-background-color: rgb(120,0,0); -fx-background-insets: 4px", rect.getRectangle().getStyle());
         rect.paint();
-        assertEquals("-fx-background-color: rgb(100,0,0); -fx-background-insets: 4px", rect.getRectangle().getStyle());
+        assertEquals("-fx-background-color: rgb(75,0,0); -fx-background-insets: 4px", rect.getRectangle().getStyle());
         rect.paint();
-        assertEquals("-fx-background-color: rgb(90,0,0); -fx-background-insets: 4px", rect.getRectangle().getStyle());
-        rect.paint();
-        assertEquals("-fx-background-color: rgb(40,0,0); -fx-background-insets: 4px", rect.getRectangle().getStyle());
+        assertEquals("-fx-background-color: rgb(30,0,0); -fx-background-insets: 4px", rect.getRectangle().getStyle());
     }
 
 }
