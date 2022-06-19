@@ -20,9 +20,14 @@ All of the following commands should be run inside the `MazeSolver` directory.
 ./gradlew run
 ```
 
-### Running tests
+### Running unit tests
 ```
 ./gradlew test
+```
+
+### Running integration tests
+```
+./gradlew integrationTest
 ```
 
 ### Generating Jacoco test report
