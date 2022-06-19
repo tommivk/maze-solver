@@ -24,7 +24,7 @@ public class AStar {
      */
     private HashSet<Rect> visited = new HashSet<Rect>();
     /**
-     * A Map of manhattan distances.
+     * A Map of predicted manhattan distances from a node to the end node.
      */
     private HashMap<Rect, Integer> predictedDistances = new HashMap<Rect, Integer>();
     /**
@@ -62,6 +62,33 @@ public class AStar {
      */
     public List<Rect> getSequence() {
         return this.sequence;
+    }
+
+    /**
+     * Gets map of manhattan distances from a node to starting node.
+     * 
+     * @return A HashMap of manhattan distances.
+     */
+    public HashMap<Rect, Integer> getDistancesToStart() {
+        return this.distancesToStart;
+    }
+
+    /**
+     * Gets map of predicted manhattan distances from a node to the end node.
+     * 
+     * @return A HashMap of manhattan distances.
+     */
+    public HashMap<Rect, Integer> getPredictedDistances() {
+        return this.predictedDistances;
+    }
+
+    /**
+     * Gets the Set of the visited rectangles.
+     * 
+     * @return HashSet containing all of the visited rectangles.
+     */
+    public HashSet<Rect> getVisited() {
+        return this.visited;
     }
 
     /**
