@@ -30,7 +30,7 @@
 |        300x300   |      123192       |
 |        400x400   |      986674       |
 
-Generating mazes with the first version of Kruskal's seemed to be reasonably effective when the maze size is 100x100 or smaller. After this the algorithm slowed down considerably. This was due to increased recursive depth when checking if a tree is connected to another tree. I got an excellent tip from my peer reviewer who suggested to looking into optimizing the connect method that merges two trees together. After implementing connect by rank tree merging, the recursive depth is decreased and the algorithm is now able to generate larger mazes a lot faster.
+Generating mazes with the first version of Kruskal's seemed to be reasonably effective when the maze size is 100x100 or smaller. After this the algorithm slowed down considerably. This was due to increased recursive depth when checking if a tree is connected to another tree. I got an excellent tip from my peer reviewer who suggested me to look into optimizing the connect method that merges two trees together. After implementing connect by rank tree merging, the recursive depth is decreased and the algorithm is now able to generate larger mazes a lot faster.
 
  #### Time taken to generate a maze after the tree merging optimization
  
@@ -87,7 +87,7 @@ Generating mazes with the first version of Kruskal's seemed to be reasonably eff
 |        1000x1000   |      3232    |
 |        1200x1200   |        8938  |
 
-The Growing Tree algorithm seems to be  a lot faster than Kruskal's when it comes down to generating mazes. However when the maze size was bigger than 1200x1200 the java heap space limit was reached. 
+The Growing Tree algorithm seems to be  about 4 times faster than Kruskal's when it comes down to generating mazes. When the maze size was bigger than 1200x1200 the java heap space limit was reached. 
 
 ## Performance -  Maze solving algorithms
 
