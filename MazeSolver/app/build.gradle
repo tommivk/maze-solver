@@ -57,6 +57,9 @@ tasks.named('test') {
     useJUnitPlatform()
 }
 
+test {
+    exclude 'mazesolver/IntegrationTests/**'
+}
 
 checkstyleMain
     .exclude('**mazesolver/UI/****')
