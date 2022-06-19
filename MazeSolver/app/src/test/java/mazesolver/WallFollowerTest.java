@@ -13,6 +13,7 @@ import org.junit.jupiter.api.BeforeEach;
 public class WallFollowerTest {
     WallFollower wf;
     Rect[][] maze;
+    Rect[][] mazeWithJunctions;
 
     @BeforeEach
     public void setup() {
@@ -23,6 +24,8 @@ public class WallFollowerTest {
             }
         }
         this.wf = new WallFollower(maze);
+        TestMaze tm = new TestMaze();
+        this.mazeWithJunctions = tm.getMazeWithJunctions();
     }
 
     @Test
@@ -140,13 +143,12 @@ public class WallFollowerTest {
 
     @Test
     public void solvingMazeStopsAtEndCoordinates() {
-        Kruskal k = new Kruskal();
-        Rect[][] maze = k.generateEdges(30, 30);
-        k.generateMaze();
-        WallFollower wallFollower = new WallFollower(maze);
+        int size = mazeWithJunctions.length;
+
+        WallFollower wallFollower = new WallFollower(mazeWithJunctions);
         wallFollower.solve();
-        assertEquals(29, wallFollower.getX());
-        assertEquals(29, wallFollower.getY());
+        assertEquals(size - 1, wallFollower.getX());
+        assertEquals(size - 1, wallFollower.getY());
     }
 
     @Test

@@ -626,37 +626,4 @@ public class TremauxTest {
         assertEquals(2, t.getY());
 
     }
-
-    @Test
-    public void tremauxShouldBeAbleToSolveMazesGeneratedByKruskal() {
-        for (int i = 4; i < 70; i++) {
-            Kruskal k = new Kruskal();
-            Rect[][] maze = k.generateEdges(i, i);
-            k.generateMaze();
-            Tremaux t = new Tremaux(maze);
-            assertEquals(0, t.getX());
-            assertEquals(0, t.getY());
-
-            t.solve();
-
-            assertEquals(i - 1, t.getX());
-            assertEquals(i - 1, t.getY());
-        }
-    }
-
-    @Test
-    public void tremauxShouldBeAbleToSolveMazesGeneratedByGrowingTree() {
-        int i = 30;
-        for (int x = 5; x < 70; x++) {
-            GrowingTree growingTree = new GrowingTree(i);
-            Rect[][] maze = growingTree.generateMaze();
-            Tremaux t = new Tremaux(maze);
-
-            t.solve();
-
-            assertEquals(i - 1, t.getX());
-            assertEquals(i - 1, t.getY());
-
-        }
-    }
 }
