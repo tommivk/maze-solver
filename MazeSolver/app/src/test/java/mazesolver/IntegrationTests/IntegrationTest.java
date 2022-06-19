@@ -11,6 +11,7 @@ import mazesolver.domain.GrowingTree;
 import mazesolver.domain.Kruskal;
 import mazesolver.domain.Rect;
 import mazesolver.domain.Tremaux;
+import mazesolver.domain.WallFollower;
 
 public class IntegrationTest {
     @Test
@@ -48,7 +49,6 @@ public class IntegrationTest {
 
     @Test
     public void aStarShouldSolveMazesGeneratedWithKruskal() {
-
         for (int i = 5; i < 80; i++) {
             Kruskal k = new Kruskal();
             Rect[][] maze = k.generateEdges(i, i);
@@ -74,6 +74,69 @@ public class IntegrationTest {
             Rect first = maze[0][0];
 
             assertEquals(first, current);
+        }
+    }
+
+    @Test
+    public void aStarShouldSolveMazesGeneratedWithGrowingTree() {
+        for (int i = 5; i < 80; i++) {
+            GrowingTree growingTree = new GrowingTree(i);
+            Rect[][] maze = growingTree.generateMaze();
+            AStar aStar = new AStar(maze);
+
+            aStar.solve();
+
+            HashMap<Rect, Rect> parents = aStar.getParents();
+            Rect last = maze[i - 1][i - 1];
+            Rect rect = parents.get(last);
+            assertEquals(true, rect != null);
+
+            Rect current = last;
+            while (true) {
+                Rect next = parents.get(current);
+                if (next == null) {
+                    break;
+                }
+                current = next;
+            }
+
+            Rect first = maze[0][0];
+
+            assertEquals(first, current);
+        }
+    }
+
+    @Test
+    public void wallFollowerShouldBeAbleToSolveMazesGeneratedByKruskal() {
+        for (int i = 4; i < 70; i++) {
+            Kruskal k = new Kruskal();
+            Rect[][] maze = k.generateEdges(i, i);
+            k.generateMaze();
+            WallFollower wallFollower = new WallFollower(maze);
+            assertEquals(0, wallFollower.getX());
+            assertEquals(0, wallFollower.getY());
+
+            wallFollower.solve();
+
+            assertEquals(i - 1, wallFollower.getX());
+            assertEquals(i - 1, wallFollower.getY());
+        }
+    }
+
+    @Test
+    public void wallFollowerShouldBeAbleToSolveMazesGeneratedByGrowingTree() {
+        for (int i = 4; i < 70; i++) {
+            GrowingTree growingTree = new GrowingTree(i);
+            Rect[][] maze = growingTree.generateMaze();
+
+            WallFollower wallFollower = new WallFollower(maze);
+            assertEquals(0, wallFollower.getX());
+            assertEquals(0, wallFollower.getY());
+
+            wallFollower.solve();
+
+            assertEquals(i - 1, wallFollower.getX());
+            assertEquals(i - 1, wallFollower.getY());
         }
     }
 }
