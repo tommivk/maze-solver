@@ -133,38 +133,9 @@ public class Rect {
      * Paints the rectangle red. The darkness of the color depends on how many time
      * the square has been visited.
      */
-    @SuppressWarnings("checkstyle:magicNumber")
     public void paint() {
-
-        switch (timesPainted) {
-            case 0:
-                this.rect.setStyle(
-                        "-fx-background-color: rgb(255,0,0); -fx-background-insets: 4px");
-                break;
-            case 1:
-                this.rect.setStyle(
-                        "-fx-background-color: rgb(210,0,0); -fx-background-insets: 4px");
-                break;
-            case 2:
-                this.rect.setStyle(
-                        "-fx-background-color: rgb(180,0,0); -fx-background-insets: 4px");
-                break;
-            case 3:
-                this.rect.setStyle(
-                        "-fx-background-color: rgb(140,0,0); -fx-background-insets: 4px");
-                break;
-            case 4:
-                this.rect.setStyle(
-                        "-fx-background-color: rgb(100,0,0); -fx-background-insets: 4px");
-                break;
-            case 5:
-                this.rect.setStyle(
-                        "-fx-background-color: rgb(90,0,0); -fx-background-insets: 4px");
-                break;
-            default:
-                this.rect.setStyle(
-                        "-fx-background-color: rgb(40,0,0); -fx-background-insets: 4px");
-        }
+        this.rect.setStyle(
+                "-fx-background-color: rgb(" + (255 - (timesPainted * 45)) + ",0,0); -fx-background-insets: 4px");
 
         this.timesPainted++;
     }
