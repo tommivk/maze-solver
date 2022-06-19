@@ -7,6 +7,7 @@ import mazesolver.domain.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -80,6 +81,33 @@ public class AStarTest {
         aStar.solve();
         sequence = aStar.getSequence();
         assertEquals(15, sequence.size());
+    }
+
+    @Test
+    public void resetShouldWorkCorrectly() {
+        int size = mazeWithJunctions.length;
+        AStar aStar = new AStar(mazeWithJunctions);
+        aStar.solve();
+        aStar.reset();
+
+        HashMap<Rect, Integer> distancesToStart = aStar.getDistancesToStart();
+        HashMap<Rect, Rect> parents = aStar.getParents();
+        HashSet<Rect> visited = aStar.getVisited();
+        HashMap<Rect, Integer> predictedDistances = aStar.getPredictedDistances();
+        List<Rect> sequence = aStar.getSequence();
+
+        assertEquals(true, parents.isEmpty());
+        assertEquals(true, visited.isEmpty());
+        assertEquals(true, sequence.isEmpty());
+        assertEquals(true, distancesToStart.isEmpty());
+
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                Rect rect = mazeWithJunctions[i][j];
+                assertEquals(Integer.MAX_VALUE, predictedDistances.get(rect));
+                assertEquals("", mazeWithJunctions[i][j].getRectangle().getStyle());
+            }
+        }
     }
 
     @Test
