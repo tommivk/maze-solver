@@ -61,6 +61,17 @@ test {
     exclude 'mazesolver/IntegrationTests/**'
 }
 
+task integrationTest(type: Test) {
+    description = 'Runs the integration tests.'
+    group = 'verification'
+
+    useJUnitPlatform()
+
+    filter {
+        includeTestsMatching "**.IntegrationTests**"
+    }
+}
+
 checkstyleMain
     .exclude('**mazesolver/UI/****')
     .exclude('**mazesolver/App.java')
