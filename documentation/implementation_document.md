@@ -57,6 +57,7 @@ Generating mazes with the first version of Kruskal's seemed to be reasonably eff
 |        700x700   |       5853   |
 |        900x900   |       11222   |
 |        1000x1000   |      15260    |
+|        1200x1200   |      36922    |
      
 
 
