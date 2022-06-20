@@ -175,7 +175,7 @@ public class Tremaux {
     /**
      * Advances one step forward straight towards the current direction.
      */
-    public void advance() {
+    public boolean advance() {
         Direction direction = this.previousDirection;
         Rect current = maze[this.x][this.y];
 
@@ -184,15 +184,20 @@ public class Tremaux {
         boolean hasBottomWall = current.getBottomWall();
         boolean hasLeftWall = current.getLeftWall();
 
-        if (direction != Direction.East && !hasLeftWall) {
+        if (direction == Direction.West && !hasLeftWall) {
             moveLeft();
-        } else if (direction != Direction.South && !hasTopWall) {
+            return true;
+        } else if (direction == Direction.North && !hasTopWall) {
             moveUp();
-        } else if (direction != Direction.North && !hasBottomWall) {
+            return true;
+        } else if (direction == Direction.South && !hasBottomWall) {
             moveDown();
-        } else if (direction != Direction.West && !hasRightWall) {
+            return true;
+        } else if (direction == Direction.East && !hasRightWall) {
             moveRight();
+            return true;
         }
+        return false;
     }
 
     /*
