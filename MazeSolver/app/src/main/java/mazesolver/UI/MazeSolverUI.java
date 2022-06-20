@@ -70,6 +70,17 @@ public class MazeSolverUI extends Application {
         VBox container = new VBox();
         HBox delayBox = new HBox();
         HBox mazeSelection = new HBox();
+        HBox mazeSizeContainer = new HBox();
+        Label mazeSizeLabel = new Label("Maze size: ");
+        TextField mazeSizeField = new TextField(Integer.toString(mazeSize));
+        mazeSizeField.setMaxWidth(150);
+        mazeSizeField.textProperty().addListener((observable, oldValue, newValue) -> {
+            try {
+                this.mazeSize = Integer.parseInt(newValue);
+            } catch (NumberFormatException e) {
+            }
+        });
+        mazeSizeContainer.getChildren().addAll(mazeSizeLabel, mazeSizeField);
         Label delayLabel = new Label("Animation delay in ms: ");
         TextField delayField = new TextField(Integer.toString(this.mazeGenerationDelay));
         delayField.setMaxWidth(150);
@@ -98,10 +109,11 @@ public class MazeSolverUI extends Application {
         mazeSelection.setAlignment(Pos.CENTER);
         delayBox.setAlignment(Pos.CENTER);
         container.setAlignment(Pos.CENTER);
+        mazeSizeContainer.setAlignment(Pos.CENTER);
         mazeSelection.getChildren().addAll(chooseKruskal, chooseGrowingTree);
         HBox.setMargin(chooseKruskal, new Insets(0, 10, 0, 0));
-        VBox.setMargin(delayBox, new Insets(30, 0, 0, 0));
-        container.getChildren().addAll(mazeSelection, delayBox);
+        VBox.setMargin(delayBox, new Insets(30, 0, 30, 0));
+        container.getChildren().addAll(mazeSelection, delayBox, mazeSizeContainer);
         return new Scene(container);
     }
 
@@ -112,7 +124,8 @@ public class MazeSolverUI extends Application {
         this.tremaux = new Tremaux(maze);
         this.aStar = new AStar(maze);
 
-        int steps = 2000;
+        int steps = growingTree.generateMaze();
+        growingTree.reset();
 
         Timeline[] timelines = new Timeline[steps];
         for (int i = 0; i < steps; i++) {
@@ -338,8 +351,7 @@ public class MazeSolverUI extends Application {
 
         Button restartButton = new Button("New maze");
         restartButton.setOnMouseClicked(event -> {
-            tremauxSequence.stop();
-            wallFollowerSequence.stop();
+            stopSequences();
             this.aStarTime.setText(null);
             this.tremauxTime.setText(null);
             this.wallFollowerTime.setText(null);
