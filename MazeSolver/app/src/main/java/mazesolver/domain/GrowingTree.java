@@ -122,13 +122,15 @@ public class GrowingTree {
     /**
      * Generates a maze using the Growing Tree algorithm.
      * 
-     * @return Two dimensional array of Rect objects that represents the maze.
+     * @return A Integer value of how many iterations it took to generate the maze.
      */
-    public Rect[][] generateMaze() {
+    public int generateMaze() {
+        int steps = 0;
         while (!stack.isEmpty()) {
             growingTreeStep();
+            steps++;
         }
-        return this.maze;
+        return steps;
     }
 
     /**
