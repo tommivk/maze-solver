@@ -419,10 +419,7 @@ public class Tremaux {
 
         turnAround();
 
-        if (tryMoveToContiguousJunction(getLeastVisitedJunction())) {
-            return;
-        }
-
+        tryMoveToContiguousJunction(getLeastVisitedJunction());
     }
 
     public int solve() {
