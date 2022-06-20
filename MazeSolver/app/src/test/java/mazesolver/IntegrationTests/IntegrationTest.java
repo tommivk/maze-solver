@@ -36,7 +36,8 @@ public class IntegrationTest {
         int i = 30;
         for (int x = 5; x < 70; x++) {
             GrowingTree growingTree = new GrowingTree(i);
-            Rect[][] maze = growingTree.generateMaze();
+            growingTree.generateMaze();
+            Rect[][] maze = growingTree.getMaze();
             Tremaux t = new Tremaux(maze);
 
             t.solve();
@@ -81,7 +82,8 @@ public class IntegrationTest {
     public void aStarShouldSolveMazesGeneratedWithGrowingTree() {
         for (int i = 5; i < 80; i++) {
             GrowingTree growingTree = new GrowingTree(i);
-            Rect[][] maze = growingTree.generateMaze();
+            growingTree.generateMaze();
+            Rect[][] maze = growingTree.getMaze();
             AStar aStar = new AStar(maze);
 
             aStar.solve();
@@ -127,7 +129,8 @@ public class IntegrationTest {
     public void wallFollowerShouldBeAbleToSolveMazesGeneratedByGrowingTree() {
         for (int i = 4; i < 70; i++) {
             GrowingTree growingTree = new GrowingTree(i);
-            Rect[][] maze = growingTree.generateMaze();
+            growingTree.generateMaze();
+            Rect[][] maze = growingTree.getMaze();
 
             WallFollower wallFollower = new WallFollower(maze);
             assertEquals(0, wallFollower.getX());
