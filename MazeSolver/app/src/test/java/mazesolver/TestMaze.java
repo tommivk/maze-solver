@@ -72,4 +72,28 @@ public class TestMaze {
 
         return maze;
     }
+
+    public Rect[][] getMazeWithoutWalls(int size) {
+        Rect[][] maze = new Rect[size][size];
+
+        for (int x = 0; x < size; x++) {
+            for (int y = 0; y < size; y++) {
+                maze[x][y] = new Rect(x, y);
+                if (x > 0) {
+                    maze[x][y].removeLeftWall();
+                }
+                if (y > 0) {
+                    maze[x][y].removeTopWall();
+                }
+                if (x < maze.length - 1) {
+                    maze[x][y].removeRightWall();
+                }
+                if (y < maze.length - 1) {
+                    maze[x][y].removeBottomWall();
+                }
+            }
+        }
+
+        return maze;
+    }
 }

@@ -228,4 +228,32 @@ public class GrowingTreeTest {
         assertEquals(false, maze[4][5].getRightWall());
     }
 
+    @Test
+    public void generateMazeShouldReturnCorrectAMountOfSteps() {
+        GrowingTree growingTree = new GrowingTree(30);
+        int steps = growingTree.generateMaze();
+        assertEquals(1801, steps);
+
+        growingTree = new GrowingTree(50);
+        steps = growingTree.generateMaze();
+        assertEquals(5001, steps);
+    }
+
+    @Test
+    public void resetShouldResetStackAndMaze() {
+        GrowingTree growingTree = new GrowingTree(30);
+        growingTree.generateMaze();
+
+        growingTree.reset();
+        assertEquals(1, growingTree.getStack().size());
+
+        Rect[][] maze = growingTree.getMaze();
+        for (int i = 0; i < maze.length; i++) {
+            for (int j = 0; j < maze.length; j++) {
+                assertEquals("", maze[i][j].getRectangle().getStyle());
+            }
+        }
+
+    }
+
 }

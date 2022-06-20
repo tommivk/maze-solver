@@ -14,6 +14,7 @@ public class TremauxTest {
     Rect[][] rects;
     Rect[][] maze;
     Rect[][] mazeWithJunctions;
+    Rect[][] mazeWithoutWalls;
 
     @BeforeEach
     public void setup() {
@@ -30,6 +31,7 @@ public class TremauxTest {
 
         this.maze = tm.getMazeWithoutJunctions();
         this.mazeWithJunctions = tm.getMazeWithJunctions();
+        this.mazeWithoutWalls = tm.getMazeWithoutWalls(6);
 
         this.tremaux = new Tremaux(maze);
     }
@@ -347,6 +349,23 @@ public class TremauxTest {
         assertEquals(false, t.isPreviousVisitedTwice());
         t.setPreviousDirection(Direction.West);
         assertEquals(false, t.isPreviousVisitedTwice());
+
+        t.setX(0);
+        t.setPreviousDirection(Direction.East);
+        assertEquals(true, t.isPreviousVisitedTwice());
+
+        t.setY(0);
+        t.setPreviousDirection(Direction.South);
+        assertEquals(true, t.isPreviousVisitedTwice());
+
+        t.setY(rects.length - 1);
+        t.setPreviousDirection(Direction.North);
+        assertEquals(true, t.isPreviousVisitedTwice());
+
+        t.setX(rects.length - 1);
+        t.setPreviousDirection(Direction.West);
+        assertEquals(true, t.isPreviousVisitedTwice());
+
     }
 
     @Test
@@ -626,4 +645,66 @@ public class TremauxTest {
         assertEquals(2, t.getY());
 
     }
+
+    @Test
+    public void advancingWorksCorrectly() {
+        Tremaux t = new Tremaux(mazeWithoutWalls);
+        t.setPreviousDirection(Direction.North);
+        assertEquals(false, t.advance());
+        t.setPreviousDirection(Direction.East);
+        assertEquals(true, t.advance());
+
+        t.setX(0);
+        t.setY(0);
+        t.setPreviousDirection(Direction.West);
+        assertEquals(false, t.advance());
+        t.setPreviousDirection(Direction.South);
+        assertEquals(true, t.advance());
+
+        t.setX(mazeWithoutWalls.length - 1);
+        t.setY(mazeWithoutWalls.length - 1);
+
+        t.setPreviousDirection(Direction.South);
+        assertEquals(false, t.advance());
+        t.setPreviousDirection(Direction.West);
+        assertEquals(true, t.advance());
+
+        t.setPreviousDirection(Direction.North);
+        assertEquals(true, t.advance());
+
+        t.setX(mazeWithoutWalls.length - 1);
+        t.setY(0);
+        t.setPreviousDirection(Direction.North);
+        assertEquals(false, t.advance());
+        t.setPreviousDirection(Direction.East);
+        assertEquals(false, t.advance());
+
+    }
+
+    @Test
+    public void calculateNextMoveTurnsAroundAndMovesToLeastVisitedJunctionIfThereAreNoValidPaths() {
+        int[][] visited = new int[10][10];
+
+        Tremaux t = new Tremaux(rects);
+        t.setVisited(visited);
+        rects[4][3].removeBottomWall();
+        rects[4][3].removeTopWall();
+
+        rects[4][4].removeTopWall();
+        rects[4][4].removeRightWall();
+        rects[4][4].removeLeftWall();
+        rects[4][4].removeBottomWall();
+
+        visited[4][2] = 2;
+        visited[4][3] = 2;
+        visited[4][4] = 2;
+        t.setPreviousDirection(Direction.North);
+
+        t.setX(4);
+        t.setY(3);
+        t.calculateNextMove();
+        assertEquals(4, t.getX());
+        assertEquals(4, t.getY());
+    }
+
 }

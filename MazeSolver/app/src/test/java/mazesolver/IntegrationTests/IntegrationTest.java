@@ -16,7 +16,7 @@ import mazesolver.domain.WallFollower;
 public class IntegrationTest {
     @Test
     public void tremauxShouldBeAbleToSolveMazesGeneratedByKruskal() {
-        for (int i = 4; i < 70; i++) {
+        for (int i = 4; i < 100; i++) {
             Kruskal k = new Kruskal();
             Rect[][] maze = k.generateEdges(i, i);
             k.generateMaze();
@@ -34,7 +34,7 @@ public class IntegrationTest {
     @Test
     public void tremauxShouldBeAbleToSolveMazesGeneratedByGrowingTree() {
         int i = 30;
-        for (int x = 5; x < 70; x++) {
+        for (int x = 4; x < 100; x++) {
             GrowingTree growingTree = new GrowingTree(i);
             growingTree.generateMaze();
             Rect[][] maze = growingTree.getMaze();
@@ -50,7 +50,7 @@ public class IntegrationTest {
 
     @Test
     public void aStarShouldSolveMazesGeneratedWithKruskal() {
-        for (int i = 5; i < 80; i++) {
+        for (int i = 4; i < 100; i++) {
             Kruskal k = new Kruskal();
             Rect[][] maze = k.generateEdges(i, i);
             k.generateMaze();
@@ -80,7 +80,7 @@ public class IntegrationTest {
 
     @Test
     public void aStarShouldSolveMazesGeneratedWithGrowingTree() {
-        for (int i = 5; i < 80; i++) {
+        for (int i = 4; i < 100; i++) {
             GrowingTree growingTree = new GrowingTree(i);
             growingTree.generateMaze();
             Rect[][] maze = growingTree.getMaze();
@@ -110,7 +110,7 @@ public class IntegrationTest {
 
     @Test
     public void wallFollowerShouldBeAbleToSolveMazesGeneratedByKruskal() {
-        for (int i = 4; i < 70; i++) {
+        for (int i = 4; i < 100; i++) {
             Kruskal k = new Kruskal();
             Rect[][] maze = k.generateEdges(i, i);
             k.generateMaze();
@@ -127,7 +127,7 @@ public class IntegrationTest {
 
     @Test
     public void wallFollowerShouldBeAbleToSolveMazesGeneratedByGrowingTree() {
-        for (int i = 4; i < 70; i++) {
+        for (int i = 4; i < 100; i++) {
             GrowingTree growingTree = new GrowingTree(i);
             growingTree.generateMaze();
             Rect[][] maze = growingTree.getMaze();

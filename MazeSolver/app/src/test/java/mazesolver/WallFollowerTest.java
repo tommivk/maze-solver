@@ -17,9 +17,9 @@ public class WallFollowerTest {
 
     @BeforeEach
     public void setup() {
-        this.maze = new Rect[4][4];
-        for (int i = 0; i < 4; i++) {
-            for (int k = 0; k < 4; k++) {
+        this.maze = new Rect[10][10];
+        for (int i = 0; i < 10; i++) {
+            for (int k = 0; k < 10; k++) {
                 maze[i][k] = new Rect(i, k);
             }
         }
@@ -36,77 +36,135 @@ public class WallFollowerTest {
 
     @Test
     public void initialPreviousDirectionIsSet() {
-        assertEquals(Direction.South, wf.getPreviousDirection());
+        assertEquals(Direction.South, wf.getFacing());
     }
 
     @Test
-    public void calculateNextMoveWorksCorrectly() {
-
-        /**
-         * v X X X
-         * > v X X
-         * X v > v
-         * X > ^ E
-         */
-        maze[0][0].removeBottomWall();
-        maze[0][1].removeTopWall();
-        maze[0][1].removeRightWall();
-        maze[1][1].removeLeftWall();
-        maze[1][1].removeBottomWall();
-        maze[1][2].removeTopWall();
-        maze[1][2].removeBottomWall();
-        maze[1][3].removeTopWall();
-        maze[1][3].removeRightWall();
-        maze[2][3].removeLeftWall();
-        maze[2][3].removeTopWall();
-        maze[2][2].removeBottomWall();
-        maze[2][2].removeRightWall();
-        maze[3][2].removeLeftWall();
-        maze[3][2].removeBottomWall();
-        maze[3][3].removeTopWall();
-
-        assertEquals(0, wf.getX());
+    public void advancingOnMazeWithoutJunctionsWorksCorrectly() {
+        TestMaze tm = new TestMaze();
+        WallFollower wf = new WallFollower(tm.getMazeWithoutJunctions());
+        wf.calculateNextMove();
+        assertEquals(1, wf.getX());
         assertEquals(0, wf.getY());
-
+        wf.calculateNextMove();
+        assertEquals(1, wf.getX());
+        assertEquals(1, wf.getY());
+        wf.calculateNextMove();
+        assertEquals(1, wf.getX());
+        assertEquals(2, wf.getY());
         wf.calculateNextMove();
         assertEquals(0, wf.getX());
-        assertEquals(1, wf.getY());
-        assertEquals(Direction.South, wf.getPreviousDirection());
-
-        wf.calculateNextMove();
-        assertEquals(1, wf.getX());
-        assertEquals(1, wf.getY());
-        assertEquals(Direction.East, wf.getPreviousDirection());
-
-        wf.calculateNextMove();
-        assertEquals(1, wf.getX());
         assertEquals(2, wf.getY());
-        assertEquals(Direction.South, wf.getPreviousDirection());
-
+        wf.calculateNextMove();
+        assertEquals(0, wf.getX());
+        assertEquals(3, wf.getY());
         wf.calculateNextMove();
         assertEquals(1, wf.getX());
         assertEquals(3, wf.getY());
-        assertEquals(Direction.South, wf.getPreviousDirection());
-
         wf.calculateNextMove();
         assertEquals(2, wf.getX());
         assertEquals(3, wf.getY());
-        assertEquals(Direction.East, wf.getPreviousDirection());
-
         wf.calculateNextMove();
-        assertEquals(2, wf.getX());
-        assertEquals(2, wf.getY());
-        assertEquals(Direction.North, wf.getPreviousDirection());
-
+        assertEquals(3, wf.getX());
+        assertEquals(3, wf.getY());
         wf.calculateNextMove();
         assertEquals(3, wf.getX());
         assertEquals(2, wf.getY());
-        assertEquals(Direction.East, wf.getPreviousDirection());
+        wf.calculateNextMove();
+        assertEquals(4, wf.getX());
+        assertEquals(2, wf.getY());
+        wf.calculateNextMove();
+        assertEquals(4, wf.getX());
+        assertEquals(3, wf.getY());
+        wf.calculateNextMove();
+        assertEquals(4, wf.getX());
+        assertEquals(4, wf.getY());
+    }
+
+    @Test
+    public void calculateNextMoveTurnsAroundOnDeadEnd() {
+        maze[3][3].removeTopWall();
+        maze[3][3].removeRightWall();
+        maze[3][3].removeBottomWall();
+        maze[3][3].removeLeftWall();
+
+        maze[3][2].removeBottomWall();
+        maze[3][4].removeTopWall();
+        maze[2][3].removeRightWall();
+        maze[4][3].removeLeftWall();
+
+        wf.setX(3);
+        wf.setY(2);
+        wf.setFacing(Direction.North);
 
         wf.calculateNextMove();
         assertEquals(3, wf.getX());
         assertEquals(3, wf.getY());
-        assertEquals(Direction.South, wf.getPreviousDirection());
+
+        wf.setX(3);
+        wf.setY(4);
+        wf.setFacing(Direction.South);
+
+        wf.calculateNextMove();
+        assertEquals(3, wf.getX());
+        assertEquals(3, wf.getY());
+
+        wf.setX(2);
+        wf.setY(3);
+        wf.setFacing(Direction.West);
+
+        wf.calculateNextMove();
+        assertEquals(3, wf.getX());
+        assertEquals(3, wf.getY());
+
+        wf.setX(4);
+        wf.setY(3);
+        wf.setFacing(Direction.East);
+
+        wf.calculateNextMove();
+        assertEquals(3, wf.getX());
+        assertEquals(3, wf.getY());
+
+    }
+
+    @Test
+    public void calculateMoveFacingNorthWorksCorrectly() {
+
+        wf.setX(2);
+        wf.setY(2);
+        wf.setFacing(Direction.North);
+        wf.calculateMoveFacingNorth(true, true, true, false);
+        assertEquals(1, wf.getX());
+        assertEquals(2, wf.getY());
+
+        wf.setX(2);
+        wf.setY(2);
+
+        wf.setFacing(Direction.North);
+        wf.calculateMoveFacingNorth(false, true, true, false);
+
+        assertEquals(2, wf.getX());
+        assertEquals(1, wf.getY());
+
+    }
+
+    @Test
+    public void calculateMoveFacingWestWorksCorrectly() {
+        wf.setX(2);
+        wf.setY(2);
+        wf.setFacing(Direction.West);
+        wf.calculateMoveFacingWest(true, true, true, false);
+        assertEquals(1, wf.getX());
+        assertEquals(2, wf.getY());
+
+        wf.setX(2);
+        wf.setY(2);
+
+        wf.setFacing(Direction.West);
+        wf.calculateMoveFacingWest(false, true, true, false);
+
+        assertEquals(2, wf.getX());
+        assertEquals(1, wf.getY());
     }
 
     @Test
