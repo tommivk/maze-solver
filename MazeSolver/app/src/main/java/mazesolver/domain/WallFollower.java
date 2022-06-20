@@ -20,9 +20,9 @@ public class WallFollower {
      */
     private Rect[][] maze;
     /**
-     * The direction of the previous move.
+     * The current direction.
      */
-    private Direction previousDirection;
+    private Direction facing;
 
     /**
      * Returns the current X coordinate.
@@ -74,8 +74,17 @@ public class WallFollower {
      *
      * @return A direction enum representing the direction of the previous move
      */
-    public Direction getPreviousDirection() {
-        return this.previousDirection;
+    public Direction getFacing() {
+        return this.facing;
+    }
+
+    /**
+     * Sets the current direction.
+     *
+     * @param direction A Direction enum
+     */
+    public void setFacing(Direction direction) {
+        this.facing = direction;
     }
 
     /**
@@ -87,7 +96,7 @@ public class WallFollower {
         this.x = 0;
         this.y = 0;
         this.maze = maze;
-        this.previousDirection = Direction.South;
+        this.facing = Direction.South;
     }
 
     /**
@@ -119,12 +128,15 @@ public class WallFollower {
     }
 
     /**
-     * Paints the rectangle in the current X and Y position.
+     * Paints the rectangle in the current X and Y position red.
      */
     public void paintRectangle() {
         maze[this.x][this.y].paint();
     }
 
+    /**
+     * Paints the rectangle in the current X and Y position green.
+     */
     public void paintGreen() {
         maze[this.x][this.y].paintGreen();
     }
@@ -135,7 +147,7 @@ public class WallFollower {
      */
     public void moveLeft() {
         this.x = this.x - 1;
-        this.previousDirection = Direction.West;
+        this.facing = Direction.West;
     }
 
     /**
@@ -144,7 +156,7 @@ public class WallFollower {
      */
     public void moveRight() {
         this.x = this.x + 1;
-        this.previousDirection = Direction.East;
+        this.facing = Direction.East;
     }
 
     /**
@@ -153,7 +165,7 @@ public class WallFollower {
      */
     public void moveUp() {
         this.y = this.y - 1;
-        this.previousDirection = Direction.North;
+        this.facing = Direction.North;
     }
 
     /**
@@ -162,12 +174,100 @@ public class WallFollower {
      */
     public void moveDown() {
         this.y = this.y + 1;
-        this.previousDirection = Direction.South;
+        this.facing = Direction.South;
+    }
+
+    /**
+     * Calculates the next move when the algorithm is facing South.
+     * 
+     * @param hasTopWall    True if the current square has a top border.
+     * @param hasRightWall  True if the current square has a right border.
+     * @param hasBottomWall True if the current square has a bottom border.
+     * @param hasLeftWall   True if the current square has a left border.
+     */
+    public void calculateMoveFacingSouth(boolean hasTopWall, boolean hasRightWall, boolean hasBottomWall,
+            boolean hasLeftWall) {
+
+        if (!hasLeftWall) {
+            moveLeft();
+        } else if (!hasBottomWall) {
+            moveDown();
+        } else if (!hasRightWall) {
+            moveRight();
+        } else {
+            moveUp();
+        }
+    }
+
+    /**
+     * Calculates the next move when the algorithm is facing East.
+     * 
+     * @param hasTopWall    True if the current square has a top border.
+     * @param hasRightWall  True if the current square has a right border.
+     * @param hasBottomWall True if the current square has a bottom border.
+     * @param hasLeftWall   True if the current square has a left border.
+     */
+    public void calculateMoveFacingEast(boolean hasTopWall, boolean hasRightWall, boolean hasBottomWall,
+            boolean hasLeftWall) {
+
+        if (!hasBottomWall) {
+            moveDown();
+        } else if (!hasRightWall) {
+            moveRight();
+        } else if (hasTopWall) {
+            moveLeft();
+        } else {
+            moveUp();
+        }
+    }
+
+    /**
+     * Calculates the next move when the algorithm is facing West.
+     * 
+     * @param hasTopWall    True if the current square has a top border.
+     * @param hasRightWall  True if the current square has a right border.
+     * @param hasBottomWall True if the current square has a bottom border.
+     * @param hasLeftWall   True if the current square has a left border.
+     */
+    public void calculateMoveFacingWest(boolean hasTopWall, boolean hasRightWall, boolean hasBottomWall,
+            boolean hasLeftWall) {
+
+        if (!hasTopWall) {
+            moveUp();
+        } else if (!hasLeftWall) {
+            moveLeft();
+        } else if (!hasBottomWall) {
+            moveDown();
+        } else {
+            moveRight();
+        }
+    }
+
+    /**
+     * Calculates the next move when the algorithm is facing North.
+     * 
+     * @param hasTopWall    True if the current square has a top border.
+     * @param hasRightWall  True if the current square has a right border.
+     * @param hasBottomWall True if the current square has a bottom border.
+     * @param hasLeftWall   True if the current square has a left border.
+     */
+    public void calculateMoveFacingNorth(boolean hasTopWall, boolean hasRightWall, boolean hasBottomWall,
+            boolean hasLeftWall) {
+
+        if (!hasRightWall) {
+            moveRight();
+        } else if (!hasTopWall) {
+            moveUp();
+        } else if (hasLeftWall) {
+            moveDown();
+        } else {
+            moveLeft();
+        }
     }
 
     /**
      * Calculates the coordinate that the algorithm will move next based on the
-     * previous direction and the walls that are around the current rectangle.
+     * current direction and the walls that are around the current rectangle.
      */
     public void calculateNextMove() {
         Rect current = maze[x][y];
@@ -177,48 +277,19 @@ public class WallFollower {
         boolean hasBottomWall = current.getBottomWall();
         boolean hasLeftWall = current.getLeftWall();
 
-        if (previousDirection == Direction.South) {
-            if (!hasLeftWall) {
-                moveLeft();
-            } else if (hasLeftWall && !hasBottomWall) {
-                moveDown();
-            } else if (hasLeftWall && hasBottomWall
-                    && !hasRightWall) {
-                moveRight();
-            } else if (hasLeftWall && hasBottomWall
-                    && hasRightWall) {
-                moveUp();
-            }
-        } else if (previousDirection == Direction.East) {
-            if (!hasBottomWall) {
-                moveDown();
-            } else if (hasBottomWall && !hasRightWall) {
-                moveRight();
-            } else if (hasBottomWall && hasRightWall && hasTopWall) {
-                moveLeft();
-            } else if (hasBottomWall && hasRightWall && !hasTopWall) {
-                moveUp();
-            }
-        } else if (previousDirection == Direction.North) {
-            if (!hasRightWall) {
-                moveRight();
-            } else if (hasRightWall && !hasTopWall) {
-                moveUp();
-            } else if (hasTopWall && hasLeftWall && hasRightWall) {
-                moveDown();
-            } else if (hasRightWall && hasTopWall && !hasLeftWall) {
-                moveLeft();
-            }
-        } else if (previousDirection == Direction.West) {
-            if (!hasTopWall) {
-                moveUp();
-            } else if (hasTopWall && !hasLeftWall) {
-                moveLeft();
-            } else if (hasTopWall && hasLeftWall && !hasBottomWall) {
-                moveDown();
-            } else if (hasTopWall && hasLeftWall && hasBottomWall) {
-                moveRight();
-            }
+        switch (this.facing) {
+            case South:
+                calculateMoveFacingSouth(hasTopWall, hasRightWall, hasBottomWall, hasLeftWall);
+                break;
+            case East:
+                calculateMoveFacingEast(hasTopWall, hasRightWall, hasBottomWall, hasLeftWall);
+                break;
+            case North:
+                calculateMoveFacingNorth(hasTopWall, hasRightWall, hasBottomWall, hasLeftWall);
+                break;
+            case West:
+                calculateMoveFacingWest(hasTopWall, hasRightWall, hasBottomWall, hasLeftWall);
+                break;
         }
     }
 }
