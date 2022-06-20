@@ -53,6 +53,20 @@ public class GrowingTree {
         this.stack.push(maze[0][0]);
     }
 
+    public void reset() {
+        int size = this.maze.length;
+        this.visited = new boolean[size][size];
+
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                this.maze[i][j] = new Rect(i, j);
+            }
+        }
+        this.random = new Random();
+        this.stack = new ArrayDeque<Rect>();
+        this.stack.push(maze[0][0]);
+    }
+
     public Rect[][] getMaze() {
         return this.maze;
     }
