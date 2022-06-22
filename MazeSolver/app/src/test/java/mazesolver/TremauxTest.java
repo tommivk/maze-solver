@@ -647,6 +647,30 @@ public class TremauxTest {
     }
 
     @Test
+    public void tryMoveToContiguousJunctionDoesNotMoveWhenSquareIsNotAJunction() {
+        Tremaux t = new Tremaux(rects);
+        rects[2][2].removeRightWall();
+        rects[2][2].removeTopWall();
+        rects[2][2].removeLeftWall();
+        rects[2][2].removeBottomWall();
+
+        t.setX(2);
+        t.setY(2);
+
+        t.setPreviousDirection(Direction.North);
+        assertEquals(false, t.tryMoveToContiguousJunction(0));
+
+        t.setPreviousDirection(Direction.East);
+        assertEquals(false, t.tryMoveToContiguousJunction(0));
+
+        t.setPreviousDirection(Direction.South);
+        assertEquals(false, t.tryMoveToContiguousJunction(0));
+
+        t.setPreviousDirection(Direction.West);
+        assertEquals(false, t.tryMoveToContiguousJunction(0));
+    }
+
+    @Test
     public void advancingWorksCorrectly() {
         Tremaux t = new Tremaux(mazeWithoutWalls);
         t.setPreviousDirection(Direction.North);
@@ -705,6 +729,17 @@ public class TremauxTest {
         t.calculateNextMove();
         assertEquals(4, t.getX());
         assertEquals(4, t.getY());
+    }
+
+    @Test
+    public void initialVisitedcountShouldBeZero() {
+        Tremaux t = new Tremaux(maze);
+        int[][] visited = t.getVisited();
+        for (int i = 0; i < visited.length; i++) {
+            for (int j = 0; j < visited.length; j++) {
+                assertEquals(0, visited[i][j]);
+            }
+        }
     }
 
 }

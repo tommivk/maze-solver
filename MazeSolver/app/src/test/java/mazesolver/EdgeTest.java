@@ -14,6 +14,11 @@ public class EdgeTest {
         assertEquals(2, edge.getX());
         assertEquals(5, edge.getY());
         assertEquals(Direction.South, edge.getDirection());
+
+        edge = new Edge(0, 0, Direction.North);
+        assertEquals(0, edge.getX());
+        assertEquals(0, edge.getY());
+        assertEquals(Direction.North, edge.getDirection());
     }
 
     @Test

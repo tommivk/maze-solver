@@ -6,10 +6,60 @@ import mazesolver.domain.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.List;
 
 public class GrowingTreeTest {
+
+    @Test
+    public void mazeShouldBeConnected() {
+        GrowingTree growingTree = new GrowingTree(300);
+        growingTree.generateMaze();
+        Rect[][] maze = growingTree.getMaze();
+
+        boolean[][] visited = new boolean[maze.length][maze.length];
+
+        Deque<Rect> stack = new ArrayDeque<Rect>();
+        stack.add(maze[0][0]);
+
+        while (!stack.isEmpty()) {
+            Rect current = stack.pop();
+
+            int x = current.getX();
+            int y = current.getY();
+
+            if (visited[x][y]) {
+                continue;
+            }
+
+            visited[x][y] = true;
+
+            if (!current.getLeftWall()) {
+                Rect neighbour = maze[x - 1][y];
+                stack.add(neighbour);
+            }
+            if (!current.getTopWall()) {
+                Rect neighbour = maze[x][y - 1];
+                stack.add(neighbour);
+            }
+            if (!current.getRightWall()) {
+                Rect neighbour = maze[x + 1][y];
+                stack.add(neighbour);
+            }
+            if (!current.getBottomWall()) {
+                Rect neighbour = maze[x][y + 1];
+                stack.add(neighbour);
+            }
+        }
+
+        for (int i = 0; i < maze.length; i++) {
+            for (int j = 0; j < maze.length; j++) {
+                assertEquals(true, visited[i][j] == true);
+            }
+        }
+
+    }
 
     @Test
     public void growingTreeStepShouldProgressAndRemoveWallsCorrectly() {
@@ -232,11 +282,11 @@ public class GrowingTreeTest {
     public void generateMazeShouldReturnCorrectAMountOfSteps() {
         GrowingTree growingTree = new GrowingTree(30);
         int steps = growingTree.generateMaze();
-        assertEquals(1801, steps);
+        assertEquals(1799, steps);
 
         growingTree = new GrowingTree(50);
         steps = growingTree.generateMaze();
-        assertEquals(5001, steps);
+        assertEquals(4999, steps);
     }
 
     @Test

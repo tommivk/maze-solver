@@ -53,6 +53,10 @@ public class Tremaux {
         this.y = y;
     }
 
+    public int[][] getVisited() {
+        return this.visited;
+    }
+
     public void setVisited(int[][] visited) {
         this.visited = visited;
     }

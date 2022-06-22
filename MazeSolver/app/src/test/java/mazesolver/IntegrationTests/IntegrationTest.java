@@ -15,7 +15,7 @@ import mazesolver.domain.WallFollower;
 
 public class IntegrationTest {
     @Test
-    public void tremauxShouldBeAbleToSolveMazesGeneratedByKruskal() {
+    public void tremauxShouldBeAbleToSolveMazesGeneratedByKruskalAndNoPathsAreVisitedMoreThanTwice() {
         for (int i = 4; i < 100; i++) {
             Kruskal k = new Kruskal();
             Rect[][] maze = k.generateEdges(i, i);
@@ -26,21 +26,41 @@ public class IntegrationTest {
 
             t.solve();
 
+            int[][] visited = t.getVisited();
+
+            for (int x = 0; x < maze.length; x++) {
+                for (int y = 0; y < maze.length; y++) {
+                    if (!t.isJunction(x, y)) {
+                        assertEquals(true, visited[x][y] <= 2);
+                    }
+                }
+
+            }
+
             assertEquals(i - 1, t.getX());
             assertEquals(i - 1, t.getY());
         }
     }
 
     @Test
-    public void tremauxShouldBeAbleToSolveMazesGeneratedByGrowingTree() {
-        int i = 30;
-        for (int x = 4; x < 100; x++) {
+    public void tremauxShouldBeAbleToSolveMazesGeneratedByGrowingTreeAndNoPathsAreVisitedMoreThanTwic() {
+        for (int i = 4; i < 100; i++) {
             GrowingTree growingTree = new GrowingTree(i);
             growingTree.generateMaze();
             Rect[][] maze = growingTree.getMaze();
             Tremaux t = new Tremaux(maze);
 
             t.solve();
+            int[][] visited = t.getVisited();
+
+            for (int j = 0; j < maze.length; j++) {
+                for (int k = 0; k < maze.length; k++) {
+                    if (!t.isJunction(j, k)) {
+                        assertEquals(true, visited[j][k] <= 2);
+                    }
+                }
+
+            }
 
             assertEquals(i - 1, t.getX());
             assertEquals(i - 1, t.getY());
