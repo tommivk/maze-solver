@@ -51,6 +51,7 @@ public class GrowingTree {
         this.random = new Random();
         this.stack = new ArrayDeque<Rect>();
         this.stack.push(maze[0][0]);
+        visited[0][0] = true;
     }
 
     public void reset() {
@@ -65,6 +66,7 @@ public class GrowingTree {
         this.random = new Random();
         this.stack = new ArrayDeque<Rect>();
         this.stack.push(maze[0][0]);
+        visited[0][0] = true;
     }
 
     public Rect[][] getMaze() {
