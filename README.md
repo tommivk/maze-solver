@@ -31,6 +31,12 @@ All of the following commands should be run inside the `MazeSolver` directory.
 ./gradlew integrationTest
 ```
 
+
+### Running performance tests
+```
+./gradlew performanceTest -Dloops=<amount of loops> -DmazeSize=<size of the maze>
+```
+
 ### Generating Jacoco test report
 ```
 ./gradlew jacocoTestReport
