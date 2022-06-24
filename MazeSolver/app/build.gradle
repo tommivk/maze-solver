@@ -59,6 +59,7 @@ tasks.named('test') {
 
 test {
     exclude 'mazesolver/IntegrationTests/**'
+    exclude 'mazesolver/PerformanceTests/**'
 }
 
 task integrationTest(type: Test) {
@@ -69,6 +70,26 @@ task integrationTest(type: Test) {
 
     filter {
         includeTestsMatching "**.IntegrationTests**"
+    }
+}
+
+task performanceTest(type: Test) {
+    description = 'Runs the performance tests.'
+    group = 'verification'
+
+    systemProperties = [
+           loops: System.getProperty('loops', '100'),
+           mazeSize: System.getProperty('mazeSize', '100')
+        ]
+
+    testLogging {
+        showStandardStreams = true
+    }
+
+    useJUnitPlatform()
+
+    filter {
+        includeTestsMatching "**.PerformanceTests**"
     }
 }
 
