@@ -1,4 +1,8 @@
 # Project structure
+![packagage_diagram](https://user-images.githubusercontent.com/52420413/176149874-1565b751-90bd-4ccd-af18-07ad72ec4963.jpg)
+
+
+The domain package contains all of the algorithms used by the application and also the `Rect` class. `Enums` package contains the direction enum used by the app. `UI` package contains the main JavaFX UI class. 
 
 # Time and space complexities
  * ### Kruskal
