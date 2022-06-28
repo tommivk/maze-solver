@@ -1,4 +1,4 @@
-package mazesolver.domain;
+package mazesolver.domain.Kruskal;
 
 /**
  * Tree that is used to keep track of connections between nodes in the maze.

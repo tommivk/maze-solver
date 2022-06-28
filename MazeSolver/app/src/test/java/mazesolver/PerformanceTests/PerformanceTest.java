@@ -5,10 +5,10 @@ import org.junit.jupiter.api.Test;
 
 import mazesolver.domain.AStar;
 import mazesolver.domain.GrowingTree;
-import mazesolver.domain.Kruskal;
 import mazesolver.domain.Rect;
 import mazesolver.domain.Tremaux;
 import mazesolver.domain.WallFollower;
+import mazesolver.domain.Kruskal.Kruskal;
 
 public class PerformanceTest {
     int loops = 0;

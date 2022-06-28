@@ -3,7 +3,9 @@ package mazesolver;
 import org.junit.jupiter.api.Test;
 
 import mazesolver.domain.*;
-import mazesolver.domain.Tree;
+import mazesolver.domain.Kruskal.Edge;
+import mazesolver.domain.Kruskal.Kruskal;
+import mazesolver.domain.Kruskal.Tree;
 
 import static org.junit.jupiter.api.Assertions.*;
 

@@ -1,8 +1,9 @@
-package mazesolver.domain;
+package mazesolver.domain.Kruskal;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import mazesolver.domain.Rect;
 import mazesolver.enums.Direction;
 
 import java.util.Collections;

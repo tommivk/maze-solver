@@ -2,7 +2,7 @@ package mazesolver;
 
 import org.junit.jupiter.api.Test;
 
-import mazesolver.domain.Tree;
+import mazesolver.domain.Kruskal.Tree;
 
 import static org.junit.jupiter.api.Assertions.*;
 

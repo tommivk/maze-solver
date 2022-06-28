@@ -1,4 +1,4 @@
-package mazesolver.domain;
+package mazesolver.domain.Kruskal;
 
 import mazesolver.enums.Direction;
 
