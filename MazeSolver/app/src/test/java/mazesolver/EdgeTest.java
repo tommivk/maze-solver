@@ -2,7 +2,6 @@ package mazesolver;
 
 import org.junit.jupiter.api.Test;
 
-import mazesolver.domain.*;
 import mazesolver.domain.Kruskal.Edge;
 import mazesolver.enums.Direction;
 
