@@ -368,12 +368,18 @@ public class MazeSolverUI extends Application {
             wallFollower.reset();
             aStar.reset();
         });
+
         navigation.getChildren().add(delayBox);
         navigation.getChildren().add(wfSolveButton);
         navigation.getChildren().add(startTremaux);
         navigation.getChildren().add(startAStar);
         navigation.getChildren().add(restartButton);
         navigation.getChildren().add(clearButton);
+
+        VBox.setMargin(wfSolveButton, new Insets(10, 0, 5, 0));
+        VBox.setMargin(startAStar, new Insets(5, 0, 5, 0));
+        VBox.setMargin(restartButton, new Insets(20, 0, 5, 0));
+
         return navigation;
 
     }
