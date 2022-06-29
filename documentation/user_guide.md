@@ -1,4 +1,4 @@
-* Download `mazesolver.jar` file from the [final release](https://github.com/tommivk/maze-solver/releases/tag/v1.0.0)
+* Download `mazesolver.jar` file from the [final return](https://github.com/tommivk/maze-solver/releases/tag/v1.0.0) release
 
 * Start the app with `java -jar mazesolver.jar`
 
