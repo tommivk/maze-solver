@@ -1,3 +1,6 @@
+* Download `mazesolver.jar` file from the [final release](https://github.com/tommivk/maze-solver/releases/tag/v1.0.0)
+
+* Start the app with `java -jar mazesolver.jar`
 
 ![user_guide_1](https://user-images.githubusercontent.com/52420413/176131708-0ea0e284-a67c-425d-ae04-64995d432b93.png)
 The app opens up to a maze generation selection view where it's possible to change the delay of the animation and the size of the maze.
