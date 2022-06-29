@@ -185,7 +185,9 @@ public class WallFollower {
      * @param hasBottomWall True if the current square has a bottom border.
      * @param hasLeftWall   True if the current square has a left border.
      */
-    public void calculateMoveFacingSouth(boolean hasTopWall, boolean hasRightWall, boolean hasBottomWall,
+    public void calculateMoveFacingSouth(boolean hasTopWall,
+            boolean hasRightWall,
+            boolean hasBottomWall,
             boolean hasLeftWall) {
 
         if (!hasLeftWall) {
@@ -207,7 +209,8 @@ public class WallFollower {
      * @param hasBottomWall True if the current square has a bottom border.
      * @param hasLeftWall   True if the current square has a left border.
      */
-    public void calculateMoveFacingEast(boolean hasTopWall, boolean hasRightWall, boolean hasBottomWall,
+    public void calculateMoveFacingEast(boolean hasTopWall, boolean hasRightWall,
+            boolean hasBottomWall,
             boolean hasLeftWall) {
 
         if (!hasBottomWall) {
@@ -229,7 +232,9 @@ public class WallFollower {
      * @param hasBottomWall True if the current square has a bottom border.
      * @param hasLeftWall   True if the current square has a left border.
      */
-    public void calculateMoveFacingWest(boolean hasTopWall, boolean hasRightWall, boolean hasBottomWall,
+    public void calculateMoveFacingWest(boolean hasTopWall,
+            boolean hasRightWall,
+            boolean hasBottomWall,
             boolean hasLeftWall) {
 
         if (!hasTopWall) {
@@ -251,7 +256,9 @@ public class WallFollower {
      * @param hasBottomWall True if the current square has a bottom border.
      * @param hasLeftWall   True if the current square has a left border.
      */
-    public void calculateMoveFacingNorth(boolean hasTopWall, boolean hasRightWall, boolean hasBottomWall,
+    public void calculateMoveFacingNorth(boolean hasTopWall,
+            boolean hasRightWall,
+            boolean hasBottomWall,
             boolean hasLeftWall) {
 
         if (!hasRightWall) {
@@ -279,16 +286,22 @@ public class WallFollower {
 
         switch (this.facing) {
             case South:
-                calculateMoveFacingSouth(hasTopWall, hasRightWall, hasBottomWall, hasLeftWall);
+                calculateMoveFacingSouth(hasTopWall, hasRightWall,
+                        hasBottomWall, hasLeftWall);
                 break;
             case East:
-                calculateMoveFacingEast(hasTopWall, hasRightWall, hasBottomWall, hasLeftWall);
+                calculateMoveFacingEast(hasTopWall, hasRightWall,
+                        hasBottomWall, hasLeftWall);
                 break;
             case North:
-                calculateMoveFacingNorth(hasTopWall, hasRightWall, hasBottomWall, hasLeftWall);
+                calculateMoveFacingNorth(hasTopWall, hasRightWall,
+                        hasBottomWall, hasLeftWall);
                 break;
             case West:
-                calculateMoveFacingWest(hasTopWall, hasRightWall, hasBottomWall, hasLeftWall);
+                calculateMoveFacingWest(hasTopWall, hasRightWall,
+                        hasBottomWall, hasLeftWall);
+                break;
+            default:
                 break;
         }
     }

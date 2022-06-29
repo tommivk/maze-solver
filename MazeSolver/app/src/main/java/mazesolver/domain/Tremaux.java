@@ -178,6 +178,8 @@ public class Tremaux {
 
     /**
      * Advances one step forward straight towards the current direction.
+     * 
+     * @return returns true if the move was successfull
      */
     public boolean advance() {
         Direction direction = this.previousDirection;

@@ -134,8 +134,12 @@ public class Rect {
      * the square has been visited.
      */
     public void paint() {
+        final int maxValue = 255;
+        final int multiplier = 45;
+
         this.rect.setStyle(
-                "-fx-background-color: rgb(" + (255 - (timesPainted * 45)) + ",0,0); -fx-background-insets: 4px");
+                "-fx-background-color: rgb(" + (maxValue - (timesPainted * multiplier))
+                        + ",0,0); -fx-background-insets: 4px");
 
         this.timesPainted++;
     }
