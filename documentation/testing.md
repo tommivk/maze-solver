@@ -1,11 +1,11 @@
 
 # Methods of testing
 ## Unit tests
-All of the algorithms are tested extensively with unit tests.
+All of the algorithms are tested extensively with unit tests. 
 
 ![test_coverage](https://user-images.githubusercontent.com/52420413/174746240-16a4b2fe-5075-4377-b93d-da5c2a4e2235.png)
 
-The total unit testing line coverage is 99% and branch coverage is 96%. MazeSolverUI and App classes are excluded from the test coverage.
+The total unit testing line coverage is 99% and branch coverage is 96%. MazeSolverUI and App classes are excluded from the test coverage. The integration tests are also excluded.
 
 
 ### Kruskal
@@ -30,6 +30,10 @@ A small test maze is created to check that the algorithm progresses correctly in
 
 A small test maze is created to check that the algorithm progresses correctly in it. Also all of the  methods are tested individually with unit tests to ensure that they work correctly. 
 
+---  
+
+In some tests for methods that uses switch statements like Wall Followers `calculateNextMove` and Tremaux's `turnAround` methods the branch coverage is slighly lower because Jacoco is not able to evaluate them correctly.
+
 ## Integration tests
 
-There are also integration tests in place where mazes of various sizes are created by using the Kruskal and Growing Tree algorithms and then solved with all of the maze solving algorithms. 
+There are also integration tests in place where mazes of various sizes are created by using the Kruskal and Growing Tree algorithms and then solved with all of the maze solving algorithms. The tests include checks to make sure that the algorithms are always able to make it to the finish square. For tremaux it's also tested that all of the paths have been visited maximum of two times. For A*  there is a check to make sure that there is a valid shortest path from the end square to the beginning.  
