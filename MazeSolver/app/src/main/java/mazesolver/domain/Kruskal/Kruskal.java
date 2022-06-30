@@ -13,7 +13,7 @@ import java.util.Collections;
  */
 public class Kruskal {
     /**
-     * List that contains all the possible edges in the maze.
+     * A list that contains all of the possible edges in the maze.
      */
     private List<Edge> edges;
     /**
@@ -38,7 +38,7 @@ public class Kruskal {
     }
 
     /**
-     * Generates all the possible edges from each node.
+     * Generates all of the possible edges from each node.
      *
      * @param height the amount of nodes in the maze in y-axis
      * @param width  the amount of nodes in the maze in x-axis
@@ -95,7 +95,7 @@ public class Kruskal {
      * Processes one edge of the ramdomized list of edges using the Kruskal's
      * algorithm.
      *
-     * @param edge next edge from the list
+     * @param edge The next edge from the list of randomized edges.
      */
     public void kruskalStep(Edge edge) {
         int x = edge.getX();
@@ -147,7 +147,7 @@ public class Kruskal {
      * Shuffles a list of edges.
      *
      * @param edges List of edges
-     * @return List of edges in random order
+     * @return List of edges in a random order
      */
     public List<Edge> shuffleEdges(List<Edge> edges) {
         Collections.shuffle(edges);

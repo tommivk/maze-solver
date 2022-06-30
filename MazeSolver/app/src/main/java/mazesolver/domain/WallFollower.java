@@ -8,11 +8,11 @@ import mazesolver.enums.Direction;
  */
 public class WallFollower {
     /**
-     * Current x coordinate in the maze.
+     * Current X coordinate in the maze.
      */
     private int x;
     /**
-     * Current y coordinate in the maze.
+     * Current Y coordinate in the maze.
      */
     private int y;
     /**

@@ -1,7 +1,8 @@
 package mazesolver.domain.Kruskal;
 
 /**
- * Tree that is used to keep track of connections between nodes in the maze.
+ * A tree that is used to keep track of the connections between nodes in the
+ * maze.
  */
 public class Tree {
     /**
@@ -57,10 +58,10 @@ public class Tree {
     }
 
     /**
-     * Checks if two Trees are connected together.
+     * Checks if the Tree given as a parameter and this are connected together.
      *
-     * @param tree Tree objects
-     * @return boolean
+     * @param tree A tree object
+     * @return returns true if the trees are connected.
      */
     public boolean isConnected(Tree tree) {
         return tree.getRoot() == this.getRoot();

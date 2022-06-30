@@ -110,7 +110,7 @@ public class AStar {
     }
 
     /**
-     * Initializes new PriorityQueue with a distance comparator.
+     * Initializes a new PriorityQueue with a distance comparator.
      * 
      * @return PriorityQueue
      */
@@ -141,11 +141,11 @@ public class AStar {
     }
 
     /**
-     * Returns all the contiguous connected nodes of Node.
+     * Returns all of the contiguous connected nodes of a Node.
      * 
-     * @param rect Node
+     * @param rect The node which neighbours will be returned
      * 
-     * @return Returns List of Rect objects
+     * @return List of Neighbouring nodes
      */
     public List<Rect> getNeighbours(Rect rect) {
         List<Rect> neighbours = new ArrayList<Rect>();
@@ -169,11 +169,11 @@ public class AStar {
     }
 
     /**
-     * Calculates Manhattan distance from node to finish.
+     * Calculates Manhattan distance from a node to the finish.
      * 
-     * @param rect Node
+     * @param rect The node which distance to the finish will be returned.
      * 
-     * @return Integer
+     * @return The distance from the node to the finish
      */
     public int calculateDistanceToFinish(Rect rect) {
         int distanceX = (this.maze.length - 1) - rect.getX();
@@ -188,7 +188,7 @@ public class AStar {
      * @param a Node A
      * @param b Node B
      * 
-     * @return Integer
+     * @return The distance between the two nodes.
      */
     public int calculateDistanceBetweenNodes(Rect a, Rect b) {
         int distanceX = Math.abs(a.getX() - b.getX());

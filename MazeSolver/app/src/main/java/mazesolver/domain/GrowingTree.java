@@ -8,7 +8,7 @@ import java.util.Random;
 
 public class GrowingTree {
     /**
-     * A two dimensional array of Rect objects that represents a maze.
+     * A two dimensional array of Rect objects that represents the maze.
      */
     private Rect[][] maze;
     /**
@@ -25,11 +25,11 @@ public class GrowingTree {
      */
     private Random random;
     /**
-     * The X coordinate of the last node that has been processed.
+     * The X coordinate of the last node that was processed by the algorithm.
      */
     private int x = 0;
     /**
-     * The Y coordinate of the last node that has been processed.
+     * The Y coordinate of the last node that was processed by the algorithm.
      */
     private int y = 0;
 

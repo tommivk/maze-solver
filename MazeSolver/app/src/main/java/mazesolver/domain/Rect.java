@@ -145,7 +145,8 @@ public class Rect {
     }
 
     /**
-     * Clears the background color of the rectangle.
+     * Clears the background color of the rectangle
+     * and resets the value of timesPainted variable.
      */
     public void removeBackground() {
         this.rect.setStyle("");

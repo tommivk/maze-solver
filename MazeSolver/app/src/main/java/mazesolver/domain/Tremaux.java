@@ -126,10 +126,10 @@ public class Tremaux {
     }
 
     /**
-     * Checks if rectangle is a Junction or not.
+     * Checks if a square in the maze is a Junction or not.
      *
-     * @param x X coordinate of the rectangle
-     * @param y Y coordinate of the rectangle
+     * @param x X coordinate of the square
+     * @param y Y coordinate of the square
      *
      * @return true if it is a Junction
      */
@@ -154,9 +154,9 @@ public class Tremaux {
     }
 
     /**
-     * Checks if there are valid paths forward to the current direction.
+     * Checks if there is a valid path forward to the current direction.
      *
-     * @return true if there are no possible paths.
+     * @return returns true if it's a dead end.
      */
     public boolean isDeadEnd() {
         Direction direction = this.facing;
@@ -262,7 +262,8 @@ public class Tremaux {
     /**
      * Checks if previous square has been visited 2 times or more.
      * 
-     * @return returns true if square has been visited twice or more.
+     * @return returns true if the previous square has been visited twice or more or
+     *         if there is no path to the previous direction.
      */
     public boolean isPreviousVisitedTwice() {
         Rect current = maze[this.x][this.y];
@@ -291,7 +292,7 @@ public class Tremaux {
      * 
      * @param timesVisited amount of visits.
      * 
-     * @return true if move was successfull
+     * @return true if the move was successfull
      */
     public boolean tryMoveToTimesVisited(int timesVisited) {
         Rect current = maze[this.x][this.y];
@@ -330,11 +331,11 @@ public class Tremaux {
     }
 
     /**
-     * Trys to move to junction that is congiguous with current square and that has
-     * been visited N times.
+     * Tries to move to a junction that is congiguous with the current square and
+     * that has been visited N times.
      * 
      * @param timesVisited amount of visits
-     * @return returns true if move was successfull.
+     * @return returns true if the move was successfull.
      */
     public boolean tryMoveToContiguousJunction(int timesVisited) {
         Direction direction = this.facing;
@@ -370,9 +371,9 @@ public class Tremaux {
     }
 
     /**
-     * Returns the amount of visits of the least visited contiguous junctions.
+     * Returns the amount of visits of the least visited contiguous junction.
      * 
-     * @return amount if visits.
+     * @return The amount of visits.
      */
     public int getLeastVisitedJunction() {
         Direction direction = this.facing;
@@ -412,7 +413,7 @@ public class Tremaux {
      * Progresses one step of the Tremaux's algorithm.
      * 
      * - Mark the current square as visited
-     * - If it's dead end, turn around
+     * - If it's a dead end, turn around
      * - If there is an unvisited path, take it
      * - If there are no unvisited paths and the previous path was a new path, turn
      * around.
@@ -456,7 +457,7 @@ public class Tremaux {
     /**
      * Solves the maze using Tremaux's algorithm.
      * 
-     * @return the amount of moves it took to solve the maze
+     * @return The amount of moves it took to solve the maze
      */
     public int solve() {
         int moves = 0;

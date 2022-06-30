@@ -7,15 +7,15 @@ import mazesolver.enums.Direction;
  */
 public class Edge {
     /**
-     * The X coordinate of the Edge.
+     * The X coordinate of the Edge in the maze.
      */
     private int x;
     /**
-     * The Y coordinate of the Edge.
+     * The Y coordinate of the Edge in the maze.
      */
     private int y;
     /**
-     * Direction that the edge is connected to.
+     * The direction that the edge is connected to.
      */
     private Direction direction;
 
@@ -24,7 +24,7 @@ public class Edge {
      *                  array
      * @param y         The y coordinate of the edge in the two dimensional maze
      *                  array
-     * @param direction Direction that the edge is connected to
+     * @param direction The direction that the edge is connected to
      */
     public Edge(int x, int y, Direction direction) {
         this.x = x;
