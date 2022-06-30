@@ -155,7 +155,7 @@ public class TremauxTest {
     @Test
     public void calculateNextMoveTurnsAroundWhenNoValidPathAndPreviousIsNotVisitedTwice() {
         Tremaux t = new Tremaux(rects);
-        t.setPreviousDirection(Direction.East);
+        t.setFacing(Direction.East);
         t.setX(2);
         t.setY(2);
 
@@ -179,13 +179,13 @@ public class TremauxTest {
 
         t.calculateNextMove();
 
-        assertEquals(Direction.West, t.getPreviousDirection());
+        assertEquals(Direction.West, t.getFacing());
     }
 
     @Test
     public void calculateNextMoveMovesToOnceVisitedWhenPreviousIsVisitedTwice() {
         Tremaux t = new Tremaux(rects);
-        t.setPreviousDirection(Direction.East);
+        t.setFacing(Direction.East);
         t.setX(2);
         t.setY(2);
 
@@ -215,7 +215,7 @@ public class TremauxTest {
     @Test
     public void calculateNextMoveChoosesLeastVisitedJunction() {
         Tremaux t = new Tremaux(rects);
-        t.setPreviousDirection(Direction.East);
+        t.setFacing(Direction.East);
         t.setX(2);
         t.setY(2);
 
@@ -259,48 +259,48 @@ public class TremauxTest {
 
         t.setX(2);
         t.setY(2);
-        t.setPreviousDirection(Direction.North);
+        t.setFacing(Direction.North);
         assertEquals(false, t.isDeadEnd());
-        t.setPreviousDirection(Direction.East);
+        t.setFacing(Direction.East);
         assertEquals(false, t.isDeadEnd());
-        t.setPreviousDirection(Direction.South);
+        t.setFacing(Direction.South);
         assertEquals(false, t.isDeadEnd());
-        t.setPreviousDirection(Direction.West);
+        t.setFacing(Direction.West);
         assertEquals(false, t.isDeadEnd());
 
         t.setX(2);
         t.setY(3);
-        t.setPreviousDirection(Direction.South);
+        t.setFacing(Direction.South);
         assertEquals(true, t.isDeadEnd());
 
         t.setX(2);
         t.setY(1);
-        t.setPreviousDirection(Direction.North);
+        t.setFacing(Direction.North);
         assertEquals(true, t.isDeadEnd());
 
         t.setX(3);
         t.setY(2);
-        t.setPreviousDirection(Direction.East);
+        t.setFacing(Direction.East);
         assertEquals(true, t.isDeadEnd());
 
         t.setX(1);
         t.setY(2);
-        t.setPreviousDirection(Direction.West);
+        t.setFacing(Direction.West);
         assertEquals(true, t.isDeadEnd());
     }
 
     @Test
     public void turnAroundSholdWorkCorrectly() {
-        tremaux.setPreviousDirection(Direction.North);
+        tremaux.setFacing(Direction.North);
         tremaux.turnAround();
-        assertEquals(Direction.South, tremaux.getPreviousDirection());
+        assertEquals(Direction.South, tremaux.getFacing());
         tremaux.turnAround();
-        assertEquals(Direction.North, tremaux.getPreviousDirection());
-        tremaux.setPreviousDirection(Direction.East);
+        assertEquals(Direction.North, tremaux.getFacing());
+        tremaux.setFacing(Direction.East);
         tremaux.turnAround();
-        assertEquals(Direction.West, tremaux.getPreviousDirection());
+        assertEquals(Direction.West, tremaux.getFacing());
         tremaux.turnAround();
-        assertEquals(Direction.East, tremaux.getPreviousDirection());
+        assertEquals(Direction.East, tremaux.getFacing());
     }
 
     @Test
@@ -326,13 +326,13 @@ public class TremauxTest {
         visited[4][3] = 2;
         t.setVisited(visited);
 
-        t.setPreviousDirection(Direction.North);
+        t.setFacing(Direction.North);
         assertEquals(true, t.isPreviousVisitedTwice());
-        t.setPreviousDirection(Direction.East);
+        t.setFacing(Direction.East);
         assertEquals(true, t.isPreviousVisitedTwice());
-        t.setPreviousDirection(Direction.South);
+        t.setFacing(Direction.South);
         assertEquals(true, t.isPreviousVisitedTwice());
-        t.setPreviousDirection(Direction.West);
+        t.setFacing(Direction.West);
         assertEquals(true, t.isPreviousVisitedTwice());
 
         visited[3][2] = 1;
@@ -341,29 +341,29 @@ public class TremauxTest {
         visited[4][3] = 1;
         t.setVisited(visited);
 
-        t.setPreviousDirection(Direction.North);
+        t.setFacing(Direction.North);
         assertEquals(false, t.isPreviousVisitedTwice());
-        t.setPreviousDirection(Direction.East);
+        t.setFacing(Direction.East);
         assertEquals(false, t.isPreviousVisitedTwice());
-        t.setPreviousDirection(Direction.South);
+        t.setFacing(Direction.South);
         assertEquals(false, t.isPreviousVisitedTwice());
-        t.setPreviousDirection(Direction.West);
+        t.setFacing(Direction.West);
         assertEquals(false, t.isPreviousVisitedTwice());
 
         t.setX(0);
-        t.setPreviousDirection(Direction.East);
+        t.setFacing(Direction.East);
         assertEquals(true, t.isPreviousVisitedTwice());
 
         t.setY(0);
-        t.setPreviousDirection(Direction.South);
+        t.setFacing(Direction.South);
         assertEquals(true, t.isPreviousVisitedTwice());
 
         t.setY(rects.length - 1);
-        t.setPreviousDirection(Direction.North);
+        t.setFacing(Direction.North);
         assertEquals(true, t.isPreviousVisitedTwice());
 
         t.setX(rects.length - 1);
-        t.setPreviousDirection(Direction.West);
+        t.setFacing(Direction.West);
         assertEquals(true, t.isPreviousVisitedTwice());
 
     }
@@ -389,7 +389,7 @@ public class TremauxTest {
         visited[1][2] = 2;
         visited[3][2] = 1;
         t.setVisited(visited);
-        t.setPreviousDirection(Direction.East);
+        t.setFacing(Direction.East);
         t.tryMoveToTimesVisited(1);
         assertEquals(3, t.getX());
         assertEquals(2, t.getY());
@@ -407,7 +407,7 @@ public class TremauxTest {
         assertEquals(2, t.getX());
         assertEquals(1, t.getY());
 
-        t.setPreviousDirection(Direction.West);
+        t.setFacing(Direction.West);
 
         visited[2][1] = 2;
         visited[2][3] = 2;
@@ -422,7 +422,7 @@ public class TremauxTest {
         assertEquals(1, t.getX());
         assertEquals(2, t.getY());
 
-        t.setPreviousDirection(Direction.South);
+        t.setFacing(Direction.South);
         visited[2][1] = 2;
         visited[2][3] = 1;
         visited[1][2] = 2;
@@ -496,22 +496,22 @@ public class TremauxTest {
         t.setX(2);
         t.setY(2);
 
-        t.setPreviousDirection(Direction.North);
+        t.setFacing(Direction.North);
         assertEquals(Integer.MAX_VALUE, t.getLeastVisitedJunction());
-        t.setPreviousDirection(Direction.South);
+        t.setFacing(Direction.South);
         assertEquals(Integer.MAX_VALUE, t.getLeastVisitedJunction());
         rects[2][2].removeTopWall();
         rects[2][2].removeRightWall();
         rects[2][2].removeBottomWall();
         rects[2][2].removeLeftWall();
 
-        t.setPreviousDirection(Direction.North);
+        t.setFacing(Direction.North);
         assertEquals(Integer.MAX_VALUE, t.getLeastVisitedJunction());
-        t.setPreviousDirection(Direction.East);
+        t.setFacing(Direction.East);
         assertEquals(Integer.MAX_VALUE, t.getLeastVisitedJunction());
-        t.setPreviousDirection(Direction.South);
+        t.setFacing(Direction.South);
         assertEquals(Integer.MAX_VALUE, t.getLeastVisitedJunction());
-        t.setPreviousDirection(Direction.West);
+        t.setFacing(Direction.West);
         assertEquals(Integer.MAX_VALUE, t.getLeastVisitedJunction());
 
         for (int i = 0; i < rects.length; i++) {
@@ -532,25 +532,25 @@ public class TremauxTest {
         }
 
         assertEquals(1, t.getLeastVisitedJunction());
-        t.setPreviousDirection(Direction.East);
+        t.setFacing(Direction.East);
         visited[2][1] = 90000;
         visited[2][3] = 2;
         visited[1][2] = 3;
         visited[3][2] = 4;
         assertEquals(2, t.getLeastVisitedJunction());
-        t.setPreviousDirection(Direction.West);
+        t.setFacing(Direction.West);
         visited[2][1] = 3;
         visited[2][3] = 2;
         visited[1][2] = 3;
         visited[3][2] = 1;
-        t.setPreviousDirection(Direction.South);
+        t.setFacing(Direction.South);
         visited[2][1] = 0;
         visited[2][3] = 3;
         visited[1][2] = 3;
         visited[3][2] = 2;
         assertEquals(2, t.getLeastVisitedJunction());
 
-        t.setPreviousDirection(Direction.North);
+        t.setFacing(Direction.North);
         visited[2][1] = 2;
         visited[2][3] = 0;
         visited[1][2] = 1;
@@ -584,7 +584,7 @@ public class TremauxTest {
 
         t.setX(2);
         t.setY(2);
-        t.setPreviousDirection(Direction.North);
+        t.setFacing(Direction.North);
 
         visited[2][1] = 1;
         visited[2][3] = 3;
@@ -599,7 +599,7 @@ public class TremauxTest {
         t.setX(2);
         t.setY(2);
 
-        t.setPreviousDirection(Direction.South);
+        t.setFacing(Direction.South);
         visited[2][1] = 3;
         visited[2][3] = 4;
         visited[1][2] = 2;
@@ -614,7 +614,7 @@ public class TremauxTest {
         t.setX(2);
         t.setY(2);
 
-        t.setPreviousDirection(Direction.West);
+        t.setFacing(Direction.West);
 
         visited[2][1] = 3;
         visited[2][3] = 1;
@@ -630,7 +630,7 @@ public class TremauxTest {
         t.setX(2);
         t.setY(2);
 
-        t.setPreviousDirection(Direction.East);
+        t.setFacing(Direction.East);
 
         visited[2][1] = 4;
         visited[2][3] = 4;
@@ -657,50 +657,50 @@ public class TremauxTest {
         t.setX(2);
         t.setY(2);
 
-        t.setPreviousDirection(Direction.North);
+        t.setFacing(Direction.North);
         assertEquals(false, t.tryMoveToContiguousJunction(0));
 
-        t.setPreviousDirection(Direction.East);
+        t.setFacing(Direction.East);
         assertEquals(false, t.tryMoveToContiguousJunction(0));
 
-        t.setPreviousDirection(Direction.South);
+        t.setFacing(Direction.South);
         assertEquals(false, t.tryMoveToContiguousJunction(0));
 
-        t.setPreviousDirection(Direction.West);
+        t.setFacing(Direction.West);
         assertEquals(false, t.tryMoveToContiguousJunction(0));
     }
 
     @Test
     public void advancingWorksCorrectly() {
         Tremaux t = new Tremaux(mazeWithoutWalls);
-        t.setPreviousDirection(Direction.North);
+        t.setFacing(Direction.North);
         assertEquals(false, t.advance());
-        t.setPreviousDirection(Direction.East);
+        t.setFacing(Direction.East);
         assertEquals(true, t.advance());
 
         t.setX(0);
         t.setY(0);
-        t.setPreviousDirection(Direction.West);
+        t.setFacing(Direction.West);
         assertEquals(false, t.advance());
-        t.setPreviousDirection(Direction.South);
+        t.setFacing(Direction.South);
         assertEquals(true, t.advance());
 
         t.setX(mazeWithoutWalls.length - 1);
         t.setY(mazeWithoutWalls.length - 1);
 
-        t.setPreviousDirection(Direction.South);
+        t.setFacing(Direction.South);
         assertEquals(false, t.advance());
-        t.setPreviousDirection(Direction.West);
+        t.setFacing(Direction.West);
         assertEquals(true, t.advance());
 
-        t.setPreviousDirection(Direction.North);
+        t.setFacing(Direction.North);
         assertEquals(true, t.advance());
 
         t.setX(mazeWithoutWalls.length - 1);
         t.setY(0);
-        t.setPreviousDirection(Direction.North);
+        t.setFacing(Direction.North);
         assertEquals(false, t.advance());
-        t.setPreviousDirection(Direction.East);
+        t.setFacing(Direction.East);
         assertEquals(false, t.advance());
 
     }
@@ -722,7 +722,7 @@ public class TremauxTest {
         visited[4][2] = 2;
         visited[4][3] = 2;
         visited[4][4] = 2;
-        t.setPreviousDirection(Direction.North);
+        t.setFacing(Direction.North);
 
         t.setX(4);
         t.setY(3);

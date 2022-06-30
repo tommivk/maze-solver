@@ -16,9 +16,9 @@ public class Tremaux {
      */
     private int[][] visited;
     /**
-     * The direction of the previous move.
+     * The current direction that the algorithm is facing to.
      */
-    private Direction previousDirection;
+    private Direction facing;
     /**
      * Current x coordinate in the maze.
      */
@@ -37,7 +37,7 @@ public class Tremaux {
         this.maze = maze;
         int size = maze.length;
         this.visited = new int[size][size];
-        this.previousDirection = Direction.East;
+        this.facing = Direction.East;
         this.x = 0;
         this.y = 0;
     }
@@ -66,12 +66,12 @@ public class Tremaux {
         this.visited = visited;
     }
 
-    public Direction getPreviousDirection() {
-        return this.previousDirection;
+    public Direction getFacing() {
+        return this.facing;
     }
 
-    public void setPreviousDirection(Direction direction) {
-        this.previousDirection = direction;
+    public void setFacing(Direction direction) {
+        this.facing = direction;
     }
 
     /**
@@ -94,7 +94,7 @@ public class Tremaux {
     public void reset() {
         this.x = 0;
         this.y = 0;
-        this.previousDirection = Direction.East;
+        this.facing = Direction.East;
         this.visited = new int[maze.length][maze.length];
         for (int i = 0; i < maze.length; i++) {
             for (int j = 0; j < maze.length; j++) {
@@ -107,18 +107,18 @@ public class Tremaux {
      * Turns around 180 degrees.
      */
     public void turnAround() {
-        switch (this.previousDirection) {
+        switch (this.facing) {
             case North:
-                this.previousDirection = Direction.South;
+                this.facing = Direction.South;
                 break;
             case East:
-                this.previousDirection = Direction.West;
+                this.facing = Direction.West;
                 break;
             case South:
-                this.previousDirection = Direction.North;
+                this.facing = Direction.North;
                 break;
             case West:
-                this.previousDirection = Direction.East;
+                this.facing = Direction.East;
                 break;
             default:
                 break;
@@ -159,7 +159,7 @@ public class Tremaux {
      * @return true if there are no possible paths.
      */
     public boolean isDeadEnd() {
-        Direction direction = this.previousDirection;
+        Direction direction = this.facing;
         Rect current = maze[this.x][this.y];
 
         boolean hasTopWall = current.getTopWall();
@@ -196,7 +196,7 @@ public class Tremaux {
      * @return returns true if the move was successfull
      */
     public boolean advance() {
-        Direction direction = this.previousDirection;
+        Direction direction = this.facing;
         Rect current = maze[this.x][this.y];
 
         boolean hasTopWall = current.getTopWall();
@@ -232,7 +232,7 @@ public class Tremaux {
      */
     public void moveLeft() {
         this.x = this.x - 1;
-        this.previousDirection = Direction.West;
+        this.facing = Direction.West;
     }
 
     /**
@@ -240,7 +240,7 @@ public class Tremaux {
      */
     public void moveRight() {
         this.x = this.x + 1;
-        this.previousDirection = Direction.East;
+        this.facing = Direction.East;
     }
 
     /**
@@ -248,7 +248,7 @@ public class Tremaux {
      */
     public void moveUp() {
         this.y = this.y - 1;
-        this.previousDirection = Direction.North;
+        this.facing = Direction.North;
     }
 
     /**
@@ -256,7 +256,7 @@ public class Tremaux {
      */
     public void moveDown() {
         this.y = this.y + 1;
-        this.previousDirection = Direction.South;
+        this.facing = Direction.South;
     }
 
     /**
@@ -272,7 +272,7 @@ public class Tremaux {
         boolean hasBottomWall = current.getBottomWall();
         boolean hasLeftWall = current.getLeftWall();
 
-        switch (this.previousDirection) {
+        switch (this.facing) {
             case North:
                 return !hasBottomWall ? visited[this.x][this.y + 1] >= 2 : true;
             case East:
@@ -295,7 +295,7 @@ public class Tremaux {
      */
     public boolean tryMoveToTimesVisited(int timesVisited) {
         Rect current = maze[this.x][this.y];
-        Direction direction = this.previousDirection;
+        Direction direction = this.facing;
 
         Boolean hasTopWall = current.getTopWall();
         Boolean hasRightWall = current.getRightWall();
@@ -337,7 +337,7 @@ public class Tremaux {
      * @return returns true if move was successfull.
      */
     public boolean tryMoveToContiguousJunction(int timesVisited) {
-        Direction direction = this.previousDirection;
+        Direction direction = this.facing;
 
         Rect current = maze[this.x][this.y];
 
@@ -375,7 +375,7 @@ public class Tremaux {
      * @return amount if visits.
      */
     public int getLeastVisitedJunction() {
-        Direction direction = this.previousDirection;
+        Direction direction = this.facing;
 
         Rect current = maze[this.x][this.y];
 
