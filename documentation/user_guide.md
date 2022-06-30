@@ -13,7 +13,7 @@ speed of the maze solving algorithm animation. By clicking `Wall Follower` `Trem
 
 ![user_guide_4](https://user-images.githubusercontent.com/52420413/176131737-2b7b01fe-f96d-4e84-a455-597da7c63fc7.png)
 The amount of time it took to solve the maze is shown in a table on the right of the maze.   
-The green square represents the currently active square. The red squares mean that the square is visited by the algorithm and the color gets darker the more often the square has been visited.  
+The green square represents the currently active square. The red color in the square means that the square is visited by the algorithm and the color gets darker the more often the square has been visited.  
 
 
-Clicking `Clear maze` will clear all the backgrounds of the maze. The maze will also clear after clicking any of the maze solving algorithm buttons again. Clicking `New maze` will take you back to the maze generation selection. 
+Clicking `Clear maze` will clear the backgrounds of all of the squares and resets the state of the algorithms. The maze will also clear after clicking any of the maze solving algorithm buttons again. Clicking `New maze` will take you back to the maze generation selection. 
