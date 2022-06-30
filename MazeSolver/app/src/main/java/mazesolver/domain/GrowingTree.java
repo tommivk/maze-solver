@@ -54,6 +54,9 @@ public class GrowingTree {
         visited[0][0] = true;
     }
 
+    /**
+     * Resets the state of the algorithm.
+     */
     public void reset() {
         int size = this.maze.length;
         this.visited = new boolean[size][size];
@@ -89,6 +92,13 @@ public class GrowingTree {
         this.visited = visited;
     }
 
+    /**
+     * Returns a list of unvisited neighbours of a square.
+     * 
+     * @param current The Rect object in the maze which unvisited neigbours will be
+     *                returned.
+     * @return A list of Rect objects.
+     */
     public List<Rect> getUnvisitedNeighbours(Rect current) {
         List<Rect> neighbours = new ArrayList<Rect>();
         this.x = current.getX();

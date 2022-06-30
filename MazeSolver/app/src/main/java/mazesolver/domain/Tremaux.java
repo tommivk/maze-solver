@@ -28,6 +28,11 @@ public class Tremaux {
      */
     private int y;
 
+    /**
+     * Constructor for Tremaux's algorithm.
+     * 
+     * @param maze Two dimensional array of Rect objects that represents the maze.
+     */
     public Tremaux(Rect[][] maze) {
         this.maze = maze;
         int size = maze.length;
@@ -69,14 +74,23 @@ public class Tremaux {
         this.previousDirection = direction;
     }
 
+    /**
+     * Paints the rectangle in the current X and Y position red.
+     */
     public void paintRectangle() {
         maze[this.x][this.y].paint();
     }
 
+    /**
+     * Paints the rectangle in the current X and Y position green.
+     */
     public void paintGreen() {
         maze[this.x][this.y].paintGreen();
     }
 
+    /**
+     * Resets the state of the maze.
+     */
     public void reset() {
         this.x = 0;
         this.y = 0;
@@ -207,7 +221,7 @@ public class Tremaux {
     }
 
     /*
-     * Increases the visited value of the coordinate by one.
+     * Increases the visited value of the current square by one.
      */
     public void markVisited() {
         visited[this.x][this.y]++;
@@ -395,7 +409,18 @@ public class Tremaux {
     }
 
     /**
-     * Moves one step forward.
+     * Progresses one step of the Tremaux's algorithm.
+     * 
+     * - Mark the current square as visited
+     * - If it's dead end, turn around
+     * - If there is an unvisited path, take it
+     * - If there are no unvisited paths and the previous path was a new path, turn
+     * around.
+     * - If the previous path was not a new path try to move to a path that has been
+     * visited once.
+     * - If there are no paths that are unvisited or that have been visited once,
+     * try to move to least visited contiguous junction. (This is needed in case
+     * that there are multiple junctions side by side in the maze)
      */
     public void calculateNextMove() {
         markVisited();
@@ -428,6 +453,11 @@ public class Tremaux {
         tryMoveToContiguousJunction(getLeastVisitedJunction());
     }
 
+    /**
+     * Solves the maze using Tremaux's algorithm.
+     * 
+     * @return the amount of moves it took to solve the maze
+     */
     public int solve() {
         int moves = 0;
         while (this.x != maze.length - 1 || this.y != maze.length - 1) {
