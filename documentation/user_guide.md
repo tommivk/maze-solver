@@ -3,8 +3,8 @@
 * Start the app with `java -jar mazesolver.jar`
 
 ![user_guide_1](https://user-images.githubusercontent.com/52420413/176131708-0ea0e284-a67c-425d-ae04-64995d432b93.png)
-The app opens up to a maze generation selection view where it's possible to change the delay of the animation and the size of the maze.
-30 is currently the largest maze that will fit the application window. By clicking either the `Kruskal's` or `Growing tree` buttons a new maze is generated
+The app opens up to a maze generation selection view where it's possible to change the delay of the animation and the size of the maze by changing the values of the text fields. The fields take an Integer as an input.
+35 is currently the largest size for the maze that will fit the application window. By clicking either the `Kruskal's` or `Growing tree` buttons a new maze is generated
 by using the selected algorithm.
 
 ![user_guide_3](https://user-images.githubusercontent.com/52420413/176131732-5e274eac-410f-4a66-9f83-f7fb98386c09.png)
