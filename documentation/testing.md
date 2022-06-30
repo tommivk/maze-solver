@@ -36,7 +36,7 @@ A small test maze is created to check that the algorithm progresses correctly in
 
 ---  
 
-In some tests for methods that uses switch statements like Wall Followers `calculateNextMove` and Tremaux's `turnAround` methods the branch coverage is slighly lower because Jacoco is not able to evaluate them correctly.
+In some tests for methods that uses switch statements with an enum like Wall Followers `calculateNextMove` and Tremaux's `turnAround` methods the branch coverage is slighly lower because Jacoco is not able to evaluate them correctly.
 
 ## Integration tests
 
