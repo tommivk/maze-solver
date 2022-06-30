@@ -27,7 +27,7 @@ A small test maze is created to check that the algorithm progresses correctly in
 ### A*
 ![AStarTestCoverage](https://user-images.githubusercontent.com/52420413/176663821-6916bf37-8700-45c2-beb2-d7575518dae9.png)
 
-A small test mazes are used to check that the algorithm is able to find a path to the finish on a maze that has no junctions an a one that has. It's also tested that the algorithm finds a valid shortest path from the starting square to the finish.
+A small test mazes are used to check that the algorithm is able to find a path to the finish on a maze that has no junctions and a one that has. It's also tested that the algorithm finds a valid shortest path from the starting square to the finish.
 
 ### WallFollower
 ![wall_follower_coverage](https://user-images.githubusercontent.com/52420413/174745715-ae7538c5-c8ea-499d-aee3-f3bcf0dc0796.png)
