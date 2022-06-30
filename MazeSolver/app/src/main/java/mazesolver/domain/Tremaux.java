@@ -228,7 +228,7 @@ public class Tremaux {
     }
 
     /**
-     * Moves one step left and updates previous direction.
+     * Moves one step left and updates the current direction.
      */
     public void moveLeft() {
         this.x = this.x - 1;
@@ -236,7 +236,7 @@ public class Tremaux {
     }
 
     /**
-     * Moves one step right and updates previous direction.
+     * Moves one step right and updates the current direction.
      */
     public void moveRight() {
         this.x = this.x + 1;
@@ -244,7 +244,7 @@ public class Tremaux {
     }
 
     /**
-     * Moves one step up and updates previous direction.
+     * Moves one step up and updates the current direction.
      */
     public void moveUp() {
         this.y = this.y - 1;
@@ -252,7 +252,7 @@ public class Tremaux {
     }
 
     /**
-     * Moves one step down and updates previous direction.
+     * Moves one step down and updates the current direction.
      */
     public void moveDown() {
         this.y = this.y + 1;
@@ -287,7 +287,7 @@ public class Tremaux {
     }
 
     /**
-     * Trys to move forward to contiguous square that has been visited N times.
+     * Tries to move forward to contiguous square that has been visited N times.
      * 
      * @param timesVisited amount of visits.
      * 

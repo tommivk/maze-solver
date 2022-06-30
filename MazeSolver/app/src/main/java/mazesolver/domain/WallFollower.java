@@ -70,9 +70,9 @@ public class WallFollower {
     }
 
     /**
-     * Returns the direction of the previous move.
+     * Returns the current direction.
      *
-     * @return A direction enum representing the direction of the previous move
+     * @return A direction enum representing the current direction
      */
     public Direction getFacing() {
         return this.facing;
@@ -143,7 +143,7 @@ public class WallFollower {
 
     /**
      * Moves the current position one step to the West in the maze and updates the
-     * previous direction.
+     * current direction.
      */
     public void moveLeft() {
         this.x = this.x - 1;
@@ -152,7 +152,7 @@ public class WallFollower {
 
     /**
      * Moves the current position one step to the East in the maze and updates the
-     * previous direction.
+     * current direction.
      */
     public void moveRight() {
         this.x = this.x + 1;
@@ -161,7 +161,7 @@ public class WallFollower {
 
     /**
      * Moves the current position one step to the Norh in the maze and updates the
-     * previous direction.
+     * current direction.
      */
     public void moveUp() {
         this.y = this.y - 1;
@@ -170,7 +170,7 @@ public class WallFollower {
 
     /**
      * Moves the current position one step to the South in the maze and updates the
-     * previous direction.
+     * current direction.
      */
     public void moveDown() {
         this.y = this.y + 1;
