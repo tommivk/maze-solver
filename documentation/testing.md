@@ -5,7 +5,7 @@ All of the algorithms are tested extensively with unit tests.
 
 ![test_coverage](https://user-images.githubusercontent.com/52420413/174746240-16a4b2fe-5075-4377-b93d-da5c2a4e2235.png)
 
-The total unit testing line coverage is 99% and branch coverage is 96%. MazeSolverUI and App classes are excluded from the test coverage. The integration tests are also excluded.
+The total unit testing line coverage is 99% and branch coverage is 96%. MazeSolverUI and App classes are excluded from the test coverage. The integration and performance tests are also excluded.
 
 
 ### Kruskal
@@ -37,3 +37,7 @@ In some tests for methods that uses switch statements like Wall Followers `calcu
 ## Integration tests
 
 There are also integration tests in place where mazes of various sizes are created by using the Kruskal and Growing Tree algorithms and then solved with all of the maze solving algorithms. The tests include checks to make sure that the algorithms are always able to make it to the finish square. For tremaux it's also tested that all of the paths have been visited maximum of two times. For A*  there is a check to make sure that there is a valid shortest path from the end square to the beginning.  
+
+## Performance tests
+
+In performance tests it's possible to input the size of the maze(mazeSize) and the amount of mazes that will be generated(loops). Mazes will be generated both with Kruskal's and Growing tree algorithms and then solved with all of the maze solving algorithms. After the tests has run the average times of each algorithm will be outputted as milliseconds.
